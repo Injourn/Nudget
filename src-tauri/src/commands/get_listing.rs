@@ -1,13 +1,7 @@
-#[derive(serde::Serialize)]
-pub(crate)struct Listing {
-    amount: String,
-    category: String,
-    date: String,
-    name: String,
-}
+use crate::models::listing::Listing;
 
 #[tauri::command]
-pub(crate) fn listing() -> [Listing;3] {
+pub(crate) fn get_listing() -> [Listing;3] {
     [Listing {
             amount:String::from("12.34"),
             category:String::from("Groceries"),

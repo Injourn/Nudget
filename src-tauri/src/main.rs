@@ -3,9 +3,15 @@
 
 
 mod commands {
-    pub(crate) mod listing;
+    pub(crate) mod get_listing;
 }
-
+mod models {
+    pub(crate) mod listing;
+    pub(crate) mod category;
+    pub(crate) mod sheet_category;
+    pub(crate) mod sheet_plan;
+    pub(crate) mod cycle;
+}
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -15,7 +21,7 @@ fn greet(name: &str) -> String {
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![greet,
-            crate::commands::listing::listing])
+            crate::commands::get_listing::get_listing])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

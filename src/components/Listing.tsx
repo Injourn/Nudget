@@ -12,7 +12,7 @@ function Listing(){
     const [tableData, setTableData] = useState<ListingModel[]>([]);
 
     console.log("hit")
-    invoke<ListingModel[]>("listing").then(listings => setTableData(listings))
+    invoke<ListingModel[]>("get_listing").then(listings => setTableData(listings))
 
     return (
         <table className="table table-striped">
