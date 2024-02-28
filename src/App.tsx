@@ -2,6 +2,9 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
 import Listing from "./components/Listing";
+import CategoryList from "./components/CategoryList";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -13,9 +16,17 @@ function App() {
   }
 
   return (
-    <div className="container-xxl">
-      <Listing/>
-    </div>
+    <>
+      <Navbar />
+      <div className="container-fluid">
+        <div className="row">
+          <Sidebar />
+          <div className="col-lg-9">
+            <CategoryList />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

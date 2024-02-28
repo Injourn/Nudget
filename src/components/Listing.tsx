@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
-
-interface ListingModel {
-    amount: string;
-    category: string;
-    date: string;
-    name: string;
-}
+import ListingModel from "../models/ListingModel";
 
 function Listing(){
     const [tableData, setTableData] = useState<ListingModel[]>([]);
