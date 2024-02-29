@@ -1,10 +1,12 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
-import Listing from "./components/Listing";
+import ListingTable from "./components/ListingTable";
 import CategoryList from "./components/CategoryList";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
+import ListingAddEdit from "./components/ListingAddEdit";
+import Modal from "./components/Modal";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -22,7 +24,7 @@ function App() {
         <div className="row">
           <Sidebar />
           <div className="col-lg-9">
-            <CategoryList />
+            <ListingTable />
           </div>
         </div>
       </div>

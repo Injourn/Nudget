@@ -3,10 +3,10 @@
 function Sidebar(){
 
 return (
-    <div className="offcanvas-lg col-lg-3 offcanvas-start" id="offcanvas" data-bs-keyboard="false" data-bs-backdrop="false">
+    <div className="offcanvas-lg col-lg-3 offcanvas-start" id="offcanvasResponsive" aria-labelledby="offcanvasResponsiveLabel">
         <div className="offcanvas-header">
             <h6 className="offcanvas-title d-none d-sm-block" id="offcanvas">Menu</h6>
-            <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" className="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasResponsive" aria-label="Close"></button>
         </div>
         <div className="offcanvas-body px-0">
             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
