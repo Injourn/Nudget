@@ -1,6 +1,9 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::sync::Mutex;
+
+use rusqlite::Connection;
 
 mod commands {
     pub(crate) mod get_listing;
@@ -19,7 +22,11 @@ fn greet(name: &str) -> String {
 }
 
 fn main() {
+    let conn = Connection::open("./my_db.db").expect("idk fail?");
+    
+
     tauri::Builder::default()
+        .manage(Mutex::new(conn))
         .invoke_handler(tauri::generate_handler![greet,
             crate::commands::get_listing::get_listing])
         .run(tauri::generate_context!())
