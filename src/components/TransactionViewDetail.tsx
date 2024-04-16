@@ -1,8 +1,8 @@
-import ListingModel from "../models/ListingModel";
+import TransactionModel from "../models/TransactionModel";
 
 
-function ListingViewDetail(props:any){
-    const listingModel:ListingModel = props.entry;
+function TransactionViewDetail(props:any){
+    const transactionModel:TransactionModel = props.entry;
 
 
     return (
@@ -14,7 +14,7 @@ function ListingViewDetail(props:any){
                         </label>
                     </div>
                     <div className="col-auto">
-                        {listingModel && listingModel.amount}
+                        {transactionModel && transactionModel.amount}
                     </div>
                 </div>
                 <div className="row align-items-center mb-3">
@@ -24,7 +24,7 @@ function ListingViewDetail(props:any){
                         </label>
                     </div>
                     <div className="col-auto">
-                        {listingModel && listingModel.category}
+                        {transactionModel && transactionModel.category}
                     </div>
                 </div>
                 <div className="row align-items-center mb-3">
@@ -34,7 +34,7 @@ function ListingViewDetail(props:any){
                         </label>
                     </div>
                     <div className="col-auto">
-                        {listingModel && listingModel.date}
+                        {transactionModel && transactionModel.date}
                     </div>
                 </div>
                 <div className="row align-items-center mb-3">
@@ -44,7 +44,7 @@ function ListingViewDetail(props:any){
                         </label>
                     </div>
                     <div className="col-auto">
-                        {listingModel && listingModel.name}
+                        {transactionModel && transactionModel.name}
                     </div>
                 </div>
             </div>
@@ -52,4 +52,4 @@ function ListingViewDetail(props:any){
 
 }
 
-export default ListingViewDetail;
+export default TransactionViewDetail;

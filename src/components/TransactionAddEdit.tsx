@@ -1,15 +1,15 @@
-import ListingModel from "../models/ListingModel";
+import TransactionModel from "../models/TransactionModel";
 
 
-function ListingAddEdit(props: any){
-    const item: ListingModel = props.entry;
+function TransactionAddEdit(props: any){
+    const item: TransactionModel = props.entry;
 
-    function addListing(formData:React.SyntheticEvent){
+    function addTransaction(formData:React.SyntheticEvent){
         formData.preventDefault();
     }
     
     return(
-        <form onSubmit={addListing}>
+        <form onSubmit={addTransaction}>
             <div className="row align-items-center mb-3">
                 <div className="col-auto">
                     <label htmlFor="amount" className="col-form-label">
@@ -62,4 +62,4 @@ function ListingAddEdit(props: any){
     )
 }
 
-export default ListingAddEdit;
+export default TransactionAddEdit;

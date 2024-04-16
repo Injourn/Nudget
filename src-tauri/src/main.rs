@@ -6,10 +6,10 @@ use std::sync::Mutex;
 use rusqlite::Connection;
 
 mod commands {
-    pub(crate) mod get_listing;
+    pub(crate) mod get_transaction;
 }
 mod models {
-    pub(crate) mod listing;
+    pub(crate) mod transaction;
     pub(crate) mod category;
     pub(crate) mod sheet_category;
     pub(crate) mod sheet_plan;
@@ -28,7 +28,7 @@ fn main() {
     tauri::Builder::default()
         .manage(Mutex::new(conn))
         .invoke_handler(tauri::generate_handler![greet,
-            crate::commands::get_listing::get_listing])
+            crate::commands::get_transaction::get_transaction])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

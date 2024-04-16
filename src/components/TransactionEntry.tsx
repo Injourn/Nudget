@@ -1,7 +1,7 @@
-import ListingModel from "../models/ListingModel"
+import TransactionModel from "../models/TransactionModel"
 
 
-function ListingEntry(props: any){
+function TransactionEntry(props: any){
 
     if(props.viewType === "edit"){
         return (
@@ -58,4 +58,4 @@ function View(props: any){
     )
 }
 
-export default ListingEntry;
+export default TransactionEntry;

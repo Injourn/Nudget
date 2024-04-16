@@ -1,8 +1,8 @@
-interface ListingModel {
+interface TransactionModel {
     amount: string;
     category: string;
     date: string;
     name: string;
 }
 
-export default ListingModel;
+export default TransactionModel;

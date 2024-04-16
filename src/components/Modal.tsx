@@ -1,6 +1,13 @@
+import { ReactNode } from "react";
+
+interface ModalProps{
+    name: string; //identification name
+    title: string;
+    children: ReactNode;
+}
 
 
-function Modal(props:any){
+function Modal(props:ModalProps){
 
     return (
     <div className="modal fade" id={props.name} data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby={props.name + "Label"} aria-hidden="true">

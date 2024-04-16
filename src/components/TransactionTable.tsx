@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
-import ListingModel from "../models/ListingModel";
-import ListingEntry from "./ListingEntry";
+import TransactionModel from "../models/TransactionModel";
+import TransactionEntry from "./TransactionEntry";
 import Modal from "./Modal";
-import ListingViewDetail from "./ListingViewDetail";
-import ListingAddEdit from "./ListingAddEdit";
+import TransactionViewDetail from "./TransactionViewDetail";
+import TransactionAddEdit from "./TransactionAddEdit";
 
-function ListingTable(){
+function TransactionTable(){
     const defaultValue: string = getLocalDate();
-    const [tableData, setTableData] = useState<ListingModel[]>([]);
+    const [tableData, setTableData] = useState<TransactionModel[]>([]);
     //TODO: Consider removing add state here.
     const [showAdd, setAdd] = useState<boolean>(false);
-    const [modalData, setModalData] = useState<ListingModel>({} as ListingModel);
+    const [modalData, setModalData] = useState<TransactionModel>({} as TransactionModel);
 
-    invoke<ListingModel[]>("get_listing").then(listings => setTableData(listings))
+    invoke<TransactionModel[]>("get_transaction").then(transactions => setTableData(transactions))
 
     function toggleAddButton(event: React.MouseEvent<HTMLElement, MouseEvent>): void {
         setAdd(!showAdd);
@@ -30,7 +30,7 @@ function ListingTable(){
     //     setModalData(model => item)
     // }
 
-    function changeModalData(model:ListingModel){
+    function changeModalData(model:TransactionModel){
         setModalData(model);
     }
 
@@ -43,14 +43,14 @@ function ListingTable(){
                 <th scope="col">Name</th>
                 <th scope="col">
                         <button type="button" className="btn btn-primary"
-                         data-bs-toggle="modal" data-bs-target="#listingModalAddEdit"
-                         onClick={() => changeModalData({date: defaultValue } as ListingModel)}>
+                         data-bs-toggle="modal" data-bs-target="#transactionModalAddEdit"
+                         onClick={() => changeModalData({date: defaultValue } as TransactionModel)}>
                             +
                         </button>
                 </th>
             </thead>
             <tbody>
-                {showAdd && <ListingEntry viewType="edit" />}
+                {showAdd && <TransactionEntry viewType="edit" />}
             {tableData.map((data,i) => 
                 <tr>
                     <td>{data.amount}</td>
@@ -59,12 +59,12 @@ function ListingTable(){
                     <td>{data.name}</td>
                     <td>
                         <button type="button" className="btn btn-primary"
-                        data-bs-toggle="modal" data-bs-target="#listingModalView"
+                        data-bs-toggle="modal" data-bs-target="#transactionModalView"
                         onClick={() => changeModalData(data)}>
                             {i}
                         </button>
                         <button type="button" className="btn btn-primary"
-                        data-bs-toggle="modal" data-bs-target="#listingModalAddEdit"
+                        data-bs-toggle="modal" data-bs-target="#transactionModalAddEdit"
                         onClick={() => changeModalData(data)}>
                             {i}
                         </button>
@@ -72,22 +72,22 @@ function ListingTable(){
                 </tr>
                 )
             }
-            <Modal name="listingModalView" title="View Listing">
-              <ListingViewDetail entry={modalData} />
+            <Modal name="transactionModalView" title="View Transaction">
+              <TransactionViewDetail entry={modalData} />
             </Modal>
-            <Modal name="listingModalAddEdit" title="Add Listing">
-                <ListingAddEdit entry={modalData}/>
+            <Modal name="transactionModalAddEdit" title="Add Transaction">
+                <TransactionAddEdit entry={modalData}/>
             </Modal>
             </tbody>
         </table>
 )
 }
 
-{/* <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#listingModal">
+{/* <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transactionModal">
               Launch demo modal
             </button>
-            <Modal name="listingModal" title="AddListing">
-              <ListingAddEdit />
+            <Modal name="transactionModal" title="AddTransaction">
+              <TransactionAddEdit />
             </Modal> */}
 
-export default ListingTable;
+export default TransactionTable;

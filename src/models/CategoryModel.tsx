@@ -1,6 +1,6 @@
 interface CategoryModel{
+    id: number;
     name: string;
-    childCategories: CategoryModel[];
 }
 
 export default CategoryModel;
