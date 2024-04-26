@@ -5,6 +5,8 @@ use tauri::State;
 
 use crate::models::transaction::Transaction;
 
+const GET_ALL_TRANSACTIONS: &str = "Select id, amount, category_id, transaction_date, name FROM transaction_item";
+
 #[tauri::command]
 pub(crate) fn get_transaction(conn_state: State<'_, Mutex<Connection>>) -> Vec<Transaction> {
     let conn = conn_state.inner().lock().expect("could not get db connection");
@@ -15,7 +17,7 @@ pub(crate) fn get_transaction(conn_state: State<'_, Mutex<Connection>>) -> Vec<T
 }
 
 fn get_transaction_sqlite(conn: &Connection) -> anyhow::Result<Vec<Transaction>> {
-    let mut stmt = conn.prepare("Select id, amount, category, date, name FROM transaction").expect("fail");
+    let mut stmt = conn.prepare(GET_ALL_TRANSACTIONS).expect("fail");
     let rows = stmt.query_map([], |row| {
         Ok(serde_rusqlite::from_row::<Transaction>(row)
             .expect("failed here"))
