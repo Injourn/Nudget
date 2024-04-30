@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "FinBudget",
+    "productName": "Nudget",
     "version": "0.0.0"
   },
   "tauri": {
@@ -21,7 +21,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "finbudget",
+        "title": "nudget",
         "width": 800,
         "height": 600
       }
