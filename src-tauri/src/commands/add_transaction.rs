@@ -1,4 +1,4 @@
-use std::{ops::Deref, ptr::null, sync::Mutex};
+use std::{ops::Deref, sync::Mutex};
 
 use rusqlite::Connection;
 use tauri::State;
@@ -18,5 +18,8 @@ pub(crate) fn add_transaction_sqlite(conn: &Connection,transaction:Transaction){
     let execute = conn.execute(ADD_TRANSACTION,
     (&transaction.amount,&transaction.category_id,&transaction.transaction_date,&transaction.name));
     println!("is okay{}", execute.is_ok().to_string());
+    if !execute.is_ok() {
+        println!("the issue:{}",execute.unwrap_err());
+    }
 
 }
