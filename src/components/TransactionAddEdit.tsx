@@ -1,3 +1,4 @@
+import { invoke } from "@tauri-apps/api/tauri";
 import TransactionModel from "../models/TransactionModel";
 
 
@@ -5,6 +6,14 @@ function TransactionAddEdit(props: any){
     const item: TransactionModel = props.entry;
 
     function addTransaction(formData:React.SyntheticEvent){
+        item.category_id = 1;
+        console.log(item);
+        if(item.id){
+            invoke("update_transaction",{transaction: item})
+        }
+        else {
+            invoke("add_transaction",{transaction: item})
+        }
         formData.preventDefault();
     }
     
@@ -27,7 +36,7 @@ function TransactionAddEdit(props: any){
                     </label>
                 </div>
                 <div className="col-auto">
-                    <select name="category" id="category" className="form-select" value={item.category} onChange={(e) => item.category = e.target.value}>
+                    <select name="category" id="category" className="form-select" value={item.category_id} onChange={(e) => item.category_id = Number(e.target.value)}>
                         <option value="Rent">Rent</option>
                         <option value="Groceries">Groceries</option>
                     </select>
@@ -40,7 +49,7 @@ function TransactionAddEdit(props: any){
                     </label>
                 </div>
                 <div className="col-auto">
-                    <input type="date" id="date" className="form-control" value={item.date} onChange={(e) => item.date = e.target.value}/>
+                    <input type="date" id="date" className="form-control" value={item.transaction_date} onChange={(e) => item.transaction_date = e.target.value}/>
                 </div>
             </div>
             <div className="row align-items-center mb-3">
@@ -55,7 +64,7 @@ function TransactionAddEdit(props: any){
             </div>
             <div className="row align-items-center mb-3">
                 <div className="col-auto">
-                    <input type="submit" className="btn" data-bs-dismiss="modal" value="Add Entry" />
+                    <input type="submit" className="btn" data-bs-dismiss="modal" value={item.id ? "Edit Entry" : "Add Entry"} />
                 </div>
             </div>
         </form>

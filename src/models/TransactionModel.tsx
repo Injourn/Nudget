@@ -1,7 +1,8 @@
 interface TransactionModel {
+    id: number;
     amount: string;
-    category: string;
-    date: string;
+    category_id: number;
+    transaction_date: string;
     name: string;
 }
 

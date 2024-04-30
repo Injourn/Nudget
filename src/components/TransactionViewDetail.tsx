@@ -24,7 +24,7 @@ function TransactionViewDetail(props:any){
                         </label>
                     </div>
                     <div className="col-auto">
-                        {transactionModel && transactionModel.category}
+                        {transactionModel && transactionModel.category_id}
                     </div>
                 </div>
                 <div className="row align-items-center mb-3">
@@ -34,7 +34,7 @@ function TransactionViewDetail(props:any){
                         </label>
                     </div>
                     <div className="col-auto">
-                        {transactionModel && transactionModel.date}
+                        {transactionModel && transactionModel.transaction_date}
                     </div>
                 </div>
                 <div className="row align-items-center mb-3">
