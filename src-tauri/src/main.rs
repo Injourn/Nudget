@@ -11,6 +11,11 @@ mod commands {
     pub(crate) mod add_transaction;
     pub(crate) mod remove_transaction;
     pub(crate) mod update_transaction;
+    pub(crate) mod get_all_categories;
+    pub(crate) mod get_one_category;
+    pub(crate) mod add_category;
+    pub(crate) mod remove_category;
+    pub(crate) mod update_category;
 }
 mod models {
     pub(crate) mod transaction;
@@ -20,6 +25,9 @@ mod models {
     pub(crate) mod cycle;
     pub(crate) mod budget_plan_category;
     pub(crate) mod budget_budget_category;
+    pub mod response{
+        pub(crate) mod transaction_response_model;
+    }
 }
 
 mod database {
@@ -38,6 +46,11 @@ fn main() {
     tauri::Builder::default()
         .manage(Mutex::new(conn))
         .invoke_handler(tauri::generate_handler![greet,
+            crate::commands::get_all_categories::get_all_categories,
+            crate::commands::get_one_category::get_one_category,
+            crate::commands::add_category::add_category,
+            crate::commands::remove_category::remove_category,
+            crate::commands::update_category::update_category,
             crate::commands::get_transaction::get_transaction,
             crate::commands::get_one_transaction::get_one_transaction,
             crate::commands::remove_transaction::remove_transaction,

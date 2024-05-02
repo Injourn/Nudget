@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
-import TransactionModel from "../models/TransactionModel";
+import TransactionRequestModel from "../models/TransactionRequestModel";
 import Modal from "./Modal";
 import TransactionViewDetail from "./TransactionViewDetail";
 import TransactionAddEdit from "./TransactionAddEdit";
+import TransactionResponseModel from "../models/TransactionResponseModel";
 
 function TransactionTable(){
     const defaultValue: string = getLocalDate();
-    const [tableData, setTableData] = useState<TransactionModel[]>([]);
+    const [tableData, setTableData] = useState<TransactionResponseModel[]>([]);
     //TODO: Consider removing add state here.
     const [showAdd, setAdd] = useState<boolean>(false);
-    const [modalData, setModalData] = useState<TransactionModel>({} as TransactionModel);
+    const [modalData, setModalData] = useState<TransactionRequestModel>({} as TransactionRequestModel);
 
-    invoke<TransactionModel[]>("get_transaction").then(transactions => setTableData(transactions))
+    invoke<TransactionResponseModel[]>("get_transaction").then(transactions => setTableData(transactions))
 
     function getLocalDate() : string{
         const date:Date = new Date();
@@ -25,14 +26,22 @@ function TransactionTable(){
     //     setModalData(model => item)
     // }
 
-    function changeModalData(model:TransactionModel){
+    function changeModalData(model:TransactionRequestModel){
         setModalData(model);
     }
     
-    function removeItem(model: TransactionModel){
+    function removeItem(model: TransactionRequestModel){
         invoke("remove_transaction",{transaction: model})
     }
 
+    function responseModelToRequestModel(model: TransactionResponseModel){
+
+        return {id: model.id,
+            amount: model.amount,
+            category_id: model.category_id,
+            transaction_date: model.transaction_date,
+            name: model.name}  as TransactionRequestModel
+    }
     return (
         <table className="table table-striped">
             <thead>
@@ -47,7 +56,7 @@ function TransactionTable(){
                             amount: "",
                             category_id: 0,
                             transaction_date: defaultValue,
-                            name: ""}  as TransactionModel)}>
+                            name: ""}  as TransactionRequestModel)}>
                             +
                         </button>
                 </th>
@@ -56,22 +65,22 @@ function TransactionTable(){
             {tableData.map((data,i) => 
                 <tr>
                     <td>{data.amount}</td>
-                    <td>{data.category_id}</td>
+                    <td>{data.category_name}</td>
                     <td>{data.transaction_date}</td>
                     <td>{data.name}</td>
                     <td>
                         <button type="button" className="btn btn-primary"
                         data-bs-toggle="modal" data-bs-target="#transactionModalView"
-                        onClick={() => changeModalData(data)}>
+                        onClick={() => changeModalData(responseModelToRequestModel(data))}>
                             {i}
                         </button>
                         <button type="button" className="btn btn-primary"
                         data-bs-toggle="modal" data-bs-target="#transactionModalAddEdit"
-                        onClick={() => changeModalData(data)}>
+                        onClick={() => changeModalData(responseModelToRequestModel(data))}>
                             {i}
                         </button>
                         <button type="button" className="btn btn-primary"
-                        onClick={() => removeItem(data)}>
+                        onClick={() => removeItem(responseModelToRequestModel(data))}>
                             {i}
                         </button>
                     </td>

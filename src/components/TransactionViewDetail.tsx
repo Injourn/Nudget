@@ -1,8 +1,8 @@
-import TransactionModel from "../models/TransactionModel";
+import TransactionRequestModel from "../models/TransactionRequestModel";
 
 
 function TransactionViewDetail(props:any){
-    const transactionModel:TransactionModel = props.entry;
+    const transactionModel:TransactionRequestModel = props.entry;
 
 
     return (

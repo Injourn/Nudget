@@ -1,4 +1,4 @@
-interface TransactionModel {
+interface TransactionRequestModel {
     id: number;
     amount: string;
     category_id: number;
@@ -6,4 +6,4 @@ interface TransactionModel {
     name: string;
 }
 
-export default TransactionModel;
+export default TransactionRequestModel;

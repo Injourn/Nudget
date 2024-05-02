@@ -1,12 +1,15 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import TransactionModel from "../models/TransactionModel";
+import TransactionRequestModel from "../models/TransactionRequestModel";
+import CategoryModel from "../models/CategoryModel";
+import { useState } from "react";
 
 
 function TransactionAddEdit(props: any){
-    const item: TransactionModel = props.entry;
+    const item: TransactionRequestModel = props.entry;
+    const [categories,setCategories]= useState<CategoryModel[]>([])
+    invoke<CategoryModel[]>("get_all_categories").then(items => setCategories(items));
 
     function addTransaction(formData:React.SyntheticEvent){
-        item.category_id = 1;
         console.log(item);
         if(item.id){
             invoke("update_transaction",{transaction: item})
@@ -37,8 +40,9 @@ function TransactionAddEdit(props: any){
                 </div>
                 <div className="col-auto">
                     <select name="category" id="category" className="form-select" value={item.category_id} onChange={(e) => item.category_id = Number(e.target.value)}>
-                        <option value="Rent">Rent</option>
-                        <option value="Groceries">Groceries</option>
+                        {categories.map((data,i) =>
+                            <option value={data.id}>{data.name}</option>
+                        )}
                     </select>
                 </div>
             </div>
