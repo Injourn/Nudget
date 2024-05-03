@@ -16,6 +16,11 @@ mod commands {
     pub(crate) mod add_category;
     pub(crate) mod remove_category;
     pub(crate) mod update_category;
+    pub(crate) mod get_all_budget_categories;
+    pub(crate) mod get_one_budget_category;
+    pub(crate) mod add_budget_category;
+    pub(crate) mod remove_budget_category;
+    pub(crate) mod update_budget_category;
 }
 mod models {
     pub(crate) mod transaction;
@@ -52,6 +57,11 @@ fn main() {
             crate::commands::remove_category::remove_category,
             crate::commands::update_category::update_category,
             crate::commands::get_transaction::get_transaction,
+            crate::commands::get_all_budget_categories::get_all_budget_categories,
+            crate::commands::get_one_budget_category::get_one_budget_category,
+            crate::commands::add_budget_category::add_budget_category,
+            crate::commands::remove_budget_category::remove_budget_category,
+            crate::commands::update_budget_category::update_budget_category,
             crate::commands::get_one_transaction::get_one_transaction,
             crate::commands::remove_transaction::remove_transaction,
             crate::commands::update_transaction::update_transaction,

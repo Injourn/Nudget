@@ -3,7 +3,7 @@ use std::{ops::Deref, sync::Mutex};
 use rusqlite::Connection;
 use tauri::State;
 
-use crate::{database::rusqlite_impl::get_transaction_sqlite, models::{response::transaction_response_model::TransactionResponseModel, transaction::Transaction}};
+use crate::{database::rusqlite_impl::get_transaction_sqlite, models::response::transaction_response_model::TransactionResponseModel};
 
 #[tauri::command]
 pub(crate) fn get_transaction(conn_state: State<'_, Mutex<Connection>>) -> Vec<TransactionResponseModel> {

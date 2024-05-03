@@ -1,7 +1,7 @@
 use rusqlite::{Connection, Params};
 use serde::Deserialize;
 
-use crate::models::{category::Category, response::transaction_response_model::TransactionResponseModel, transaction::{self, Transaction}};
+use crate::models::{budget_category::{self, BudgetCategory}, category::Category, response::transaction_response_model::TransactionResponseModel, transaction::{self, Transaction}};
 
 const GET_ALL_TRANSACTIONS: &str = "Select transaction_item.id, amount,c.id as category_id, c.name as category_name, transaction_date, transaction_item.name FROM transaction_item join category c on c.id = transaction_item.category_id";
 const GET_ONE_TRANSACTION: &str = "Select transaction_item.id, amount,c.id as category_id, c.name as category_name, transaction_date, transaction_item.name FROM transaction_item join category c on c.id = transaction_item.category_id where id = ?1";
@@ -14,6 +14,12 @@ const UPDATE_CATEGORY: &str = "UPDATE category SET name = ?2 WHERE category.id =
 const GET_ALL_CATEGORIES: &str = "SELECT id, name FROM category";
 const GET_ONE_CATEGORY: &str = "SELECT id, name FROM category WHERE category.id = ?1";
 const DELETE_CATEGORY: &str = "DELETE FROM category WHERE id = ?1";
+
+const INSERT_BUDGET_CATEGORY: &str = "INSERT INTO budget_category (category_id,flat_amount,percentage_amount,fixed) VALUES (?1,?2,?3,?4)";
+const UPDATE_BUDGET_CATEGORY: &str = "UPDATE budget_category SET category_id = ?2,flat_amount = ?3,percentage_amount = ?4, fixed = ?5 WHERE category.id = ?1";
+const GET_ALL_BUDGET_CATEGORIES: &str = "SELECT id,category_id,flat_amount,percentage_amount, fixed FROM budget_category";
+const GET_ONE_BUDGET_CATEGORY: &str = "SELECT id,category_id,flat_amount,percentage_amount, fixed FROM budget_category WHERE category.id = ?1";
+const DELETE_BUDGET_CATEGORY: &str = "DELETE FROM budget_category WHERE id = ?1";
 
 
 pub(crate) fn get_transaction_sqlite(conn: &Connection) -> anyhow::Result<Vec<TransactionResponseModel>> {
@@ -77,6 +83,38 @@ pub(crate) fn get_all_categories_sqlite(conn: &Connection) -> anyhow::Result<Vec
 
 pub(crate) fn get_one_category_sqlite(conn: &Connection,id: &str) -> anyhow::Result<Category>{
     let result = get_one_by_id::<Category>(conn, id, GET_ONE_CATEGORY);
+
+    result
+}
+
+pub(crate) fn add_budget_category_sqlite(conn: &Connection,budget_category:BudgetCategory) -> anyhow::Result<()>{
+    let result = insert_or_update_item(conn, (&budget_category.category_id,&budget_category.flat_amount,&budget_category.percentage_amount,&budget_category.fixed), INSERT_BUDGET_CATEGORY);
+
+    Ok({})
+}
+
+pub(crate) fn update_budget_category_sqlite(conn: &Connection,budget_category: BudgetCategory) -> anyhow::Result<()>{
+    let result = insert_or_update_item(conn,
+         (&budget_category.id,&budget_category.category_id,&budget_category.flat_amount,&budget_category.percentage_amount,&budget_category.fixed),
+        UPDATE_BUDGET_CATEGORY);
+    
+    Ok({})
+}
+
+pub(crate) fn remove_budget_category_sqlite(conn: &Connection,budget_category: BudgetCategory) -> anyhow::Result<()>{
+    let result = remove_item(conn, DELETE_BUDGET_CATEGORY, budget_category.id);
+
+    Ok({})
+}
+
+pub(crate) fn get_all_budget_categories_sqlite(conn: &Connection) -> anyhow::Result<Vec<BudgetCategory>> {
+    let result = get_all::<BudgetCategory>(conn,GET_ALL_BUDGET_CATEGORIES);
+
+    result
+}
+
+pub(crate) fn get_one_budget_category_sqlite(conn: &Connection,id: &str) -> anyhow::Result<BudgetCategory>{
+    let result = get_one_by_id::<BudgetCategory>(conn, id, GET_ONE_BUDGET_CATEGORY);
 
     result
 }

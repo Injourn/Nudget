@@ -1,12 +1,11 @@
 use rust_decimal::prelude::Decimal;
 
 
-#[derive(serde::Serialize)]
+#[derive(serde::Serialize,serde::Deserialize)]
 pub(crate) struct BudgetCategory{
+    pub(crate) id:u32,
     pub(crate) category_id: u32,
     pub(crate) fixed: bool,
-    pub(crate) flat_amount: Decimal,
-    pub(crate) percentage_amount: Decimal,
-    // probably not needed
-    pub(crate) remaining: Decimal,
+    pub(crate) flat_amount: String,
+    pub(crate) percentage_amount: String,
 }
