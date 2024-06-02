@@ -2,6 +2,9 @@ import { useState } from "react";
 import BudgetCategoryModel from "../models/BudgetCategoryModel";
 import CategoryModel from "../models/CategoryModel";
 import { invoke } from "@tauri-apps/api";
+import GenericForm from "./forms/GenericForm";
+import GenericFormInput from "./forms/GenericFormInput";
+import GenericSelectInput from "./forms/GenericSelectInput";
 
 
 function BudgetCategoryAddEdit(props:any){
@@ -17,37 +20,16 @@ function BudgetCategoryAddEdit(props:any){
     }
     
     return(
-        <form onSubmit={addBudgetCategory}>
-            <div className="row align-items-center mb-3">
-                <div className="col-auto">
-                    <label htmlFor="amount" className="col-form-label">
-                        Amount
-                    </label>
-                </div>
-                <div className="col-auto">
-                    <input type="text" id="amount" className="form-control" value={item.flat_amount} onChange={(e) => item.flat_amount = e.target.value}/>
-                </div>
-            </div>
-            <div className="row align-items-center mb-3">
-                <div className="col-auto">
-                    <label htmlFor="catgory" className="col-form-label">
-                        Category
-                    </label>
-                </div>
-                <div className="col-auto">
-                    <select name="category" id="category" className="form-select" value={item.category_id} onChange={(e) => item.category_id = Number(e.target.value)}>
-                        {categories.map((data,i) =>
-                            <option value={data.id}>{data.name}</option>
-                        )}
-                    </select>
-                </div>
-            </div>
-            <div className="row align-items-center mb-3">
-                <div className="col-auto">
-                    <input type="submit" className="btn" data-bs-dismiss="modal" value={item.id ? "Edit Entry" : "Add Entry"} />
-                </div>
-            </div>
-        </form>
+        <GenericForm onSubmit={addBudgetCategory}>
+            <GenericFormInput onChange={(e) => item.flat_amount = e.target.value} id={"amount"}
+             label={"Amount"} item={item.flat_amount} type={"text"} />
+            <GenericSelectInput onChange={(e) => item.category_id = Number(e.target.value)} id={"category"}
+             label={"Category"} item={item.category_id}>
+                {categories.map((data) =>
+                    <option value={data.id}>{data.name}</option>
+                )}
+            </GenericSelectInput>
+        </GenericForm>
     )
 
 }

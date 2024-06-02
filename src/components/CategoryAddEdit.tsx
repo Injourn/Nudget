@@ -19,23 +19,10 @@ function CategoryAddEdit(props:any){
     }
 
     return (
-        <form onSubmit={onSubmit}>
-            <div className="row align-items-center mb-3">
-                <div className="col-auto">
-                    <label htmlFor="name" className="col-form-label">
-                        Name
-                    </label>
-                </div>
-                <div className="col-auto">
-                    <input type="name" id="text" className="form-control" value={item.name} onChange={(e) => item.name = e.target.value}/>
-                </div>
-            </div>
-            <div className="row align-items-center mb-3">
-                <div className="col-auto">
-                    <input type="submit" className="btn" data-bs-dismiss="modal" value={item.id ? "Edit Entry" : "Add Entry"} />
-                </div>
-            </div>
-        </form>
+        <GenericForm onSubmit={onSubmit} edit={item.id > 0}>
+            <GenericFormInput id={"name"} label={"Name"} item={item.name}
+                type={"text"} onChange={(e) => item.name = e.target.value}/>
+        </GenericForm>
     );
 }
 

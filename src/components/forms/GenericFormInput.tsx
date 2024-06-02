@@ -1,5 +1,7 @@
+import { ChangeEventHandler } from "react";
 
 interface GenericFormInputProps{
+    onChange: ChangeEventHandler<HTMLInputElement> | undefined;
     id: string;
     label: string;
     item: any;
@@ -17,7 +19,7 @@ function GenericFormInput(props:GenericFormInputProps){
                 </label>
             </div>
             <div className="col-auto">
-                <input type={props.type} id={props.id} className="form-control" value={props.item} onChange={(e) => props.item = e.target.value}/>
+                <input type={props.type} id={props.id} className="form-control" value={props.item} onChange={props.onChange}/>
             </div>
         </div>
     )
