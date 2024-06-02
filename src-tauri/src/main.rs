@@ -21,12 +21,23 @@ mod commands {
     pub(crate) mod add_budget_category;
     pub(crate) mod remove_budget_category;
     pub(crate) mod update_budget_category;
+    pub(crate) mod get_all_budget;
+    pub(crate) mod get_one_budget;
+    pub(crate) mod add_budget;
+    pub(crate) mod remove_budget;
+    pub(crate) mod update_budget;
+    pub(crate) mod get_all_budget_plan;
+    pub(crate) mod get_one_budget_plan;
+    pub(crate) mod add_budget_plan;
+    pub(crate) mod remove_budget_plan;
+    pub(crate) mod update_budget_plan;
 }
 mod models {
     pub(crate) mod transaction;
     pub(crate) mod category;
     pub(crate) mod budget_category;
     pub(crate) mod budget_plan;
+    pub(crate) mod budget;
     pub(crate) mod cycle;
     pub(crate) mod budget_plan_category;
     pub(crate) mod budget_budget_category;
@@ -62,6 +73,16 @@ fn main() {
             crate::commands::add_budget_category::add_budget_category,
             crate::commands::remove_budget_category::remove_budget_category,
             crate::commands::update_budget_category::update_budget_category,
+            crate::commands::get_all_budget::get_all_budget,
+            crate::commands::get_one_budget::get_one_budget,
+            crate::commands::add_budget::add_budget,
+            crate::commands::remove_budget::remove_budget,
+            crate::commands::update_budget::update_budget,
+            crate::commands::get_all_budget_plan::get_all_budget_plan,
+            crate::commands::get_one_budget_plan::get_one_budget_plan,
+            crate::commands::add_budget_plan::add_budget_plan,
+            crate::commands::remove_budget_plan::remove_budget_plan,
+            crate::commands::update_budget_plan::update_budget_plan,
             crate::commands::get_one_transaction::get_one_transaction,
             crate::commands::remove_transaction::remove_transaction,
             crate::commands::update_transaction::update_transaction,

@@ -1,5 +1,8 @@
-#[derive(serde::Serialize)]
+use super::cycle::Cycle;
+
+#[derive(serde::Serialize,serde::Deserialize)]
 pub(crate) struct Budget{
-    pub(crate) start_date: DateTime,
+    pub(crate) id:u32,
+    pub(crate) start_date: String,
     pub(crate) cycle: Cycle,
 }
