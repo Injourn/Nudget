@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BudgetCategoryModel from "../models/BudgetCategoryModel";
 import { invoke } from "@tauri-apps/api";
-import Modal from "./Modal";
+import Modal from "./ui/Modal";
 import BudgetCategoryAddEdit from "./BudgetCategoryAddEdit";
 
 

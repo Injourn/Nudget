@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import TransactionRequestModel from "../models/TransactionRequestModel";
-import Modal from "./Modal";
+import Modal from "./ui/Modal";
 import TransactionViewDetail from "./TransactionViewDetail";
 import TransactionAddEdit from "./TransactionAddEdit";
 import TransactionResponseModel from "../models/TransactionResponseModel";

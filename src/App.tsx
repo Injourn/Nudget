@@ -3,10 +3,10 @@ import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
 import TransactionTable from "./components/TransactionTable";
 import CategoryList from "./components/CategoryList";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
+import Navbar from "./components/ui/Navbar";
+import Sidebar from "./components/ui/Sidebar";
 import TransactionAddEdit from "./components/TransactionAddEdit";
-import Modal from "./components/Modal";
+import Modal from "./components/ui/Modal";
 import Plan from "./components/Plan";
 
 function App() {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CategoryModel from "../models/CategoryModel";
 import Category from "./Category";
-import Modal from "./Modal";
+import Modal from "./ui/Modal";
 import CategoryAddEdit from "./CategoryAddEdit";
 import { invoke } from "@tauri-apps/api";
 

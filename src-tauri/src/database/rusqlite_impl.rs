@@ -34,11 +34,11 @@ const GET_ONE_BUDGET_PLAN: &str = "SELECT id,cycle FROM budget_plan WHERE budget
 const DELETE_BUDGET_PLAN: &str = "DELETE FROM budget_plan WHERE id = ?1";
 
 const INSERT_BUDGET_BUDGET_CATEGORIES: &str = "INSERT INTO budget_budget_category (budget_category_id,budget_plan_id) VALUES (?1,?2)";
-const GET_ALL_BUDGET_BUDGET_CATEGORIES: &str = "SELECT budget_category_id,budget_plan_id FROM budget_budget_category where budget_id = ?1";
+const GET_ALL_BUDGET_BUDGET_CATEGORIES: &str = "SELECT bc.id,bc.category_id,bc.flat_amount,bc.percentage_amount FROM budget_budget_category bbc JOIN budget_category bc ON bc.id = bbc.budget_category_id where bbc.budget_id = ?1";
 const DELETE_BUDGET_BUDGET_CATEGORY: &str = "DELETE FROM budget_budget_category WHERE budget_category_id = ?1 AND budget_plan_id = ?2";
 
 const INSERT_BUDGET_PLAN_CATEGORIES: &str = "INSERT INTO budget_plan_category (budget_category_id,budget_id) VALUES (?1,?2)";
-const GET_ALL_BUDGET_PLAN_CATEGORIES: &str = "SELECT budget_category_id,budget_id FROM budget_plan_category where budget_id = ?1";
+const GET_ALL_BUDGET_PLAN_CATEGORIES: &str = "SELECT bc.id,bc.category_id,bc.flat_amount,bc.percentage_amount FROM budget_plan_category bpc JOIN budget_category bc ON bc.id = bpc.budget_category_id where bpc.budget_id = ?1";
 const DELETE_BUDGET_PLAN_CATEGORY: &str = "DELETE FROM budget_plan_category WHERE budget_category_id = ?1 AND budget_id = ?2";
 
 pub(crate) fn get_transaction_sqlite(conn: &Connection) -> anyhow::Result<Vec<TransactionResponseModel>> {
@@ -208,7 +208,7 @@ pub(crate) fn add_budget_budget_category_sqlite(conn: &Connection,budget:Budget,
     result
 }
 
-pub(crate) fn get_all_budget_budget_categories_sqlite(conn: &Connection, budget:Budget) -> anyhow::Result<Vec<BudgetBudgetCategory>>{
+pub(crate) fn get_all_budget_budget_categories_sqlite(conn: &Connection, budget:Budget) -> anyhow::Result<Vec<BudgetCategory>>{
     let result = get_by_params(conn,[budget.id] ,GET_ALL_BUDGET_BUDGET_CATEGORIES);
 
     result
@@ -226,7 +226,7 @@ pub(crate) fn add_budget_plan_category_sqlite(conn: &Connection,budget_plan:Budg
     result
 }
 
-pub(crate) fn get_all_budget_plan_categories_sqlite(conn: &Connection, budget_plan:BudgetPlan) -> anyhow::Result<Vec<BudgetPlanCategory>>{
+pub(crate) fn get_all_budget_plan_categories_sqlite(conn: &Connection, budget_plan:BudgetPlan) -> anyhow::Result<Vec<BudgetCategory>>{
     let result = get_by_params(conn,[budget_plan.id] ,GET_ALL_BUDGET_PLAN_CATEGORIES);
 
     result
