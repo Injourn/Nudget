@@ -202,38 +202,38 @@ pub(crate) fn get_one_budget_plan_sqlite(conn: &Connection,id: &str) -> anyhow::
     result
 }
 
-pub(crate) fn add_budget_budget_categories(conn: &Connection,budget:Budget,budget_category:BudgetCategory) -> anyhow::Result<()>{
+pub(crate) fn add_budget_budget_category_sqlite(conn: &Connection,budget:Budget,budget_category:BudgetCategory) -> anyhow::Result<()>{
     let result = insert_or_update_item(conn, (&budget_category.id,&budget.id), INSERT_BUDGET_BUDGET_CATEGORIES);
 
     result
 }
 
-pub(crate) fn get_all_budget_budget_categories(conn: &Connection, budget:Budget) -> anyhow::Result<Vec<BudgetBudgetCategory>>{
+pub(crate) fn get_all_budget_budget_categories_sqlite(conn: &Connection, budget:Budget) -> anyhow::Result<Vec<BudgetBudgetCategory>>{
     let result = get_by_params(conn,[budget.id] ,GET_ALL_BUDGET_BUDGET_CATEGORIES);
 
     result
 }
 
-pub(crate) fn remove_budget_budget_category(conn: &Connection,budget:Budget,budget_category: BudgetCategory) -> anyhow::Result<()>{
-    let result = remove_item_params(conn,(&budget_category.id,&budget.id),DELETE_BUDGET_BUDGET_CATEGORY);
+pub(crate) fn remove_budget_budget_category_sqlite(conn: &Connection,budget_budget_category:BudgetBudgetCategory) -> anyhow::Result<()>{
+    let result = remove_item_params(conn,(&budget_budget_category.budget_category_id,&budget_budget_category.budget_id),DELETE_BUDGET_BUDGET_CATEGORY);
 
     result
 }
 
-pub(crate) fn add_budget_plan_categories(conn: &Connection,budget_plan:BudgetPlan,budget_category:BudgetCategory) -> anyhow::Result<()>{
-    let result = insert_or_update_item(conn, (&budget_category.id,&budget_plan.id), INSERT_BUDGET_BUDGET_CATEGORIES);
+pub(crate) fn add_budget_plan_category_sqlite(conn: &Connection,budget_plan:BudgetPlan,budget_category:BudgetCategory) -> anyhow::Result<()>{
+    let result = insert_or_update_item(conn, (&budget_category.id,&budget_plan.id), INSERT_BUDGET_PLAN_CATEGORIES);
 
     result
 }
 
-pub(crate) fn get_all_budget_plan_categories(conn: &Connection, budget_plan:BudgetPlan) -> anyhow::Result<Vec<BudgetPlanCategory>>{
-    let result = get_by_params(conn,[budget_plan.id] ,GET_ALL_BUDGET_BUDGET_CATEGORIES);
+pub(crate) fn get_all_budget_plan_categories_sqlite(conn: &Connection, budget_plan:BudgetPlan) -> anyhow::Result<Vec<BudgetPlanCategory>>{
+    let result = get_by_params(conn,[budget_plan.id] ,GET_ALL_BUDGET_PLAN_CATEGORIES);
 
     result
 }
 
-pub(crate) fn remove_budget_plan_category(conn: &Connection,budget_plan:BudgetPlan,budget_category: BudgetCategory) -> anyhow::Result<()>{
-    let result = remove_item_params(conn,(&budget_category.id,&budget_plan.id),DELETE_BUDGET_BUDGET_CATEGORY);
+pub(crate) fn remove_budget_plan_category_sqlite(conn: &Connection,budget_plan_category:BudgetPlanCategory) -> anyhow::Result<()>{
+    let result = remove_item_params(conn,(&budget_plan_category.budget_category_id,&budget_plan_category.budget_plan_id),DELETE_BUDGET_PLAN_CATEGORY);
 
     result
 }

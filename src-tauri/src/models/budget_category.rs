@@ -1,5 +1,3 @@
-use rust_decimal::prelude::Decimal;
-
 
 #[derive(serde::Serialize,serde::Deserialize)]
 pub(crate) struct BudgetCategory{

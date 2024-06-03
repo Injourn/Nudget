@@ -1,5 +1,3 @@
-use crate::models::category::Category;
-
 #[derive(serde::Serialize,serde::Deserialize)]
 pub(crate) struct TransactionResponseModel {
     pub(crate)id: u32,
