@@ -1,7 +1,7 @@
-import { ChangeEventHandler, ReactNode } from "react";
+import { ChangeEventHandler, ReactNode, useState } from "react";
 
 interface GenericSelectInputProps{
-    onChange: ChangeEventHandler<HTMLSelectElement> | undefined;
+    onChange: ChangeEventHandler<HTMLSelectElement>;
     id: string;
     label: string;
     item: any;
@@ -20,6 +20,7 @@ function GenericSelectInput(props:GenericSelectInputProps){
             </div>
             <div className="col-auto">
                 <select name="category" id="category" className="form-select" value={props.item} onChange={props.onChange}>
+                    <option value={0}>Select</option>
                     {props.children}
                 </select>
             </div>
