@@ -37,6 +37,7 @@ mod commands {
     pub(crate) mod get_all_budget_plan_categories;
     pub(crate) mod add_budget_plan_category;
     pub(crate) mod remove_budget_plan_category;
+    pub(crate) mod get_active_budget_statistics;
 }
 mod models {
     pub(crate) mod transaction;
@@ -49,6 +50,7 @@ mod models {
     pub(crate) mod budget_budget_category;
     pub mod response{
         pub(crate) mod transaction_response_model;
+        pub(crate) mod budget_statistics_response_model;
     }
 }
 
@@ -98,7 +100,8 @@ fn main() {
             crate::commands::get_one_transaction::get_one_transaction,
             crate::commands::remove_transaction::remove_transaction,
             crate::commands::update_transaction::update_transaction,
-            crate::commands::add_transaction::add_transaction])
+            crate::commands::add_transaction::add_transaction,
+            crate::commands::get_active_budget_statistics::get_active_budget_statistics])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

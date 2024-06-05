@@ -1,7 +1,7 @@
 use rusqlite::{Connection, Params};
 use serde::Deserialize;
 
-use crate::models::{budget::Budget, budget_budget_category::BudgetBudgetCategory, budget_category::{self, BudgetCategory}, budget_plan::BudgetPlan, budget_plan_category::BudgetPlanCategory, category::Category, response::transaction_response_model::TransactionResponseModel, transaction::{self, Transaction}};
+use crate::models::{budget::Budget, budget_budget_category::BudgetBudgetCategory, budget_category::{self, BudgetCategory}, budget_plan::BudgetPlan, budget_plan_category::BudgetPlanCategory, category::Category, response::{budget_statistics_response_model::BudgetStatisticsResponseModel, transaction_response_model::TransactionResponseModel}, transaction::{self, Transaction}};
 
 const GET_ALL_TRANSACTIONS: &str = "Select transaction_item.id, amount,c.id as category_id, c.name as category_name, transaction_date, transaction_item.name FROM transaction_item join category c on c.id = transaction_item.category_id";
 const GET_ONE_TRANSACTION: &str = "Select transaction_item.id, amount,c.id as category_id, c.name as category_name, transaction_date, transaction_item.name FROM transaction_item join category c on c.id = transaction_item.category_id where id = ?1";
@@ -40,6 +40,23 @@ const DELETE_BUDGET_BUDGET_CATEGORY: &str = "DELETE FROM budget_budget_category 
 const INSERT_BUDGET_PLAN_CATEGORIES: &str = "INSERT INTO budget_plan_category (budget_category_id,budget_id) VALUES (?1,?2)";
 const GET_ALL_BUDGET_PLAN_CATEGORIES: &str = "SELECT bc.id,bc.category_id,bc.flat_amount,bc.percentage_amount FROM budget_plan_category bpc JOIN budget_category bc ON bc.id = bpc.budget_category_id where bpc.budget_id = ?1";
 const DELETE_BUDGET_PLAN_CATEGORY: &str = "DELETE FROM budget_plan_category WHERE budget_category_id = ?1 AND budget_id = ?2";
+
+const GET_ALL_BUDGET_STATISTICS: &str = "SELECT
+    c.name as category_name,
+    bc.flat_amount as category_budget,
+    ( SELECT sum(ti.amount) FROM transaction_item ti
+        WHERE 
+        ti.category_id = c.id
+        AND ti.transaction_date BETWEEN b.start_date AND DATE(b.start_date, '+1 months')
+    ) as category_spent
+    FROM budget_budget_category bbc
+    JOIN budget b
+        ON b.id = bbc.budget_id
+    JOIN budget_category bc
+        ON bc.id = bbc.budget_category_id
+    JOIN category c
+        ON c.id = bc.category_id
+    WHERE bbc.budget_id = ?1";
 
 pub(crate) fn get_transaction_sqlite(conn: &Connection) -> anyhow::Result<Vec<TransactionResponseModel>> {
     let result = get_all::<TransactionResponseModel>(conn,GET_ALL_TRANSACTIONS);
@@ -234,6 +251,12 @@ pub(crate) fn get_all_budget_plan_categories_sqlite(conn: &Connection, budget_pl
 
 pub(crate) fn remove_budget_plan_category_sqlite(conn: &Connection,budget_plan_category:BudgetPlanCategory) -> anyhow::Result<()>{
     let result = remove_item_params(conn,(&budget_plan_category.budget_category_id,&budget_plan_category.budget_plan_id),DELETE_BUDGET_PLAN_CATEGORY);
+
+    result
+}
+
+pub(crate) fn get_active_budget_statistics_sqlite(conn: &Connection,budget:Budget) -> anyhow::Result<Vec<BudgetStatisticsResponseModel>>{
+    let result = get_by_params(conn, [budget.id], GET_ALL_BUDGET_STATISTICS);
 
     result
 }
