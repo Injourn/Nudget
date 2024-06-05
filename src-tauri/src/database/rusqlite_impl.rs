@@ -21,10 +21,10 @@ const GET_ALL_BUDGET_CATEGORIES: &str = "SELECT id,category_id,flat_amount,perce
 const GET_ONE_BUDGET_CATEGORY: &str = "SELECT id,category_id,flat_amount,percentage_amount, fixed FROM budget_category WHERE category.id = ?1";
 const DELETE_BUDGET_CATEGORY: &str = "DELETE FROM budget_category WHERE id = ?1";
 
-const INSERT_BUDGET: &str = "INSERT INTO budget (start_date,cycle) VALUES (?1,?2)";
-const UPDATE_BUDGET: &str = "UPDATE budget SET start_date = ?2,cycle = ?3 WHERE budget.id = ?1";
-const GET_ALL_BUDGET: &str = "SELECT id,start_date,cycle FROM budget";
-const GET_ONE_BUDGET: &str = "SELECT id,start_date,cycle FROM budget WHERE budget.id = ?1";
+const INSERT_BUDGET: &str = "INSERT INTO budget (start_date,cycle,end_date) VALUES (?1,?2,?3)";
+const UPDATE_BUDGET: &str = "UPDATE budget SET start_date = ?2,cycle = ?3, end_date = ?3 WHERE budget.id = ?1";
+const GET_ALL_BUDGET: &str = "SELECT id,start_date,cycle,end_date FROM budget";
+const GET_ONE_BUDGET: &str = "SELECT id,start_date,cycle,end_date FROM budget WHERE budget.id = ?1";
 const DELETE_BUDGET: &str = "DELETE FROM budget WHERE id = ?1";
 
 const INSERT_BUDGET_PLAN: &str = "INSERT INTO budget_plan (cycle) VALUES (?1)";
@@ -47,7 +47,7 @@ const GET_ALL_BUDGET_STATISTICS: &str = "SELECT
     ( SELECT sum(ti.amount) FROM transaction_item ti
         WHERE 
         ti.category_id = c.id
-        AND ti.transaction_date BETWEEN b.start_date AND DATE(b.start_date, '+1 months')
+        AND ti.transaction_date BETWEEN b.start_date AND b.end_date
     ) as category_spent
     FROM budget_budget_category bbc
     JOIN budget b
@@ -156,14 +156,14 @@ pub(crate) fn get_one_budget_category_sqlite(conn: &Connection,id: &str) -> anyh
 }
 
 pub(crate) fn add_budget_sqlite(conn: &Connection,budget:Budget) -> anyhow::Result<()>{
-    let result = insert_or_update_item(conn, (&budget.start_date,&budget.cycle), INSERT_BUDGET);
+    let result = insert_or_update_item(conn, (&budget.start_date,&budget.cycle,&budget.cycle), INSERT_BUDGET);
 
     Ok({})
 }
 
 pub(crate) fn update_budget_sqlite(conn: &Connection,budget:Budget) -> anyhow::Result<()>{
     let result = insert_or_update_item(conn,
-         (&budget.id,&budget.start_date,&budget.cycle),
+         (&budget.id,&budget.start_date,&budget.cycle,&budget.end_date),
         UPDATE_BUDGET);
     
     Ok({})
