@@ -22,7 +22,7 @@ function CategoryAddEdit(props:any){
     }
 
     return (
-        <GenericForm onSubmit={onSubmit} edit={item.id > 0} onRemove={removeCategory}>
+        <GenericForm modalName={props.modalName} onSubmit={onSubmit} edit={item.id > 0} onRemove={removeCategory}>
             <GenericFormInput id={"name"} label={"Name"} item={item.name}
                 type={"text"} onChange={(e) => item.name = e.target.value}/>
         </GenericForm>

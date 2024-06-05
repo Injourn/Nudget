@@ -11,6 +11,7 @@ import Plan from "./components/Plan";
 import BudgetStatisticsView from "./components/BudgetStatisticsView";
 import BudgetModel from "./models/BudgetModel";
 import Cycle from "./models/Cycle";
+import BudgetView from "./components/BudgetView";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -29,8 +30,7 @@ function App() {
           <Sidebar />
           <div className="col-lg-9">
             <Plan />
-            <BudgetStatisticsView entry={{id:1,
-              start_date: "2024-05-15"} as BudgetModel}/>
+            <BudgetView/>
             <TransactionTable />
             <CategoryList />
           </div>

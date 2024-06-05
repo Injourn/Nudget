@@ -43,7 +43,7 @@ function CategoryList(){
              >
             </DataList>
             <Modal name="categoryModelAddEdit" title="Category">
-                <CategoryAddEdit category={modalData}/>
+                <CategoryAddEdit modalName="categoryModelAddEdit" category={modalData}/>
             </Modal>
         </>
     )

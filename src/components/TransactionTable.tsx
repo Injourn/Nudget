@@ -24,9 +24,6 @@ function TransactionTable(){
         const year : string = date.toLocaleString('en', {year: 'numeric'}); // YYYY
         return `${year}-${month}-${day}`
     }
-    // function onChangeModel(item: any){
-    //     setModalData(model => item)
-    // }
 
     function changeModalData(model:TransactionRequestModel){
         setModalData(model);
@@ -40,8 +37,8 @@ function TransactionTable(){
             transaction_date: model.transaction_date,
             name: model.name}  as TransactionRequestModel
     }
-    function onRowClick(model: TransactionRequestModel){
-        changeModalData(model)
+    function onRowClick(model: TransactionResponseModel){
+        changeModalData(responseModelToRequestModel(model))
     }
 
     function tableRow(data:any): ReactNode{
@@ -81,7 +78,7 @@ function TransactionTable(){
                 <TransactionViewDetail entry={modalData} />
             </Modal>
             <Modal name="transactionModalAddEdit" title="Transaction">
-                <TransactionAddEdit entry={modalData}/>
+                <TransactionAddEdit modalName="transactionModalAddEdit" entry={modalData}/>
             </Modal>
         </>
         
