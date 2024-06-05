@@ -17,9 +17,12 @@ function CategoryAddEdit(props:any){
         }
         formData.preventDefault();
     }
+    function removeCategory(){
+        invoke("remove_category",{category:item})
+    }
 
     return (
-        <GenericForm onSubmit={onSubmit} edit={item.id > 0}>
+        <GenericForm onSubmit={onSubmit} edit={item.id > 0} onRemove={removeCategory}>
             <GenericFormInput id={"name"} label={"Name"} item={item.name}
                 type={"text"} onChange={(e) => item.name = e.target.value}/>
         </GenericForm>

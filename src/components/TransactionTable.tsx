@@ -80,7 +80,7 @@ function TransactionTable(){
             <Modal name="transactionModalView" title="View Transaction">
                 <TransactionViewDetail entry={modalData} />
             </Modal>
-            <Modal name="transactionModalAddEdit" title="Add Transaction">
+            <Modal name="transactionModalAddEdit" title="Transaction">
                 <TransactionAddEdit entry={modalData}/>
             </Modal>
         </>

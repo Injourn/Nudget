@@ -4,7 +4,7 @@ interface TableProps{
     name?:string;
     tableRow(data: any): ReactNode;
     modalTarget?: string;
-    onRowClick(data: any): void;
+    onRowClick?(data: any): void;
     addRowClick?(): import("react").MouseEventHandler<HTMLButtonElement> | undefined;
     addRowBox?: boolean;
     tableData: any[];
@@ -35,7 +35,7 @@ function Table(props:TableProps){
 
                 {props.tableData.map((data) => 
                     props.editable ? 
-                    <tr  data-bs-toggle="modal" data-bs-target={"#" + props.modalTarget} onClick={() => props.onRowClick(data)}>
+                    <tr  data-bs-toggle="modal" data-bs-target={"#" + props.modalTarget} onClick={() => props.onRowClick?.(data)}>
                         {props.tableRow(data)}
                     </tr> 
                     :

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import CategoryModel from "../models/CategoryModel";
-import Category from "./Category";
 import Modal from "./ui/Modal";
 import CategoryAddEdit from "./CategoryAddEdit";
 import { invoke } from "@tauri-apps/api";
+import DataList from "./ui/DataList";
 
 function CategoryList(){
     const [modalData, setModalData] = useState<CategoryModel>({} as CategoryModel);
@@ -15,22 +15,37 @@ function CategoryList(){
         setModalData(model);
     }
 
+    function addRowClick(){
+        changeModalData({id:0, name:""} as CategoryModel);
+    }
+
+    function onRowClick(data: CategoryModel){
+        changeModalData(data);
+    }
+    
+    function listRow(data:CategoryModel){
+        return(
+            <>{data.name}</>
+        )
+    }
+
 
     return(
-        <ul className="list-group list-group-flush">
-            {tableData.map((data,i) => 
-            
-                <Category data={data} key={i} changeModalData={changeModalData}/>
-            )}
-            <button type="button" className="btn btn-primary"
-                data-bs-toggle="modal" data-bs-target="#categoryModelAddEdit"
-                onClick={() => changeModalData({id:0, name:""} as CategoryModel)}>
-                    +
-            </button>
-            <Modal name="categoryModelAddEdit" title="Add Category">
+        <>
+            <b>Categories</b>
+            <DataList 
+             modalTarget={"categoryModelAddEdit"}
+             addRowClick={addRowClick}
+             listRow={listRow} 
+             onRowClick={onRowClick} 
+             listData={tableData}
+             addRowBox={true}
+             >
+            </DataList>
+            <Modal name="categoryModelAddEdit" title="Category">
                 <CategoryAddEdit category={modalData}/>
             </Modal>
-        </ul>
+        </>
     )
 }
 
