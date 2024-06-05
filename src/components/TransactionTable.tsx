@@ -31,10 +31,6 @@ function TransactionTable(){
     function changeModalData(model:TransactionRequestModel){
         setModalData(model);
     }
-    
-    function removeItem(model: TransactionRequestModel){
-        invoke("remove_transaction",{transaction: model})
-    }
 
     function responseModelToRequestModel(model: TransactionResponseModel){
 
@@ -44,6 +40,9 @@ function TransactionTable(){
             transaction_date: model.transaction_date,
             name: model.name}  as TransactionRequestModel
     }
+    function onRowClick(model: TransactionRequestModel){
+        changeModalData(model)
+    }
 
     function tableRow(data:any): ReactNode{
         return (
@@ -52,22 +51,6 @@ function TransactionTable(){
                 <td>{data.category_name}</td>
                 <td>{data.transaction_date}</td>
                 <td>{data.name}</td>
-                <td>
-                    <button type="button" className="btn btn-primary"
-                    data-bs-toggle="modal" data-bs-target="#transactionModalView"
-                    onClick={() => changeModalData(responseModelToRequestModel(data))}>
-                        *
-                    </button>
-                    <button type="button" className="btn btn-primary"
-                    data-bs-toggle="modal" data-bs-target="#transactionModalAddEdit"
-                    onClick={() => changeModalData(responseModelToRequestModel(data))}>
-                        ?
-                    </button>
-                    <button type="button" className="btn btn-primary"
-                    onClick={() => removeItem(responseModelToRequestModel(data))}>
-                        -
-                    </button>
-                </td>
             </>
         )
     }
@@ -81,11 +64,6 @@ function TransactionTable(){
         return undefined;
     }
 
-    function removeRowItem(data:any) : MouseEventHandler<HTMLButtonElement> | undefined{
-        removeItem(responseModelToRequestModel(data));
-        return undefined;
-    }
-
     return (
         <>
             <Table 
@@ -93,10 +71,10 @@ function TransactionTable(){
             tableData={tableData}
             columns={columnNames}
             modalTarget="transactionModalAddEdit"
-            addRow={addRow}
-            addRowBox={true}
-            removeItemBox={false}
-            removeItem={removeRowItem}>
+            onRowClick={onRowClick}
+            addRowClick={addRow}
+            editable={true}
+            addRowBox={true}>
             </Table>
             
             <Modal name="transactionModalView" title="View Transaction">
