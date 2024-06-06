@@ -34,7 +34,7 @@ const GET_ONE_BUDGET_PLAN: &str = "SELECT id,cycle FROM budget_plan WHERE budget
 const DELETE_BUDGET_PLAN: &str = "DELETE FROM budget_plan WHERE id = ?1";
 
 const INSERT_BUDGET_BUDGET_CATEGORIES: &str = "INSERT INTO budget_budget_category (budget_category_id,budget_plan_id) VALUES (?1,?2)";
-const GET_ALL_BUDGET_BUDGET_CATEGORIES: &str = "SELECT bc.id,bc.category_id,bc.flat_amount,bc.percentage_amount FROM budget_budget_category bbc JOIN budget_category bc ON bc.id = bbc.budget_category_id where bbc.budget_id = ?1";
+const GET_ALL_BUDGET_BUDGET_CATEGORIES: &str = "SELECT bc.id,bc.category_id,bc.flat_amount,bc.percentage_amount,bc.fixed FROM budget_budget_category bbc JOIN budget_category bc ON bc.id = bbc.budget_category_id where bbc.budget_id = ?1";
 const DELETE_BUDGET_BUDGET_CATEGORY: &str = "DELETE FROM budget_budget_category WHERE budget_category_id = ?1 AND budget_plan_id = ?2";
 
 const INSERT_BUDGET_PLAN_CATEGORIES: &str = "INSERT INTO budget_plan_category (budget_category_id,budget_id) VALUES (?1,?2)";
@@ -69,20 +69,20 @@ pub(crate) fn get_one_transaction_sqlite(conn: &Connection,id: &str) -> anyhow::
 
     result
 }
-pub(crate) fn add_transaction_sqlite(conn: &Connection,transaction: Transaction) -> anyhow::Result<()>{
+pub(crate) fn add_transaction_sqlite(conn: &Connection,transaction: Transaction) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn,
          (&transaction.amount,&transaction.category_id,&transaction.transaction_date,&transaction.name),
         ADD_TRANSACTION);
     
-    Ok({})
+    result
 }
 
-pub(crate) fn update_transaction_sqlite(conn: &Connection,transaction: Transaction) -> anyhow::Result<()>{
+pub(crate) fn update_transaction_sqlite(conn: &Connection,transaction: Transaction) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn,
          (&transaction.id,&transaction.amount,&transaction.category_id,&transaction.transaction_date,&transaction.name),
         UPDATE_TRANSACTION);
     
-    Ok({})
+    result
 }
 
 pub(crate) fn remove_transaction_sqlite(conn: &Connection,transaction:Transaction) -> anyhow::Result<()>{
@@ -91,18 +91,18 @@ pub(crate) fn remove_transaction_sqlite(conn: &Connection,transaction:Transactio
     Ok({})
 }
 
-pub(crate) fn add_category_sqlite(conn: &Connection,category:Category) -> anyhow::Result<()>{
+pub(crate) fn add_category_sqlite(conn: &Connection,category:Category) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn, [category.name], INSERT_CATEGORY);
 
-    Ok({})
+    result
 }
 
-pub(crate) fn update_category_sqlite(conn: &Connection,category: Category) -> anyhow::Result<()>{
+pub(crate) fn update_category_sqlite(conn: &Connection,category: Category) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn,
          (&category.id,&category.name),
         UPDATE_CATEGORY);
     
-    Ok({})
+    result
 }
 
 pub(crate) fn remove_category_sqlite(conn: &Connection,category: Category) -> anyhow::Result<()>{
@@ -123,18 +123,18 @@ pub(crate) fn get_one_category_sqlite(conn: &Connection,id: &str) -> anyhow::Res
     result
 }
 
-pub(crate) fn add_budget_category_sqlite(conn: &Connection,budget_category:BudgetCategory) -> anyhow::Result<()>{
+pub(crate) fn add_budget_category_sqlite(conn: &Connection,budget_category:BudgetCategory) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn, (&budget_category.category_id,&budget_category.flat_amount,&budget_category.percentage_amount,&budget_category.fixed), INSERT_BUDGET_CATEGORY);
 
-    Ok({})
+    result
 }
 
-pub(crate) fn update_budget_category_sqlite(conn: &Connection,budget_category: BudgetCategory) -> anyhow::Result<()>{
+pub(crate) fn update_budget_category_sqlite(conn: &Connection,budget_category: BudgetCategory) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn,
          (&budget_category.id,&budget_category.category_id,&budget_category.flat_amount,&budget_category.percentage_amount,&budget_category.fixed),
         UPDATE_BUDGET_CATEGORY);
     
-    Ok({})
+    result
 }
 
 pub(crate) fn remove_budget_category_sqlite(conn: &Connection,budget_category: BudgetCategory) -> anyhow::Result<()>{
@@ -155,18 +155,18 @@ pub(crate) fn get_one_budget_category_sqlite(conn: &Connection,id: &str) -> anyh
     result
 }
 
-pub(crate) fn add_budget_sqlite(conn: &Connection,budget:Budget) -> anyhow::Result<()>{
+pub(crate) fn add_budget_sqlite(conn: &Connection,budget:Budget) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn, (&budget.start_date,&budget.cycle,&budget.cycle), INSERT_BUDGET);
 
-    Ok({})
+    result
 }
 
-pub(crate) fn update_budget_sqlite(conn: &Connection,budget:Budget) -> anyhow::Result<()>{
+pub(crate) fn update_budget_sqlite(conn: &Connection,budget:Budget) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn,
          (&budget.id,&budget.start_date,&budget.cycle,&budget.end_date),
         UPDATE_BUDGET);
     
-    Ok({})
+    result
 }
 
 pub(crate) fn remove_budget_sqlite(conn: &Connection,budget:Budget) -> anyhow::Result<()>{
@@ -187,18 +187,18 @@ pub(crate) fn get_one_budget_sqlite(conn: &Connection,id: &str) -> anyhow::Resul
     result
 }
 
-pub(crate) fn add_budget_plan_sqlite(conn: &Connection,budget_plan:BudgetPlan) -> anyhow::Result<()>{
+pub(crate) fn add_budget_plan_sqlite(conn: &Connection,budget_plan:BudgetPlan) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn, [&budget_plan.cycle], INSERT_BUDGET_PLAN);
 
-    Ok({})
+    result
 }
 
-pub(crate) fn update_budget_plan_sqlite(conn: &Connection,budget_plan:BudgetPlan) -> anyhow::Result<()>{
+pub(crate) fn update_budget_plan_sqlite(conn: &Connection,budget_plan:BudgetPlan) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn,
          (&budget_plan.id,&budget_plan.cycle),
         UPDATE_BUDGET_PLAN);
     
-    Ok({})
+    result
 }
 
 pub(crate) fn remove_budget_plan_sqlite(conn: &Connection,budget_plan:BudgetPlan) -> anyhow::Result<()>{
@@ -219,7 +219,7 @@ pub(crate) fn get_one_budget_plan_sqlite(conn: &Connection,id: &str) -> anyhow::
     result
 }
 
-pub(crate) fn add_budget_budget_category_sqlite(conn: &Connection,budget:Budget,budget_category:BudgetCategory) -> anyhow::Result<()>{
+pub(crate) fn add_budget_budget_category_sqlite(conn: &Connection,budget:Budget,budget_category:BudgetCategory) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn, (&budget_category.id,&budget.id), INSERT_BUDGET_BUDGET_CATEGORIES);
 
     result
@@ -237,7 +237,7 @@ pub(crate) fn remove_budget_budget_category_sqlite(conn: &Connection,budget_budg
     result
 }
 
-pub(crate) fn add_budget_plan_category_sqlite(conn: &Connection,budget_plan:BudgetPlan,budget_category:BudgetCategory) -> anyhow::Result<()>{
+pub(crate) fn add_budget_plan_category_sqlite(conn: &Connection,budget_plan:BudgetPlan,budget_category:BudgetCategory) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn, (&budget_category.id,&budget_plan.id), INSERT_BUDGET_PLAN_CATEGORIES);
 
     result
@@ -284,10 +284,10 @@ fn remove_item(conn: &Connection,command:&str,id: u32) -> anyhow::Result<()>{
     }
 }
 
-fn insert_or_update_item<P:Params>(conn: &Connection,params: P,command: &str) -> anyhow::Result<()>{
+fn insert_or_update_item<P:Params>(conn: &Connection,params: P,command: &str) -> anyhow::Result<i64>{
     let execute = conn.execute(command,params);
     if execute.is_ok() {
-        Ok({})
+        Ok(conn.last_insert_rowid())
     }
     else {
         let error = execute.unwrap_err();
