@@ -12,6 +12,7 @@ import BudgetStatisticsView from "./components/BudgetStatisticsView";
 import BudgetModel from "./models/BudgetModel";
 import Cycle from "./models/Cycle";
 import BudgetView from "./components/BudgetView";
+import BudgetCategoryTable from "./components/BudgetCategoryTable";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -21,6 +22,7 @@ function App() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
     setGreetMsg(await invoke("greet", { name }));
   }
+  
 
   return (
     <>
@@ -29,7 +31,11 @@ function App() {
         <div className="row">
           <Sidebar />
           <div className="col-lg-9">
-            <Plan />
+            <BudgetCategoryTable entry={{id:1,
+              start_date:"2024-06-03",
+              cycle: Cycle.MONTHLY,
+              end_date:"2024-07-03",
+            }} />
             <BudgetView/>
             <TransactionTable />
             <CategoryList />

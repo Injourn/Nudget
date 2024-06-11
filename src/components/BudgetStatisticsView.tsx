@@ -15,7 +15,6 @@ function BudgetStatisticsView(props:BudgetStatisticsViewProps){
     const categoryNames:string[] = ["Category","Amount budgeted","Amount remaining"];
 
     invoke<BudgetStatisticsResponseModel[]>("get_active_budget_statistics",{budget:budget}).then(categories => setBudgetStatistics(categories));
-    console.log(budgetStatistics)
     function tableRow(data:BudgetStatisticsResponseModel): ReactNode{
         return(
             <>

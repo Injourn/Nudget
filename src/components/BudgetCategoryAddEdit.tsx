@@ -7,7 +7,13 @@ import GenericFormInput from "./forms/GenericFormInput";
 import GenericSelectInput from "./forms/GenericSelectInput";
 
 
-function BudgetCategoryAddEdit(props:any){
+interface BudgetCategoryAddEditProps{
+    parentAdd(newId: number): any;
+    entry: BudgetCategoryModel;
+
+}
+
+function BudgetCategoryAddEdit(props:BudgetCategoryAddEditProps){
     const item: BudgetCategoryModel = props.entry;
     const [categories,setCategories]= useState<CategoryModel[]>([]);
     invoke<CategoryModel[]>("get_all_categories").then(items => setCategories(items));
@@ -15,7 +21,7 @@ function BudgetCategoryAddEdit(props:any){
     function addBudgetCategory(formData:React.SyntheticEvent){
         item.fixed = false;
         console.log(item);
-        invoke("add_budget_category",{budgetCategory: item});
+        invoke<number>("add_budget_category",{budgetCategory: item}).then(newId => props.parentAdd(newId));
         formData.preventDefault();
     }
     

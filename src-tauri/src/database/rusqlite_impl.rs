@@ -33,13 +33,13 @@ const GET_ALL_BUDGET_PLAN: &str = "SELECT id,cycle FROM budget_plan";
 const GET_ONE_BUDGET_PLAN: &str = "SELECT id,cycle FROM budget_plan WHERE budget_plan.id = ?1";
 const DELETE_BUDGET_PLAN: &str = "DELETE FROM budget_plan WHERE id = ?1";
 
-const INSERT_BUDGET_BUDGET_CATEGORIES: &str = "INSERT INTO budget_budget_category (budget_category_id,budget_plan_id) VALUES (?1,?2)";
+const INSERT_BUDGET_BUDGET_CATEGORIES: &str = "INSERT INTO budget_budget_category (budget_category_id,budget_id) VALUES (?1,?2)";
 const GET_ALL_BUDGET_BUDGET_CATEGORIES: &str = "SELECT bc.id,bc.category_id,bc.flat_amount,bc.percentage_amount,bc.fixed FROM budget_budget_category bbc JOIN budget_category bc ON bc.id = bbc.budget_category_id where bbc.budget_id = ?1";
-const DELETE_BUDGET_BUDGET_CATEGORY: &str = "DELETE FROM budget_budget_category WHERE budget_category_id = ?1 AND budget_plan_id = ?2";
+const DELETE_BUDGET_BUDGET_CATEGORY: &str = "DELETE FROM budget_budget_category WHERE budget_category_id = ?1 AND budget_id = ?2";
 
-const INSERT_BUDGET_PLAN_CATEGORIES: &str = "INSERT INTO budget_plan_category (budget_category_id,budget_id) VALUES (?1,?2)";
-const GET_ALL_BUDGET_PLAN_CATEGORIES: &str = "SELECT bc.id,bc.category_id,bc.flat_amount,bc.percentage_amount FROM budget_plan_category bpc JOIN budget_category bc ON bc.id = bpc.budget_category_id where bpc.budget_id = ?1";
-const DELETE_BUDGET_PLAN_CATEGORY: &str = "DELETE FROM budget_plan_category WHERE budget_category_id = ?1 AND budget_id = ?2";
+const INSERT_BUDGET_PLAN_CATEGORIES: &str = "INSERT INTO budget_plan_category (budget_category_id,budget_plan_id) VALUES (?1,?2)";
+const GET_ALL_BUDGET_PLAN_CATEGORIES: &str = "SELECT bc.id,bc.category_id,bc.flat_amount,bc.percentage_amount FROM budget_plan_category bpc JOIN budget_category bc ON bc.id = bpc.budget_category_id where bpc.budget_plan_id = ?1";
+const DELETE_BUDGET_PLAN_CATEGORY: &str = "DELETE FROM budget_plan_category WHERE budget_category_id = ?1 AND budget_plan_id = ?2";
 
 const GET_ALL_BUDGET_STATISTICS: &str = "SELECT
     c.name as category_name,
@@ -219,8 +219,8 @@ pub(crate) fn get_one_budget_plan_sqlite(conn: &Connection,id: &str) -> anyhow::
     result
 }
 
-pub(crate) fn add_budget_budget_category_sqlite(conn: &Connection,budget:Budget,budget_category:BudgetCategory) -> anyhow::Result<i64>{
-    let result = insert_or_update_item(conn, (&budget_category.id,&budget.id), INSERT_BUDGET_BUDGET_CATEGORIES);
+pub(crate) fn add_budget_budget_category_sqlite(conn: &Connection,budget_id:u32,budget_category_id:u32) -> anyhow::Result<i64>{
+    let result = insert_or_update_item(conn, (budget_category_id,budget_id), INSERT_BUDGET_BUDGET_CATEGORIES);
 
     result
 }
