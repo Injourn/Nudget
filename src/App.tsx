@@ -1,27 +1,11 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/tauri";
-import TransactionTable from "./components/TransactionTable";
-import CategoryList from "./components/CategoryList";
 import Navbar from "./components/ui/Navbar";
 import Sidebar from "./components/ui/Sidebar";
-import TransactionAddEdit from "./components/TransactionAddEdit";
-import Modal from "./components/ui/Modal";
-import Plan from "./components/Plan";
-import BudgetStatisticsView from "./components/BudgetStatisticsView";
-import BudgetModel from "./models/BudgetModel";
-import Cycle from "./models/Cycle";
+import {Route, Routes} from 'react-router-dom'
+import Home from "./pages/Home"
+import CategoryList from "./components/CategoryList";
 import BudgetView from "./components/BudgetView";
-import BudgetCategoryTable from "./components/BudgetCategoryTable";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
-  }
   
 
   return (
@@ -31,16 +15,12 @@ function App() {
         <div className="row">
           <Sidebar />
           <div className="col-lg-9">
-            <BudgetCategoryTable entry={{id:1,
-              start_date:"2024-06-03",
-              cycle: Cycle.MONTHLY,
-              end_date:"2024-07-03",
-            }} />
-            <BudgetView/>
-            <TransactionTable />
-            <CategoryList />
+            <Routes>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/categories" element={<CategoryList/>}/>
+              <Route path="/budget/:budgetId" element={<BudgetView/>}/>
+            </Routes>
           </div>
-
         </div>
       </div>
     </>

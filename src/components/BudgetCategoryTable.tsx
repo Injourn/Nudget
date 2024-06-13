@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode, useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import BudgetCategoryModel from "../models/BudgetCategoryModel";
 import { invoke } from "@tauri-apps/api";
 import Table from "./ui/Table";

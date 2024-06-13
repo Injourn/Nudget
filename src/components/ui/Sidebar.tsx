@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 function Sidebar(){
@@ -11,14 +12,19 @@ return (
         <div className="offcanvas-body px-0">
             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
                 <li className="nav-item">
-                    <a href="#" className="nav-link text-truncate">
+                    <Link to="/" className="nav-link text-truncate">
                         Home
-                    </a>
+                    </Link>
                 </li>
-                <li>
-                    <a href="#submenu1" data-bs-toggle="collapse" className="nav-link text-truncate">
-                        Dashboard
-                    </a>
+                <li className="nav-item">
+                    <Link to="/categories" className="nav-link text-truncate">
+                        Categories
+                    </Link>
+                </li>
+                <li className="nav-item">
+                    <Link to="/budget/1" className="nav-link text-truncate">
+                        Budgets
+                    </Link>
                 </li>
             </ul>
         </div>

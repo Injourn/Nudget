@@ -3,7 +3,7 @@ use std::{ops::Deref, sync::Mutex};
 use rusqlite::Connection;
 use tauri::State;
 
-use crate::{database::rusqlite_impl::add_budget_budget_category_sqlite, models::{budget::Budget, budget_category::BudgetCategory}};
+use crate::database::rusqlite_impl::add_budget_budget_category_sqlite;
 
 
 #[tauri::command]
