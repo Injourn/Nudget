@@ -22,7 +22,7 @@ return (
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/budget/1" className="nav-link text-truncate">
+                    <Link to="/budget" className="nav-link text-truncate">
                         Budgets
                     </Link>
                 </li>

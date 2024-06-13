@@ -39,7 +39,7 @@ function Table(props:TableProps){
                         {props.tableRow(data)}
                     </tr> 
                     :
-                    <tr>
+                    <tr onClick={() => props.onRowClick?.(data)} >
                         {props.tableRow(data)}
                     </tr> 
                     

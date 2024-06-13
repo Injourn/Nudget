@@ -4,6 +4,7 @@ import {Route, Routes} from 'react-router-dom'
 import Home from "./pages/Home"
 import CategoryList from "./components/CategoryList";
 import BudgetView from "./components/BudgetView";
+import BudgetTable from "./components/BudgetTable";
 
 function App() {
   
@@ -18,6 +19,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />}></Route>
               <Route path="/categories" element={<CategoryList/>}/>
+              <Route path="/budget" element={<BudgetTable />} />
               <Route path="/budget/:budgetId" element={<BudgetView/>}/>
             </Routes>
           </div>
