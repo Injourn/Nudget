@@ -1,9 +1,9 @@
 import CategoryModel from "./CategoryModel";
-import SheetPlan from "./SheetPlanModel";
+import BudgetPlanModel from "./BudgetPlanModel";
 
 
 interface SheetCategoryModel{
-    plan_parent: SheetPlan;
+    plan_parent: BudgetPlanModel;
     category: CategoryModel;
     fixed: boolean;
     flat_amount: number;

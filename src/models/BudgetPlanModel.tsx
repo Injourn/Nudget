@@ -1,9 +1,10 @@
 import Cycle from "./Cycle";
 
-interface SheetPlan{
+interface BudgetPlanModel{
+    id: number;
     cycle: Cycle;
     StartDayOfMonth: number;
     StartDayOfWeek: number;
 }
 
-export default SheetPlan;
+export default BudgetPlanModel;
