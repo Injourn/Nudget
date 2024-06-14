@@ -15,7 +15,7 @@ function BudgetPlanCategoryTable(props:BudgetPlanCategoryTableProps){
     const columns = ["Category","Amount"];
     const [modalData,setModalData] = useState<BudgetCategoryModel>(defaultModalData());
 
-    invoke<BudgetCategoryModel[]>("get_all_budget_plan_categories",{budget:props.entry}).then(model => setItemData(model))
+    invoke<BudgetCategoryModel[]>("get_all_budget_plan_categories",{budgetPlan:props.entry}).then(model => setItemData(model))
 
     function tableRow(data:BudgetCategoryModel){
         return(

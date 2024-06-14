@@ -27,10 +27,10 @@ const GET_ALL_BUDGET: &str = "SELECT id,start_date,cycle,end_date FROM budget";
 const GET_ONE_BUDGET: &str = "SELECT id,start_date,cycle,end_date FROM budget WHERE budget.id = ?1";
 const DELETE_BUDGET: &str = "DELETE FROM budget WHERE id = ?1";
 
-const INSERT_BUDGET_PLAN: &str = "INSERT INTO budget_plan (cycle) VALUES (?1)";
-const UPDATE_BUDGET_PLAN: &str = "UPDATE budget_plan SET cycle = ?3 WHERE budget_plan.id = ?1";
-const GET_ALL_BUDGET_PLAN: &str = "SELECT id,cycle FROM budget_plan";
-const GET_ONE_BUDGET_PLAN: &str = "SELECT id,cycle FROM budget_plan WHERE budget_plan.id = ?1";
+const INSERT_BUDGET_PLAN: &str = "INSERT INTO budget_plan (cycle,start_date_of_month,start_date_of_week) VALUES (?1,?2,?3)";
+const UPDATE_BUDGET_PLAN: &str = "UPDATE budget_plan SET cycle = ?2, start_date_of_month = ?3,start_date_of_week = ?4 WHERE budget_plan.id = ?1";
+const GET_ALL_BUDGET_PLAN: &str = "SELECT id,cycle,start_date_of_month,start_date_of_week FROM budget_plan";
+const GET_ONE_BUDGET_PLAN: &str = "SELECT id,cycle,start_date_of_month,start_date_of_week FROM budget_plan WHERE budget_plan.id = ?1";
 const DELETE_BUDGET_PLAN: &str = "DELETE FROM budget_plan WHERE id = ?1";
 
 const INSERT_BUDGET_BUDGET_CATEGORIES: &str = "INSERT INTO budget_budget_category (budget_category_id,budget_id) VALUES (?1,?2)";
@@ -188,14 +188,14 @@ pub(crate) fn get_one_budget_sqlite(conn: &Connection,id: &str) -> anyhow::Resul
 }
 
 pub(crate) fn add_budget_plan_sqlite(conn: &Connection,budget_plan:BudgetPlan) -> anyhow::Result<i64>{
-    let result = insert_or_update_item(conn, [&budget_plan.cycle], INSERT_BUDGET_PLAN);
+    let result = insert_or_update_item(conn, (&budget_plan.cycle,&budget_plan.start_date_of_month,&budget_plan.start_date_of_week), INSERT_BUDGET_PLAN);
 
     result
 }
 
 pub(crate) fn update_budget_plan_sqlite(conn: &Connection,budget_plan:BudgetPlan) -> anyhow::Result<i64>{
     let result = insert_or_update_item(conn,
-         (&budget_plan.id,&budget_plan.cycle),
+         (&budget_plan.id,&budget_plan.cycle,&budget_plan.start_date_of_month,&budget_plan.start_date_of_week),
         UPDATE_BUDGET_PLAN);
     
     result

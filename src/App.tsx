@@ -5,6 +5,9 @@ import Home from "./pages/Home"
 import CategoryList from "./components/CategoryList";
 import BudgetView from "./components/BudgetView";
 import BudgetTable from "./components/BudgetTable";
+import BudgetPlanTable from "./components/BudgetPlanTable";
+import BudgetPlanView from "./components/BudgetPlanView";
+import BudgetPlanAdd from "./components/BudgetPlanAdd";
 
 function App() {
   
@@ -21,6 +24,9 @@ function App() {
               <Route path="/categories" element={<CategoryList/>}/>
               <Route path="/budget" element={<BudgetTable />} />
               <Route path="/budget/:budgetId" element={<BudgetView/>}/>
+              <Route path="/budgetPlan/" element={<BudgetPlanTable/>}/>
+              <Route path="/budgetPlan/new" element={<BudgetPlanAdd/>}/>
+              <Route path="/budgetPlan/:budgetPlanId" element={<BudgetPlanView/>}/>
             </Routes>
           </div>
         </div>
