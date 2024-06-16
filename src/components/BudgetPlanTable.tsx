@@ -16,7 +16,7 @@ function BudgetPlanTable(){
         
         return(
             <>
-                <td></td>
+                <td>{data.name}</td>
                 <td>{data.cycle}</td>
                 <td>{data.cycle == Cycle.MONTHLY ? data.start_date_of_month : numberToDayOfWeek(data.start_date_of_week ?? -1)}</td>
             </>

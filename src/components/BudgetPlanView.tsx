@@ -3,6 +3,7 @@ import BudgetPlanCategoryTable from "./BudgetPlanCategoryTable"
 import BudgetPlanModel from "../models/BudgetPlanModel";
 import { invoke } from "@tauri-apps/api";
 import { useParams } from "react-router-dom";
+import BudgetPlanAddEdit from "./BudgetPlanAddEdit";
 
 
 function BudgetPlanView(props:any){
@@ -13,7 +14,9 @@ function BudgetPlanView(props:any){
 
     return(
         <>
+            <h1>{budgetPlan.name}</h1>
             <BudgetPlanCategoryTable entry={budgetPlan}/>
+            {budgetPlan.id && <BudgetPlanAddEdit entry={budgetPlan}/> }
         </>
     )
 }

@@ -19,7 +19,13 @@ function GenericFormInput(props:GenericFormInputProps){
                 </label>
             </div>
             <div className="col-auto">
-                <input type={props.type} id={props.id} className="form-control" value={props.item} onChange={props.onChange}/>
+                <input 
+                 type={props.type} 
+                 id={props.id} 
+                 className={"form-control" + (props.type == "checkbox" && "form-check-input")}
+                 value={props.item} 
+                 checked={props.item}
+                 onChange={props.onChange}/>
             </div>
         </div>
     )

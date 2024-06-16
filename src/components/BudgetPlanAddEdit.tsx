@@ -7,11 +7,13 @@ import GenericFormInput from "./forms/GenericFormInput";
 import { invoke } from "@tauri-apps/api";
 import { useNavigate } from "react-router-dom";
 
+interface BudgetPlanAddProps{
+    entry?:BudgetPlanModel;
+}
 
-
-function BudgetPlanAdd(props:any){
-    const [item,setItem] = useState<BudgetPlanModel>({id:0} as BudgetPlanModel);
-    const [showDayOfMonth,setShowDayOfMonth] = useState<boolean>(true);
+function BudgetPlanAddEdit(props:BudgetPlanAddProps){
+    const [item,setItem] = useState<BudgetPlanModel>(props.entry ?? {id:0, cycle: Cycle.MONTHLY} as BudgetPlanModel);
+    const [showDayOfMonth,setShowDayOfMonth] = useState<boolean>(item.cycle == Cycle.MONTHLY);
     const navigate = useNavigate();
 
     function onSubmit(){
@@ -20,14 +22,27 @@ function BudgetPlanAdd(props:any){
         } else {
             item.start_date_of_month = undefined;
         }
-
-        invoke<number>("add_budget_plan",{budgetPlan:item}).then(id => navigate("/budgetPlan/" + id))
+        if(item.id == 0){
+            invoke<number>("add_budget_plan",{budgetPlan:item}).then(id => navigate("/budgetPlan/" + id));
+        } else {
+            invoke<number>("update_budget_plan",{budgetPlan:item})
+        }
         event?.preventDefault();
+    }
+
+    function onRemove(){
+        invoke("remove_budget_plan",{budgetPlan:item})
     }
 
 
     return (
-        <GenericForm onSubmit={onSubmit}>
+        <GenericForm onSubmit={onSubmit} edit={item.id > 0} onRemove={onRemove}>
+            <GenericFormInput 
+             onChange={(e) => item.name = e.target.value}
+             id={"name"} 
+             label={"Name"} 
+             item={item.name} 
+             type={"text"} />
             <GenericSelectInput 
              onChange={(e) => {item.cycle = Cycle[e.target.value as keyof typeof Cycle]; setShowDayOfMonth(item.cycle == Cycle.MONTHLY)}} 
              id={"cycle"} label={"Budget Cycle"} 
@@ -54,9 +69,13 @@ function BudgetPlanAdd(props:any){
 
                 </GenericSelectInput>
             }
+            <GenericFormInput 
+             onChange={(e) =>{item.active = !item.active}} 
+             id={"active"} label={"Active"} 
+             item={item.active} type={"checkbox"} />
         </GenericForm>
     )
 
 }
 
-export default BudgetPlanAdd;
+export default BudgetPlanAddEdit;

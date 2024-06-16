@@ -7,7 +7,7 @@ import BudgetView from "./components/BudgetView";
 import BudgetTable from "./components/BudgetTable";
 import BudgetPlanTable from "./components/BudgetPlanTable";
 import BudgetPlanView from "./components/BudgetPlanView";
-import BudgetPlanAdd from "./components/BudgetPlanAdd";
+import BudgetPlanAddEdit from "./components/BudgetPlanAddEdit";
 
 function App() {
   
@@ -25,7 +25,7 @@ function App() {
               <Route path="/budget" element={<BudgetTable />} />
               <Route path="/budget/:budgetId" element={<BudgetView/>}/>
               <Route path="/budgetPlan/" element={<BudgetPlanTable/>}/>
-              <Route path="/budgetPlan/new" element={<BudgetPlanAdd/>}/>
+              <Route path="/budgetPlan/new" element={<BudgetPlanAddEdit/>}/>
               <Route path="/budgetPlan/:budgetPlanId" element={<BudgetPlanView/>}/>
             </Routes>
           </div>
