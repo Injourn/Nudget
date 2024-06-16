@@ -45,9 +45,9 @@ function BudgetPlanCategoryTable(props:BudgetPlanCategoryTableProps){
         return undefined;
     }
 
-    function addBudgetBudgetCategory(budgetCategoryId:number){
+    function addBudgetPlanCategory(budgetCategoryId:number){
         console.log(budgetCategoryId)
-        invoke("add_budget_budget_category",{budgetCategoryId:budgetCategoryId,budgetId:props.entry.id})
+        invoke("add_budget_plan_category",{budgetCategoryId:budgetCategoryId,budgetPlanId:props.entry.id})
     }
 
     return(
@@ -64,7 +64,7 @@ function BudgetPlanCategoryTable(props:BudgetPlanCategoryTableProps){
              >
             </Table>
             <Modal name={"budgetCategoryModal"} title={"Budget Category"}>
-                <BudgetCategoryAddEdit entry={modalData} parentAdd={addBudgetBudgetCategory}/>
+                <BudgetCategoryAddEdit entry={modalData} parentAdd={addBudgetPlanCategory}/>
             </Modal>
         </>
     )
