@@ -30,7 +30,7 @@ function TransactionAddEdit(props: any){
     return(
         <GenericForm modalName={props.modalName} onSubmit={addTransaction} edit={item.id > 0} onRemove={removeItem}>
             <GenericFormInput onChange={(e) => item.amount = e.target.value} id={"amount"}
-                label={"Amount"} item={item.amount} type={"text"}/>
+                label={"Amount"} item={item.amount} type={"text"} numeric={true}/>
             <GenericSelectInput onChange={(e) => item.category_id = Number(e.target.value)} id={"category"}
                 label={"Category"} item={item.category_id}>
 

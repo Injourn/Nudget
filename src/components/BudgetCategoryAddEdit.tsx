@@ -28,7 +28,7 @@ function BudgetCategoryAddEdit(props:BudgetCategoryAddEditProps){
     return(
         <GenericForm onSubmit={addBudgetCategory}>
             <GenericFormInput onChange={(e) => item.flat_amount = e.target.value} id={"amount"}
-             label={"Amount"} item={item.flat_amount} type={"text"} />
+             label={"Amount"} item={item.flat_amount} type={"text"} numeric={true}/>
             <GenericSelectInput onChange={(e) => item.category_id = Number(e.target.value)} id={"category"}
              label={"Category"} item={item.category_id}>
                 {categories.map((data) =>
