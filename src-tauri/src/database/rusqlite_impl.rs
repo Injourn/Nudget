@@ -1,7 +1,7 @@
 use rusqlite::{Connection, Params};
 use serde::Deserialize;
 
-use crate::models::{budget::Budget, budget_budget_category::BudgetBudgetCategory, budget_category::{self, BudgetCategory}, budget_plan::BudgetPlan, budget_plan_category::BudgetPlanCategory, category::Category, response::{budget_statistics_response_model::BudgetStatisticsResponseModel, transaction_response_model::TransactionResponseModel}, transaction::{self, Transaction}};
+use crate::models::{budget::Budget, budget_budget_category::BudgetBudgetCategory, budget_category::{self, BudgetCategory}, budget_plan::BudgetPlan, budget_plan_category::BudgetPlanCategory, category::Category, request::transaction_in_range_request_model::TransactionInRangeRequestModel, response::{budget_statistics_response_model::BudgetStatisticsResponseModel, transaction_response_model::TransactionResponseModel}, transaction::{self, Transaction}};
 
 const GET_ALL_TRANSACTIONS: &str = "Select transaction_item.id, amount,c.id as category_id, c.name as category_name, transaction_date, transaction_item.name FROM transaction_item join category c on c.id = transaction_item.category_id";
 const GET_ONE_TRANSACTION: &str = "Select transaction_item.id, amount,c.id as category_id, c.name as category_name, transaction_date, transaction_item.name FROM transaction_item join category c on c.id = transaction_item.category_id where id = ?1";
@@ -57,6 +57,11 @@ const GET_ALL_BUDGET_STATISTICS: &str = "SELECT
     JOIN category c
         ON c.id = bc.category_id
     WHERE bbc.budget_id = ?1";
+
+const GET_ALL_TRANSACTIONS_IN_RANGE: &str = "SELECT * FROM
+    transaction_item
+WHERE 
+    transaction_date BETWEEN ?1 AND ?2";
 
 pub(crate) fn get_transaction_sqlite(conn: &Connection) -> anyhow::Result<Vec<TransactionResponseModel>> {
     let result = get_all::<TransactionResponseModel>(conn,GET_ALL_TRANSACTIONS);
@@ -259,6 +264,12 @@ pub(crate) fn remove_budget_plan_category_sqlite(conn: &Connection,budget_plan_c
 
 pub(crate) fn get_active_budget_statistics_sqlite(conn: &Connection,budget:Budget) -> anyhow::Result<Vec<BudgetStatisticsResponseModel>>{
     let result = get_by_params(conn, [budget.id], GET_ALL_BUDGET_STATISTICS);
+
+    result
+}
+
+pub(crate) fn get_transactions_in_range_sqlite(conn: &Connection,request:TransactionInRangeRequestModel) -> anyhow::Result<Vec<TransactionResponseModel>>{
+    let result = get_by_params(conn, (&request.start_date,request.end_date),GET_ALL_TRANSACTIONS_IN_RANGE);
 
     result
 }

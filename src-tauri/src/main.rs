@@ -6,6 +6,7 @@ use std::sync::Mutex;
 use rusqlite::Connection;
 
 mod commands {
+    pub(crate) mod get_transactions_in_range;
     pub(crate) mod get_transaction;
     pub(crate) mod get_one_transaction;
     pub(crate) mod add_transaction;
@@ -48,6 +49,9 @@ mod models {
     pub(crate) mod cycle;
     pub(crate) mod budget_plan_category;
     pub(crate) mod budget_budget_category;
+    pub mod request{
+        pub(crate) mod transaction_in_range_request_model;
+    }
     pub mod response{
         pub(crate) mod transaction_response_model;
         pub(crate) mod budget_statistics_response_model;
@@ -70,6 +74,7 @@ fn main() {
     tauri::Builder::default()
         .manage(Mutex::new(conn))
         .invoke_handler(tauri::generate_handler![greet,
+            crate::commands::get_transactions_in_range::get_transactions_in_range,
             crate::commands::get_all_categories::get_all_categories,
             crate::commands::get_one_category::get_one_category,
             crate::commands::add_category::add_category,
