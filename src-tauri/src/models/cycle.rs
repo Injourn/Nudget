@@ -11,9 +11,9 @@ pub(crate) enum Cycle{
 impl Cycle {
     fn as_str(&self) -> &'static str {
         match self {
-            Cycle::WEEKLY => "Weekly",
-            Cycle::MONTHLY => "Monthly",
-            Cycle::BIWEEKLY => "BiWeekly"
+            Cycle::WEEKLY => "WEEKLY",
+            Cycle::MONTHLY => "MONTHLY",
+            Cycle::BIWEEKLY => "BIWEEKLY"
         }
     }
 }

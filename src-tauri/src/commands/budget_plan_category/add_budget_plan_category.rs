@@ -7,9 +7,11 @@ use crate::{database::rusqlite_impl::add_budget_plan_category_sqlite, models::{b
 
 
 #[tauri::command]
-pub(crate) fn add_budget_plan_category(conn_state: State<'_, Mutex<Connection>>,budget_category:BudgetCategory,budget_plan:BudgetPlan) {
+pub(crate) fn add_budget_plan_category(conn_state: State<'_, Mutex<Connection>>,budget_category_id:u32,budget_plan_id:u32) -> i64{
     let conn = conn_state.inner().lock().expect("could not get db connection");
     let conn = conn.deref();
 
-    let result = add_budget_plan_category_sqlite(conn,budget_plan,budget_category);
+    let result = add_budget_plan_category_sqlite(conn,budget_plan_id,budget_category_id).expect("Failed to insert");
+
+    result
 }

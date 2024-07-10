@@ -1,22 +1,16 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/tauri";
-import TransactionTable from "./components/TransactionTable";
+import Navbar from "./components/ui/Navbar";
+import Sidebar from "./components/ui/Sidebar";
+import {Route, Routes} from 'react-router-dom'
+import Home from "./pages/Home"
 import CategoryList from "./components/CategoryList";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
-import TransactionAddEdit from "./components/TransactionAddEdit";
-import Modal from "./components/Modal";
-import Plan from "./components/Plan";
+import BudgetView from "./components/BudgetView";
+import BudgetTable from "./components/BudgetTable";
+import BudgetPlanTable from "./components/BudgetPlanTable";
+import BudgetPlanView from "./components/BudgetPlanView";
+import BudgetPlanAddEdit from "./components/BudgetPlanAddEdit";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
-  }
+  
 
   return (
     <>
@@ -25,11 +19,16 @@ function App() {
         <div className="row">
           <Sidebar />
           <div className="col-lg-9">
-            <Plan />
-            <TransactionTable />
-            <CategoryList />
+            <Routes>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/categories" element={<CategoryList/>}/>
+              <Route path="/budget" element={<BudgetTable />} />
+              <Route path="/budget/:budgetId" element={<BudgetView/>}/>
+              <Route path="/budgetPlan/" element={<BudgetPlanTable/>}/>
+              <Route path="/budgetPlan/new" element={<BudgetPlanAddEdit/>}/>
+              <Route path="/budgetPlan/:budgetPlanId" element={<BudgetPlanView/>}/>
+            </Routes>
           </div>
-
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 enum Cycle {
-    WEEKLY,
-    MONTHLY,
-    BIWEEKLY
+    WEEKLY = "WEEKLY",
+    MONTHLY = "MONTHLY",
+    BIWEEKLY = "BIWEEKLY"
 }
 
 export default Cycle;
