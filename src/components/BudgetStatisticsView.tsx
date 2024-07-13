@@ -1,6 +1,6 @@
 import BudgetModel from "../models/BudgetModel";
 import { ReactNode, useState } from "react";
-import { invoke } from "@tauri-apps/api";
+import callTauri from "../functions/CallTauri";
 import Table from "./ui/Table";
 import BudgetStatisticsResponseModel from "../models/BudgetStatisticsResponseModel";
 
@@ -14,7 +14,7 @@ function BudgetStatisticsView(props:BudgetStatisticsViewProps){
     const [budgetStatistics,setBudgetStatistics] = useState<BudgetStatisticsResponseModel[]>([]);
     const categoryNames:string[] = ["Category","Amount budgeted","Amount remaining"];
 
-    invoke<BudgetStatisticsResponseModel[]>("get_active_budget_statistics",{budget:budget}).then(categories => setBudgetStatistics(categories));
+    callTauri<BudgetStatisticsResponseModel[]>("get_active_budget_statistics",{budget:budget}).then(categories => setBudgetStatistics(categories));
     function tableRow(data:BudgetStatisticsResponseModel): ReactNode{
         return(
             <>

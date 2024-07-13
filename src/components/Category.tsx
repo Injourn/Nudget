@@ -1,11 +1,11 @@
-import { invoke } from "@tauri-apps/api";
+import callTauri from "../functions/CallTauri";
 import CategoryModel from "../models/CategoryModel";
 import "./Category.css"
 
 function Category(props: any){
 
     function removeCategory(item: CategoryModel){
-        invoke("remove_category",{category:item})
+        callTauri("remove_category",{category:item})
     }
 
     return(

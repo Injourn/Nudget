@@ -8,6 +8,8 @@ import BudgetTable from "./components/BudgetTable";
 import BudgetPlanTable from "./components/BudgetPlanTable";
 import BudgetPlanView from "./components/BudgetPlanView";
 import BudgetPlanAddEdit from "./components/BudgetPlanAddEdit";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   
@@ -15,6 +17,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <ToastContainer/>
       <div className="container-fluid">
         <div className="row">
           <Sidebar />

@@ -1,30 +1,30 @@
-import { invoke } from "@tauri-apps/api/tauri";
 import TransactionRequestModel from "../models/TransactionRequestModel";
 import CategoryModel from "../models/CategoryModel";
 import { useState } from "react";
 import GenericForm from "./forms/GenericForm";
 import GenericFormInput from "./forms/GenericFormInput";
 import GenericSelectInput from "./forms/GenericSelectInput";
+import callTauri from "../functions/CallTauri";
 
 
 function TransactionAddEdit(props: any){
     const item: TransactionRequestModel = props.entry;
     const [categories,setCategories]= useState<CategoryModel[]>([])
-    invoke<CategoryModel[]>("get_all_categories").then(items => setCategories(items));
+    callTauri<CategoryModel[]>("get_all_categories").then(items => setCategories(items));
 
     function addTransaction(formData:React.SyntheticEvent){
         console.log(item);
         if(item.id){
-            invoke("update_transaction",{transaction: item})
+            callTauri("update_transaction",{transaction: item})
         }
         else {
-            invoke("add_transaction",{transaction: item})
+            callTauri("add_transaction",{transaction: item})
         }
         formData.preventDefault();
     }
 
     function removeItem(){
-        invoke("remove_transaction",{transaction: item})
+        callTauri("remove_transaction",{transaction: item})
     }
     
     return(

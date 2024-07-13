@@ -1,21 +1,20 @@
 import { MouseEventHandler, ReactNode, useState } from "react";
-import { invoke } from "@tauri-apps/api/tauri";
+
 import TransactionRequestModel from "../models/TransactionRequestModel";
 import Modal from "./ui/Modal";
 import TransactionViewDetail from "./TransactionViewDetail";
 import TransactionAddEdit from "./TransactionAddEdit";
 import TransactionResponseModel from "../models/TransactionResponseModel";
 import Table from "./ui/Table";
+import callTauri from "../functions/CallTauri";
 
 function TransactionTable(){
     const defaultValue: string = getLocalDate();
     const [tableData, setTableData] = useState<TransactionResponseModel[]>([]);
-    //TODO: Consider removing add state here.
-    const [showAdd, setAdd] = useState<boolean>(false);
     const [modalData, setModalData] = useState<TransactionRequestModel>({} as TransactionRequestModel);
     const columnNames:string[] = ["Amount","Categories","Date","Name"]
 
-    invoke<TransactionResponseModel[]>("get_transaction").then(transactions => setTableData(transactions))
+    callTauri<TransactionResponseModel[]>("get_transaction").then(transactions => setTableData(transactions))
 
     function getLocalDate() : string{
         const date:Date = new Date();

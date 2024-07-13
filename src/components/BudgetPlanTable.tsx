@@ -1,7 +1,7 @@
-import { MouseEventHandler, ReactNode, useState } from "react";
+import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
 import Table from "./ui/Table";
 import { useNavigate } from "react-router-dom";
-import { invoke } from "@tauri-apps/api";
+import callTauri from "../functions/CallTauri";
 import BudgetPlanModel from "../models/BudgetPlanModel";
 import Cycle from "../models/Cycle";
 
@@ -10,7 +10,10 @@ function BudgetPlanTable(){
     const [tableData,setTableData] = useState<BudgetPlanModel[]>([]);
     const columns = ["Table Name", "Cycle","Start Date/Day"];
     const navigate = useNavigate();
-    invoke<BudgetPlanModel[]>("get_all_budget_plan").then(result => setTableData(result));
+    useEffect(() => {
+        callTauri<BudgetPlanModel[]>("get_all_budget_plan").then(result => setTableData(result));
+    },[])
+    
 
     function tableRow(data: BudgetPlanModel): ReactNode {
         

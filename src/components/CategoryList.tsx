@@ -1,15 +1,15 @@
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import CategoryModel from "../models/CategoryModel";
 import Modal from "./ui/Modal";
 import CategoryAddEdit from "./CategoryAddEdit";
-import { invoke } from "@tauri-apps/api";
+import callTauri from "../functions/CallTauri";
 import DataList from "./ui/DataList";
 
 function CategoryList(){
     const [modalData, setModalData] = useState<CategoryModel>({} as CategoryModel);
     const [tableData, setTableData] = useState<CategoryModel[]>([]);
 
-    invoke<CategoryModel[]>("get_all_categories").then(categories => setTableData(categories));
+    callTauri<CategoryModel[]>("get_all_categories").then(categories => setTableData(categories));
     
     function changeModalData(model:CategoryModel){
         setModalData(model);

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import BudgetModel from "../models/BudgetModel";
-import { invoke } from "@tauri-apps/api";
+import callTauri from "../functions/CallTauri";
 import BudgetStatisticsView from "./BudgetStatisticsView";
 import { useParams } from "react-router-dom";
 
@@ -10,7 +10,7 @@ function BudgetView(props:any){
     let budgetId = params.budgetId ?? props.budgetId;
     const [budget,setBudget] = useState<BudgetModel>({} as BudgetModel);
 
-    invoke<BudgetModel>("get_one_budget",{id:budgetId}).then(budget => setBudget(budget));
+    callTauri<BudgetModel>("get_one_budget",{id:budgetId}).then(budget => setBudget(budget));
 
     return (
         <>

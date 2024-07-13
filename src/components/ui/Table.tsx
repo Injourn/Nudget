@@ -33,7 +33,7 @@ function Table(props:TableProps){
                     </tr> : null
                 }
 
-                {props.tableData.map((data) => 
+                { Array.isArray(props.tableData) && props.tableData.map((data) => 
                     props.editable ? 
                     <tr  data-bs-toggle="modal" data-bs-target={"#" + props.modalTarget} onClick={() => props.onRowClick?.(data)}>
                         {props.tableRow(data)}

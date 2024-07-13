@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BudgetCategoryModel from "../models/BudgetCategoryModel";
 import CategoryModel from "../models/CategoryModel";
-import { invoke } from "@tauri-apps/api";
+import callTauri from "../functions/CallTauri";
 import GenericForm from "./forms/GenericForm";
 import GenericFormInput from "./forms/GenericFormInput";
 import GenericSelectInput from "./forms/GenericSelectInput";
@@ -16,12 +16,12 @@ interface BudgetCategoryAddEditProps{
 function BudgetCategoryAddEdit(props:BudgetCategoryAddEditProps){
     const item: BudgetCategoryModel = props.entry;
     const [categories,setCategories]= useState<CategoryModel[]>([]);
-    invoke<CategoryModel[]>("get_all_categories").then(items => setCategories(items));
+    callTauri<CategoryModel[]>("get_all_categories").then(items => setCategories(items));
     
     function addBudgetCategory(formData:React.SyntheticEvent){
         item.fixed = false;
         console.log(item);
-        invoke<number>("add_budget_category",{budgetCategory: item}).then(newId => props.parentAdd(newId));
+        callTauri<number>("add_budget_category",{budgetCategory: item}).then(newId => props.parentAdd(newId));
         formData.preventDefault();
     }
     

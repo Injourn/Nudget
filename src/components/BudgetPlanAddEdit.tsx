@@ -1,10 +1,10 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { useState } from "react";
 import GenericForm from "./forms/GenericForm";
 import GenericSelectInput from "./forms/GenericSelectInput";
 import BudgetPlanModel from "../models/BudgetPlanModel";
 import Cycle from "../models/Cycle";
 import GenericFormInput from "./forms/GenericFormInput";
-import { invoke } from "@tauri-apps/api";
+import callTauri from "../functions/CallTauri";
 import { useNavigate } from "react-router-dom";
 
 interface BudgetPlanAddProps{
@@ -23,15 +23,15 @@ function BudgetPlanAddEdit(props:BudgetPlanAddProps){
             item.start_date_of_month = undefined;
         }
         if(item.id == 0){
-            invoke<number>("add_budget_plan",{budgetPlan:item}).then(id => navigate("/budgetPlan/" + id));
+            callTauri<number>("add_budget_plan",{budgetPlan:item}).then(id => navigate("/budgetPlan/" + id));
         } else {
-            invoke<number>("update_budget_plan",{budgetPlan:item})
+            callTauri<number>("update_budget_plan",{budgetPlan:item})
         }
         event?.preventDefault();
     }
 
     function onRemove(){
-        invoke("remove_budget_plan",{budgetPlan:item})
+        callTauri("remove_budget_plan",{budgetPlan:item})
     }
 
 

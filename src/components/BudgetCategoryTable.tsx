@@ -1,6 +1,6 @@
 import { MouseEventHandler, useState } from "react";
 import BudgetCategoryModel from "../models/BudgetCategoryModel";
-import { invoke } from "@tauri-apps/api";
+import callTauri from "../functions/CallTauri";
 import Table from "./ui/Table";
 import Modal from "./ui/Modal";
 import BudgetCategoryAddEdit from "./BudgetCategoryAddEdit";
@@ -16,7 +16,7 @@ function BudgetCategoryTable(props:BudgetCategoryTableProps){
     const columns = ["Category","Amount"];
     const [modalData,setModalData] = useState<BudgetCategoryModel>(defaultModalData());
 
-    invoke<BudgetCategoryModel[]>("get_all_budget_budget_categories",{budget:props.entry}).then(model => setItemData(model))
+    callTauri<BudgetCategoryModel[]>("get_all_budget_budget_categories",{budget:props.entry}).then(model => setItemData(model))
 
     function tableRow(data:BudgetCategoryModel){
         return(
@@ -48,7 +48,7 @@ function BudgetCategoryTable(props:BudgetCategoryTableProps){
 
     function addBudgetBudgetCategory(budgetCategoryId:number){
         console.log(budgetCategoryId)
-        invoke("add_budget_budget_category",{budgetCategoryId:budgetCategoryId,budgetId:props.entry.id})
+        callTauri("add_budget_budget_category",{budgetCategoryId:budgetCategoryId,budgetId:props.entry.id})
     }
 
     return(

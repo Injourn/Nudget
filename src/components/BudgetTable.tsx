@@ -2,14 +2,14 @@ import { ReactNode, useState } from "react";
 import Table from "./ui/Table";
 import BudgetModel from "../models/BudgetModel";
 import { useNavigate } from "react-router-dom";
-import { invoke } from "@tauri-apps/api";
+import callTauri from "../functions/CallTauri";
 
 
 function BudgetTable(){
     const [tableData,setTableData] = useState<BudgetModel[]>([]);
     const columns = ["Table Name", "Date"];
     const navigate = useNavigate();
-    invoke<BudgetModel[]>("get_all_budget").then(result => setTableData(result));
+    callTauri<BudgetModel[]>("get_all_budget").then(result => setTableData(result));
 
     function tableRow(data: BudgetModel): ReactNode {
         return(

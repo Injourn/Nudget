@@ -1,4 +1,4 @@
-import { invoke } from "@tauri-apps/api";
+import callTauri from "../functions/CallTauri";
 import CategoryModel from "../models/CategoryModel";
 import GenericForm from "./forms/GenericForm";
 import GenericFormInput from "./forms/GenericFormInput";
@@ -10,15 +10,15 @@ function CategoryAddEdit(props:any){
     function onSubmit(formData:React.SyntheticEvent){
         console.log(item);
         if(item.id){
-            invoke("update_category",{category: item});
+            callTauri("update_category",{category: item});
         }
         else {
-            invoke("add_category",{category: item})
+            callTauri("add_category",{category: item})
         }
         formData.preventDefault();
     }
     function removeCategory(){
-        invoke("remove_category",{category:item})
+        callTauri("remove_category",{category:item})
     }
 
     return (
