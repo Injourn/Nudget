@@ -4,7 +4,7 @@ use serde::Deserialize;
 use crate::models::{
     budget::Budget,
     budget_budget_category::BudgetBudgetCategory,
-    budget_category::{self, BudgetCategory},
+    budget_category::BudgetCategory,
     budget_plan::BudgetPlan,
     budget_plan_category::BudgetPlanCategory,
     category::Category,
@@ -13,7 +13,7 @@ use crate::models::{
         budget_statistics_response_model::BudgetStatisticsResponseModel,
         transaction_response_model::TransactionResponseModel,
     },
-    transaction::{self, Transaction},
+    transaction::Transaction,
 };
 
 use super::sql_constants::{
@@ -87,7 +87,7 @@ pub(crate) fn remove_transaction_sqlite(
 ) -> anyhow::Result<()> {
     let result = remove_item(conn, DELETE_TRANSACTION, transaction.id);
 
-    Ok({})
+    result
 }
 
 pub(crate) fn add_category_sqlite(conn: &Connection, category: Category) -> anyhow::Result<i64> {
@@ -105,7 +105,7 @@ pub(crate) fn update_category_sqlite(conn: &Connection, category: Category) -> a
 pub(crate) fn remove_category_sqlite(conn: &Connection, category: Category) -> anyhow::Result<()> {
     let result = remove_item(conn, DELETE_CATEGORY, category.id);
 
-    Ok({})
+    result
 }
 
 pub(crate) fn get_all_categories_sqlite(conn: &Connection) -> anyhow::Result<Vec<Category>> {
@@ -163,7 +163,7 @@ pub(crate) fn remove_budget_category_sqlite(
 ) -> anyhow::Result<()> {
     let result = remove_item(conn, DELETE_BUDGET_CATEGORY, budget_category.id);
 
-    Ok({})
+    result
 }
 
 pub(crate) fn get_all_budget_categories_sqlite(
@@ -211,7 +211,7 @@ pub(crate) fn update_budget_sqlite(conn: &Connection, budget: Budget) -> anyhow:
 pub(crate) fn remove_budget_sqlite(conn: &Connection, budget: Budget) -> anyhow::Result<()> {
     let result = remove_item(conn, DELETE_BUDGET, budget.id);
 
-    Ok({})
+    result
 }
 
 pub(crate) fn get_all_budget_sqlite(conn: &Connection) -> anyhow::Result<Vec<Budget>> {
@@ -271,7 +271,7 @@ pub(crate) fn remove_budget_plan_sqlite(
 ) -> anyhow::Result<()> {
     let result = remove_item(conn, DELETE_BUDGET_PLAN, budget_plan.id);
 
-    Ok({})
+    result
 }
 
 pub(crate) fn get_all_budget_plan_sqlite(conn: &Connection) -> anyhow::Result<Vec<BudgetPlan>> {
@@ -398,7 +398,9 @@ fn remove_item_params<P: Params>(
     if execute.is_ok() {
         Ok({})
     } else {
-        Err(execute.unwrap_err().into())
+        let error = execute.unwrap_err();
+        println!("Error: {}", error);
+        Err(error.into())
     }
 }
 
@@ -407,7 +409,9 @@ fn remove_item(conn: &Connection, command: &str, id: u32) -> anyhow::Result<()> 
     if execute.is_ok() {
         Ok({})
     } else {
-        Err(execute.unwrap_err().into())
+        let error = execute.unwrap_err();
+        println!("Error: {}", error);
+        Err(error.into())
     }
 }
 
@@ -439,9 +443,7 @@ fn get_one_by_id<T: for<'a> Deserialize<'a>>(
         return Err(error_msg.into());
     }
     let mut stmt = prepared_stmt.unwrap();
-    let mut rows = stmt.query_map([parsed_id], |row| {
-        Ok(serde_rusqlite::from_row::<T>(row).unwrap())
-    })?;
+    let mut rows = stmt.query_map([parsed_id],map_rows)?;
 
     let transaction: T = rows.nth(0).unwrap()?;
     rows.last();
@@ -459,10 +461,7 @@ fn get_all<T: for<'a> Deserialize<'a>>(conn: &Connection, command: &str) -> anyh
         return Err(error_msg.into());
     }
     let mut stmt = prepared_stmt.unwrap();
-    let rows = stmt.query_map([], |row| {
-        let result = serde_rusqlite::from_row::<T>(row);
-        Ok(result.unwrap())
-    })?;
+    let rows = stmt.query_map([], map_rows)?;
 
     let mut transactions: Vec<T> = Vec::new();
 
@@ -486,11 +485,9 @@ fn get_by_params<P: Params, T: for<'a> Deserialize<'a>>(
         println!("failed to prepare statement: {}", error_msg);
         return Err(error_msg.into());
     }
+    
     let mut stmt = prepared_stmt.unwrap();
-    let rows = stmt.query_map(params, |row| {
-        let result = serde_rusqlite::from_row::<T>(row);
-        Ok(result.unwrap())
-    })?;
+    let rows = stmt.query_map(params,map_rows)?;
 
     let mut transactions: Vec<T> = Vec::new();
 
@@ -501,4 +498,13 @@ fn get_by_params<P: Params, T: for<'a> Deserialize<'a>>(
     stmt.finalize().unwrap();
 
     Ok(transactions)
+}
+
+fn map_rows<T: for<'a> Deserialize<'a>>(row: &rusqlite::Row) -> Result<T, rusqlite::Error> {
+    let mapped_row_result = serde_rusqlite::from_row::<T>(row);
+    let mapped_row = match mapped_row_result {
+        Ok(result) => result,
+        Err(error) => panic!("Invalid row name \"{row:?}\" ({error:?}"),
+    };
+    Ok(mapped_row)
 }
