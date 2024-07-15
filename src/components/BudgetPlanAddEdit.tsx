@@ -27,7 +27,6 @@ function BudgetPlanAddEdit(props:BudgetPlanAddProps){
         } else {
             callTauri<number>("update_budget_plan",{budgetPlan:item})
         }
-        event?.preventDefault();
     }
 
     function onRemove(){
@@ -44,7 +43,7 @@ function BudgetPlanAddEdit(props:BudgetPlanAddProps){
              item={item.name} 
              type={"text"} />
             <GenericSelectInput 
-             onChange={(e) => {item.cycle = Cycle[e.target.value as keyof typeof Cycle]; setShowDayOfMonth(item.cycle == Cycle.MONTHLY)}} 
+             onChange={(e) => {setItem({...item,cycle: Cycle[e.target.value as keyof typeof Cycle]}); setShowDayOfMonth(item.cycle == Cycle.MONTHLY)}} 
              id={"cycle"} label={"Budget Cycle"} 
              item={item.cycle}>
                 <option value={"MONTHLY"}>Monthly</option>
@@ -53,11 +52,11 @@ function BudgetPlanAddEdit(props:BudgetPlanAddProps){
             </GenericSelectInput>
 
             {showDayOfMonth ?
-                <GenericFormInput onChange={(e) => item.start_date_of_month = Number(e.target.value)}
+                <GenericFormInput onChange={(e) => setItem({...item,start_date_of_month: Number(e.target.value)})}
                  id={"startDayOfCycle"} label={"Start Day of the Month"} item={item.start_date_of_month} type={"text"} />
                 
             :
-                <GenericSelectInput onChange={(e) => item.start_date_of_week = Number(e.target.value)}
+                <GenericSelectInput onChange={(e) => setItem({...item,start_date_of_week: Number(e.target.value)})}
                  id={"startDayOfWeek"} label={"Start Day of the Week"} item={item.start_date_of_week}> 
                     <option value={0}>Sunday</option>
                     <option value={1}>Monday</option>
@@ -70,7 +69,7 @@ function BudgetPlanAddEdit(props:BudgetPlanAddProps){
                 </GenericSelectInput>
             }
             <GenericFormInput 
-             onChange={(e) =>{item.active = !item.active}} 
+             onChange={() =>{setItem({...item,active: !item.active})}}
              id={"active"} label={"Active"} 
              item={item.active} type={"checkbox"} />
         </GenericForm>

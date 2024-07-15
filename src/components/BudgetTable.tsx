@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Table from "./ui/Table";
 import BudgetModel from "../models/BudgetModel";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,9 @@ function BudgetTable(){
     const [tableData,setTableData] = useState<BudgetModel[]>([]);
     const columns = ["Table Name", "Date"];
     const navigate = useNavigate();
-    callTauri<BudgetModel[]>("get_all_budget").then(result => setTableData(result));
+    useEffect(() => {
+        callTauri<BudgetModel[]>("get_all_budget").then(result => setTableData(result));
+    },[]);
 
     function tableRow(data: BudgetModel): ReactNode {
         return(

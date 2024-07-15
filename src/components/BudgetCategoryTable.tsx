@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import BudgetCategoryModel from "../models/BudgetCategoryModel";
 import callTauri from "../functions/CallTauri";
 import Table from "./ui/Table";
@@ -15,8 +15,9 @@ function BudgetCategoryTable(props:BudgetCategoryTableProps){
     const [itemData,setItemData] = useState<BudgetCategoryModel[]>([]);
     const columns = ["Category","Amount"];
     const [modalData,setModalData] = useState<BudgetCategoryModel>(defaultModalData());
-
-    callTauri<BudgetCategoryModel[]>("get_all_budget_budget_categories",{budget:props.entry}).then(model => setItemData(model))
+    useEffect(() =>{
+        callTauri<BudgetCategoryModel[]>("get_all_budget_budget_categories",{budget:props.entry}).then(model => setItemData(model));
+    },[modalData,props.entry]);
 
     function tableRow(data:BudgetCategoryModel){
         return(

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BudgetModel from "../models/BudgetModel";
 import callTauri from "../functions/CallTauri";
 import BudgetStatisticsView from "./BudgetStatisticsView";
@@ -9,8 +9,9 @@ function BudgetView(props:any){
     let params = useParams();
     let budgetId = params.budgetId ?? props.budgetId;
     const [budget,setBudget] = useState<BudgetModel>({} as BudgetModel);
-
-    callTauri<BudgetModel>("get_one_budget",{id:budgetId}).then(budget => setBudget(budget));
+    useEffect(() => {
+        callTauri<BudgetModel>("get_one_budget",{id:budgetId}).then(budget => setBudget(budget));
+    },[]);
 
     return (
         <>

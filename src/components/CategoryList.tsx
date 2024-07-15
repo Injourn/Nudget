@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CategoryModel from "../models/CategoryModel";
 import Modal from "./ui/Modal";
 import CategoryAddEdit from "./CategoryAddEdit";
@@ -8,8 +8,9 @@ import DataList from "./ui/DataList";
 function CategoryList(){
     const [modalData, setModalData] = useState<CategoryModel>({} as CategoryModel);
     const [tableData, setTableData] = useState<CategoryModel[]>([]);
-
-    callTauri<CategoryModel[]>("get_all_categories").then(categories => setTableData(categories));
+    useEffect(() =>{
+        callTauri<CategoryModel[]>("get_all_categories").then(categories => setTableData(categories));
+    },[modalData]);
     
     function changeModalData(model:CategoryModel){
         setModalData(model);

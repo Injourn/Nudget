@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BudgetCategoryModel from "../models/BudgetCategoryModel";
 import CategoryModel from "../models/CategoryModel";
 import callTauri from "../functions/CallTauri";
@@ -14,22 +14,28 @@ interface BudgetCategoryAddEditProps{
 }
 
 function BudgetCategoryAddEdit(props:BudgetCategoryAddEditProps){
-    const item: BudgetCategoryModel = props.entry;
+    const [item,setItem] = useState<BudgetCategoryModel>({} as BudgetCategoryModel);
     const [categories,setCategories]= useState<CategoryModel[]>([]);
-    callTauri<CategoryModel[]>("get_all_categories").then(items => setCategories(items));
+
+    useEffect(() => {
+        setItem(props.entry);
+    },[props.entry]);
     
-    function addBudgetCategory(formData:React.SyntheticEvent){
+    useEffect(() => {
+        callTauri<CategoryModel[]>("get_all_categories").then(items => setCategories(items));
+    }, []);
+    
+    function addBudgetCategory(){
         item.fixed = false;
         console.log(item);
         callTauri<number>("add_budget_category",{budgetCategory: item}).then(newId => props.parentAdd(newId));
-        formData.preventDefault();
     }
     
     return(
         <GenericForm onSubmit={addBudgetCategory}>
-            <GenericFormInput onChange={(e) => item.flat_amount = e.target.value} id={"amount"}
+            <GenericFormInput onChange={(e) => setItem({...item,flat_amount: e.target.value})} id={"amount"}
              label={"Amount"} item={item.flat_amount} type={"text"} numeric={true}/>
-            <GenericSelectInput onChange={(e) => item.category_id = Number(e.target.value)} id={"category"}
+            <GenericSelectInput onChange={(e) => setItem({...item,category_id: Number(e.target.value)})} id={"category"}
              label={"Category"} item={item.category_id}>
                 {categories.map((data) =>
                     <option value={data.id}>{data.name}</option>

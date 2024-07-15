@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode, useState } from "react";
+import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
 
 import TransactionRequestModel from "../models/TransactionRequestModel";
 import Modal from "./ui/Modal";
@@ -14,7 +14,9 @@ function TransactionTable(){
     const [modalData, setModalData] = useState<TransactionRequestModel>({} as TransactionRequestModel);
     const columnNames:string[] = ["Amount","Categories","Date","Name"]
 
-    callTauri<TransactionResponseModel[]>("get_transaction").then(transactions => setTableData(transactions))
+    useEffect(() => {
+        callTauri<TransactionResponseModel[]>("get_transaction").then(transactions => setTableData(transactions))
+    },[modalData]);
 
     function getLocalDate() : string{
         const date:Date = new Date();
