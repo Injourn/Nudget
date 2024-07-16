@@ -7,15 +7,31 @@ import TransactionAddEdit from "./TransactionAddEdit";
 import TransactionResponseModel from "../models/TransactionResponseModel";
 import Table from "./ui/Table";
 import callTauri from "../functions/CallTauri";
+import BorderedWindow from "./ui/BorderedWindow";
+import TransactionRangeRequestModel from "../models/TransactionRangeRequestModel";
 
-function TransactionTable(){
+interface TransactionTableProps{
+    startDate?:string,
+    endDate?:string
+}
+
+function TransactionTable(props:TransactionTableProps){
     const defaultValue: string = getLocalDate();
     const [tableData, setTableData] = useState<TransactionResponseModel[]>([]);
     const [modalData, setModalData] = useState<TransactionRequestModel>({} as TransactionRequestModel);
     const columnNames:string[] = ["Amount","Categories","Date","Name"]
 
     useEffect(() => {
-        callTauri<TransactionResponseModel[]>("get_transaction").then(transactions => setTableData(transactions))
+        if(props.startDate && props.endDate){
+            let request:TransactionRangeRequestModel = {} as TransactionRangeRequestModel;
+            request.start_date = props.startDate;
+            request.end_date = props.endDate;
+            callTauri<TransactionResponseModel[]>("get_transactions_in_range",{transactionRequest:request})
+                .then(transactions => setTableData(transactions));
+        } else {
+            callTauri<TransactionResponseModel[]>("get_transaction").then(transactions => setTableData(transactions));
+        }
+        console.log(tableData)
     },[modalData]);
 
     function getLocalDate() : string{
@@ -63,7 +79,7 @@ function TransactionTable(){
     }
 
     return (
-        <>
+        <BorderedWindow>
             <Table 
             tableRow={tableRow}
             tableData={tableData}
@@ -81,7 +97,7 @@ function TransactionTable(){
             <Modal name="transactionModalAddEdit" title="Transaction">
                 <TransactionAddEdit modalName="transactionModalAddEdit" entry={modalData}/>
             </Modal>
-        </>
+        </BorderedWindow>
         
     )
 }

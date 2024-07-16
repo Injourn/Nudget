@@ -244,7 +244,13 @@ pub const GET_ALL_BUDGET_STATISTICS: &str =
       WHERE bbc.budget_id = ?1";
   
 pub const GET_ALL_TRANSACTIONS_IN_RANGE: &str = 
-  "SELECT * FROM
-      transaction_item
-  WHERE 
+  "SELECT transaction_item.id,
+       amount,
+       c.id AS category_id,
+       c.name AS category_name,
+       transaction_date,
+       transaction_item.name
+FROM transaction_item
+JOIN category c ON c.id = transaction_item.category_id
+WHERE 
       transaction_date BETWEEN ?1 AND ?2";

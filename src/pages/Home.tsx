@@ -9,7 +9,7 @@ function Home(){
         <>
             <Calendar />
             <BudgetView budgetId="1"/>
-            <TransactionTable />
+            <TransactionTable startDate="2024-06-04" endDate="2024-06-08" />
         </>
     )
 }
