@@ -11,7 +11,6 @@ function BudgetCalendar(props:any){
     let [selectedMonth,setSelectedMonth] = useState<string>(monthsAbbr[currentDate.getMonth()])
     let [selectedYear,setSelectedYear] = useState<number>(currentDate.getFullYear());
     let exampleYearList = [2023,2024,2025];
-    console.log(months[currentDate.getMonth()]);
         
     let index = monthsAbbr.indexOf(selectedMonth);
 

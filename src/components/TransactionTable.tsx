@@ -27,11 +27,10 @@ function TransactionTable(props:TransactionTableProps){
             request.start_date = props.startDate;
             request.end_date = props.endDate;
             callTauri<TransactionResponseModel[]>("get_transactions_in_range",{transactionRequest:request})
-                .then(transactions => setTableData(transactions));
+            .then(transaction => setTableData(transaction));
         } else {
             callTauri<TransactionResponseModel[]>("get_transaction").then(transactions => setTableData(transactions));
         }
-        console.log(tableData)
     },[modalData]);
 
     function getLocalDate() : string{

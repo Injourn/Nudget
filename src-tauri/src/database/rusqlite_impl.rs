@@ -382,7 +382,7 @@ pub(crate) fn get_transactions_in_range_sqlite(
 ) -> anyhow::Result<Vec<TransactionResponseModel>> {
     let result = get_by_params(
         conn,
-        (&request.start_date, request.end_date),
+        (&request.start_date, &request.end_date),
         GET_ALL_TRANSACTIONS_IN_RANGE,
     );
 
@@ -485,7 +485,6 @@ fn get_by_params<P: Params, T: for<'a> Deserialize<'a>>(
         println!("failed to prepare statement: {}", error_msg);
         return Err(error_msg.into());
     }
-    
     let mut stmt = prepared_stmt.unwrap();
     let rows = stmt.query_map(params,map_rows)?;
 
