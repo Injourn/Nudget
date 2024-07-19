@@ -3,9 +3,9 @@ import Cycle from "./Cycle";
 
 interface BudgetModel{
     id:number,
-    start_date: String,
+    start_date: string,
     cycle?: Cycle,
-    end_date: String
+    end_date: string
 }
 
 export default BudgetModel;

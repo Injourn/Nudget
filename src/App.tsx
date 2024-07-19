@@ -26,7 +26,7 @@ function App() {
               <Route path="/" element={<Home />}></Route>
               <Route path="/categories" element={<CategoryList/>}/>
               <Route path="/budget" element={<BudgetTable />} />
-              <Route path="/budget/:budgetId" element={<BudgetView/>}/>
+              <Route path="/budget/:budgetId" element={<BudgetView showTransactions={false}/>}/>
               <Route path="/budgetPlan/" element={<BudgetPlanTable/>}/>
               <Route path="/budgetPlan/new" element={<BudgetPlanAddEdit/>}/>
               <Route path="/budgetPlan/:budgetPlanId" element={<BudgetPlanView/>}/>
