@@ -22,7 +22,7 @@ function BudgetCategoryTable(props:BudgetCategoryTableProps){
     function tableRow(data:BudgetCategoryModel){
         return(
             <>
-                <td>{data.category_id}</td>
+                <td>{data.category_name}</td>
                 <td>{data.flat_amount}</td>
             </>
         )

@@ -3,11 +3,11 @@ use std::{ops::Deref, sync::Mutex};
 use rusqlite::Connection;
 use tauri::State;
 
-use crate::{database::rusqlite_impl::get_all_budget_plan_categories_sqlite, models::{budget_category::BudgetCategory, budget_plan::BudgetPlan, response::response::Response}};
+use crate::{database::rusqlite_impl::get_all_budget_plan_categories_sqlite, models::{ budget_plan::BudgetPlan, response::{budget_category_response_model::BudgetCategoryResponse, response::Response}}};
 
 
 #[tauri::command]
-pub(crate) fn get_all_budget_plan_categories(conn_state: State<'_, Mutex<Connection>>,budget_plan:BudgetPlan) -> Response<Vec<BudgetCategory>>{
+pub(crate) fn get_all_budget_plan_categories(conn_state: State<'_, Mutex<Connection>>,budget_plan:BudgetPlan) -> Response<Vec<BudgetCategoryResponse>>{
     let conn = conn_state.inner().lock().expect("could not get db connection");
     let conn = conn.deref();
 
