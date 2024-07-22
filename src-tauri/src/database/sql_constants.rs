@@ -190,9 +190,11 @@ pub const GET_ALL_BUDGET_BUDGET_CATEGORIES: &str =
        bc.category_id,
        bc.flat_amount,
        bc.percentage_amount,
-       bc.fixed
+       bc.fixed,
+       c.id category_id
 FROM budget_budget_category bbc
 JOIN budget_category bc ON bc.id = bbc.budget_category_id
+JOIN category c ON c.id = bc.category_id
 WHERE bbc.budget_id = ?1;";
 
 
@@ -213,9 +215,11 @@ pub const GET_ALL_BUDGET_PLAN_CATEGORIES: &str =
        bc.category_id,
        bc.flat_amount,
        bc.percentage_amount,
-       bc.fixed
+       bc.fixed,
+       c.name category_name
 FROM budget_plan_category bpc
 JOIN budget_category bc ON bc.id = bpc.budget_category_id
+JOIN category c ON c.id = bc.category_id
 WHERE bpc.budget_plan_id = ?1;";
 
 

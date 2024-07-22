@@ -16,13 +16,12 @@ function BudgetPlanCategoryTable(props:BudgetPlanCategoryTableProps){
     const [modalData,setModalData] = useState<BudgetCategoryModel>(defaultModalData());
     useEffect(() =>{
         callTauri<BudgetCategoryModel[]>("get_all_budget_plan_categories",{budgetPlan:props.entry}).then(model => setItemData(model))
-        console.log(itemData);
     },[props.entry,modalData]);
 
     function tableRow(data:BudgetCategoryModel){
         return(
             <>
-                <td>{data.category_id}</td>
+                <td>{data.category_name}</td>
                 <td>{data.flat_amount}</td>
             </>
         )

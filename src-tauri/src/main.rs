@@ -70,6 +70,7 @@ mod models {
         pub(crate) mod transaction_response_model;
         pub(crate) mod budget_statistics_response_model;
         pub(crate) mod response;
+        pub(crate) mod budget_category_response_model;
     }
 }
 

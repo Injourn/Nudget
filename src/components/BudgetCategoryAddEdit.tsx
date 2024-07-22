@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import BudgetCategoryModel from "../models/BudgetCategoryModel";
 import CategoryModel from "../models/CategoryModel";
 import callTauri from "../functions/CallTauri";
@@ -30,9 +30,15 @@ function BudgetCategoryAddEdit(props:BudgetCategoryAddEditProps){
         console.log(item);
         callTauri<number>("add_budget_category",{budgetCategory: item}).then(newId => props.parentAdd(newId));
     }
+
+    function removeBudgetCategory() : MouseEventHandler<HTMLButtonElement> | undefined{
+        callTauri("remove_budget_category",{budgetCategory: item});
+        location.reload()
+        return undefined
+    }
     
     return(
-        <GenericForm onSubmit={addBudgetCategory}>
+        <GenericForm onSubmit={addBudgetCategory} onRemove={removeBudgetCategory} edit={true}>
             <GenericFormInput onChange={(e) => setItem({...item,flat_amount: e.target.value})} id={"amount"}
              label={"Amount"} item={item.flat_amount} type={"text"} numeric={true}/>
             <GenericSelectInput onChange={(e) => setItem({...item,category_id: Number(e.target.value)})} id={"category"}

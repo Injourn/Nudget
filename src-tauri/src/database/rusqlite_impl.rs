@@ -10,8 +10,7 @@ use crate::models::{
     category::Category,
     request::transaction_in_range_request_model::TransactionInRangeRequestModel,
     response::{
-        budget_statistics_response_model::BudgetStatisticsResponseModel,
-        transaction_response_model::TransactionResponseModel,
+        budget_category_response_model::BudgetCategoryResponse, budget_statistics_response_model::BudgetStatisticsResponseModel, transaction_response_model::TransactionResponseModel
     },
     transaction::Transaction,
 };
@@ -306,7 +305,7 @@ pub(crate) fn add_budget_budget_category_sqlite(
 pub(crate) fn get_all_budget_budget_categories_sqlite(
     conn: &Connection,
     budget: Budget,
-) -> anyhow::Result<Vec<BudgetCategory>> {
+) -> anyhow::Result<Vec<BudgetCategoryResponse>> {
     let result = get_by_params(conn, [budget.id], GET_ALL_BUDGET_BUDGET_CATEGORIES);
 
     result
@@ -345,7 +344,7 @@ pub(crate) fn add_budget_plan_category_sqlite(
 pub(crate) fn get_all_budget_plan_categories_sqlite(
     conn: &Connection,
     budget_plan: BudgetPlan,
-) -> anyhow::Result<Vec<BudgetCategory>> {
+) -> anyhow::Result<Vec<BudgetCategoryResponse>> {
     let result = get_by_params(conn, [budget_plan.id], GET_ALL_BUDGET_PLAN_CATEGORIES);
 
     result
