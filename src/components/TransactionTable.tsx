@@ -31,7 +31,7 @@ function TransactionTable(props:TransactionTableProps){
         } else {
             callTauri<TransactionResponseModel[]>("get_transaction").then(transactions => setTableData(transactions));
         }
-    },[modalData]);
+    },[props,modalData]);
 
     function getLocalDate() : string{
         const date:Date = new Date();

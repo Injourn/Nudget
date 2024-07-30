@@ -9,7 +9,7 @@ async function callTauri<T>(commandName:string,args?: InvokeArgs){
     if(response.success){
         return response.response;
     } else {
-        console.log(response.error_msg);
+        console.log("From: " + commandName + "\nError:" + response.error_msg);
         toast.error("Error: "  + response.error_msg);
         return {} as T;
     }

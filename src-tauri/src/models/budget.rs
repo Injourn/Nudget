@@ -1,6 +1,6 @@
 use super::cycle::Cycle;
 
-#[derive(serde::Serialize,serde::Deserialize)]
+#[derive(serde::Serialize,serde::Deserialize,Clone)]
 pub(crate) struct Budget{
     pub(crate) id:u32,
     pub(crate) start_date: String,

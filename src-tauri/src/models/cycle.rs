@@ -1,7 +1,7 @@
 use rusqlite::{types::ToSqlOutput, ToSql};
 
 
-#[derive(serde::Serialize,serde::Deserialize)]
+#[derive(serde::Serialize,serde::Deserialize,Clone)]
 pub(crate) enum Cycle{
     WEEKLY,
     MONTHLY,

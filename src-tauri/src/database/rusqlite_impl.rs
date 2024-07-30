@@ -16,15 +16,7 @@ use crate::models::{
 };
 
 use super::sql_constants::{
-    ADD_TRANSACTION, DELETE_BUDGET, DELETE_BUDGET_BUDGET_CATEGORY, DELETE_BUDGET_CATEGORY,
-    DELETE_BUDGET_PLAN, DELETE_BUDGET_PLAN_CATEGORY, DELETE_CATEGORY, DELETE_TRANSACTION,
-    GET_ALL_BUDGET, GET_ALL_BUDGET_BUDGET_CATEGORIES, GET_ALL_BUDGET_CATEGORIES,
-    GET_ALL_BUDGET_PLAN, GET_ALL_BUDGET_PLAN_CATEGORIES, GET_ALL_BUDGET_STATISTICS,
-    GET_ALL_CATEGORIES, GET_ALL_TRANSACTIONS, GET_ALL_TRANSACTIONS_IN_RANGE, GET_ONE_BUDGET,
-    GET_ONE_BUDGET_CATEGORY, GET_ONE_BUDGET_PLAN, GET_ONE_CATEGORY, GET_ONE_TRANSACTION,
-    INSERT_BUDGET, INSERT_BUDGET_BUDGET_CATEGORIES, INSERT_BUDGET_CATEGORY, INSERT_BUDGET_PLAN,
-    INSERT_BUDGET_PLAN_CATEGORIES, INSERT_CATEGORY, UPDATE_BUDGET, UPDATE_BUDGET_CATEGORY,
-    UPDATE_BUDGET_PLAN, UPDATE_CATEGORY, UPDATE_TRANSACTION,
+    ADD_TRANSACTION, DELETE_BUDGET, DELETE_BUDGET_BUDGET_CATEGORY, DELETE_BUDGET_CATEGORY, DELETE_BUDGET_PLAN, DELETE_BUDGET_PLAN_CATEGORY, DELETE_CATEGORY, DELETE_TRANSACTION, GET_ACTIVE_BUDGET_PLAN, GET_ALL_BUDGET, GET_ALL_BUDGET_BUDGET_CATEGORIES, GET_ALL_BUDGET_CATEGORIES, GET_ALL_BUDGET_PLAN, GET_ALL_BUDGET_PLAN_CATEGORIES, GET_ALL_BUDGET_STATISTICS, GET_ALL_CATEGORIES, GET_ALL_DEFAULT_BUDGET_STATISTICS, GET_ALL_TRANSACTIONS, GET_ALL_TRANSACTIONS_IN_RANGE, GET_ONE_BUDGET, GET_ONE_BUDGET_BY_DATE, GET_ONE_BUDGET_CATEGORY, GET_ONE_BUDGET_PLAN, GET_ONE_CATEGORY, GET_ONE_TRANSACTION, INSERT_BUDGET, INSERT_BUDGET_BUDGET_CATEGORIES, INSERT_BUDGET_CATEGORY, INSERT_BUDGET_PLAN, INSERT_BUDGET_PLAN_CATEGORIES, INSERT_CATEGORY, UPDATE_BUDGET, UPDATE_BUDGET_CATEGORY, UPDATE_BUDGET_PLAN, UPDATE_CATEGORY, UPDATE_TRANSACTION
 };
 
 pub(crate) fn get_transaction_sqlite(
@@ -182,6 +174,15 @@ pub(crate) fn get_one_budget_category_sqlite(
     result
 }
 
+pub(crate) fn get_one_budget_by_date_sqlite(
+    conn: &Connection,
+    range: &str,
+) -> anyhow::Result<Vec<Budget>> {
+    let result = get_by_params(conn, [range], GET_ONE_BUDGET_BY_DATE);
+
+    result
+}
+
 pub(crate) fn add_budget_sqlite(conn: &Connection, budget: Budget) -> anyhow::Result<i64> {
     let result = insert_or_update_item(
         conn,
@@ -288,6 +289,14 @@ pub(crate) fn get_one_budget_plan_sqlite(
     result
 }
 
+pub(crate) fn get_active_budget_plan_sqlite(
+    conn: &Connection,
+) -> anyhow::Result<BudgetPlan> {
+    let result = get_one::<BudgetPlan>(conn, GET_ACTIVE_BUDGET_PLAN);
+
+    result
+}
+
 pub(crate) fn add_budget_budget_category_sqlite(
     conn: &Connection,
     budget_id: u32,
@@ -374,6 +383,14 @@ pub(crate) fn get_active_budget_statistics_sqlite(
 
     result
 }
+pub(crate) fn get_default_budget_statistics_sqlite(
+    conn: &Connection,
+    range: TransactionInRangeRequestModel,
+) -> anyhow::Result<Vec<BudgetStatisticsResponseModel>> {
+    let result = get_by_params(conn, (&range.start_date,&range.end_date), GET_ALL_DEFAULT_BUDGET_STATISTICS);
+
+    result
+}
 
 pub(crate) fn get_transactions_in_range_sqlite(
     conn: &Connection,
@@ -427,6 +444,27 @@ fn insert_or_update_item<P: Params>(
         println!("Error: {}", error);
         Err(error.into())
     }
+}
+
+fn get_one<T: for<'a> Deserialize<'a>>(
+    conn: &Connection,
+    command: &str,
+) -> anyhow::Result<T> {
+    let prepared_stmt = conn.prepare(command);
+    if prepared_stmt.is_err() {
+        let error_msg = prepared_stmt.unwrap_err();
+        println!("failed to prepare statement: {}", error_msg);
+        return Err(error_msg.into());
+    }
+    let mut stmt = prepared_stmt.unwrap();
+    let mut rows = stmt.query_map([],map_rows)?;
+
+    let transaction: T = rows.nth(0).unwrap()?;
+    rows.last();
+
+    stmt.finalize().unwrap();
+
+    Ok(transaction)
 }
 
 fn get_one_by_id<T: for<'a> Deserialize<'a>>(

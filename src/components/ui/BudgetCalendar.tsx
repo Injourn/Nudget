@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BudgetView from "../BudgetView";
+import callTauri from "../../functions/CallTauri";
+import BudgetPlanModel from "../../models/BudgetPlanModel";
 
 
 function BudgetCalendar(props:any){
@@ -8,9 +10,15 @@ function BudgetCalendar(props:any){
         "Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
     let months = ["January","February","March","April","May",
         "June","July","August","September","October","November","December"];
-    let [selectedMonth,setSelectedMonth] = useState<string>(monthsAbbr[currentDate.getMonth()])
-    let [selectedYear,setSelectedYear] = useState<number>(currentDate.getFullYear());
+    let selectedMonthNumeric = currentDate.getMonth()
+    let [selectedMonth,setSelectedMonth] = useState<string>(monthsAbbr[selectedMonthNumeric]);
+    let [selectedYear,setSelectedYear] = useState<number>(currentDate.getFullYear());;
     let exampleYearList = [2023,2024,2025];
+    let [activeBudgetPlan,setActiveBudgetPlan] = useState<BudgetPlanModel>({} as BudgetPlanModel);
+    useEffect(() => {
+        callTauri<BudgetPlanModel>("get_active_budget_plan").then(budgetPlan => setActiveBudgetPlan(budgetPlan));
+    },[])
+
         
     let index = monthsAbbr.indexOf(selectedMonth);
 
@@ -63,7 +71,7 @@ function BudgetCalendar(props:any){
                     </>
                 )}
             </div>
-            <BudgetView budgetId="1"/>
+            <BudgetView budgetDateRange={selectedYear + "-" + (index + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + "-" + activeBudgetPlan.start_date_of_month}/>
         </>
     );
 }

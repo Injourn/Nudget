@@ -34,10 +34,12 @@ mod commands {
         pub(crate) mod add_budget;
         pub(crate) mod remove_budget;
         pub(crate) mod update_budget;
+        pub(crate) mod get_one_budget_by_date;
     }
     pub mod budget_plan{
         pub(crate) mod get_all_budget_plan;
         pub(crate) mod get_one_budget_plan;
+        pub(crate) mod get_active_budget_plan;
         pub(crate) mod add_budget_plan;
         pub(crate) mod remove_budget_plan;
         pub(crate) mod update_budget_plan;
@@ -53,6 +55,7 @@ mod commands {
         pub(crate) mod remove_budget_plan_category;
     }
     pub(crate) mod get_active_budget_statistics;
+    pub(crate) mod get_default_budget_statistics;
 }
 mod models {
     pub(crate) mod transaction;
@@ -109,11 +112,13 @@ fn main() {
             crate::commands::budget_category::update_budget_category::update_budget_category,
             crate::commands::budget::get_all_budget::get_all_budget,
             crate::commands::budget::get_one_budget::get_one_budget,
+            crate::commands::budget::get_one_budget_by_date::get_one_budget_by_date,
             crate::commands::budget::add_budget::add_budget,
             crate::commands::budget::remove_budget::remove_budget,
             crate::commands::budget::update_budget::update_budget,
             crate::commands::budget_plan::get_all_budget_plan::get_all_budget_plan,
             crate::commands::budget_plan::get_one_budget_plan::get_one_budget_plan,
+            crate::commands::budget_plan::get_active_budget_plan::get_active_budget_plan,
             crate::commands::budget_plan::add_budget_plan::add_budget_plan,
             crate::commands::budget_plan::remove_budget_plan::remove_budget_plan,
             crate::commands::budget_plan::update_budget_plan::update_budget_plan,
@@ -123,6 +128,7 @@ fn main() {
             crate::commands::budget_plan_category::get_all_budget_plan_categories::get_all_budget_plan_categories,
             crate::commands::budget_plan_category::add_budget_plan_category::add_budget_plan_category,
             crate::commands::budget_plan_category::remove_budget_plan_category::remove_budget_plan_category,
+            crate::commands::get_default_budget_statistics::get_default_budget_statistics,
             crate::commands::get_active_budget_statistics::get_active_budget_statistics])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

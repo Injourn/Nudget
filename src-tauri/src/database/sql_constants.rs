@@ -246,6 +246,34 @@ pub const GET_ALL_BUDGET_STATISTICS: &str =
       JOIN category c
           ON c.id = bc.category_id
       WHERE bbc.budget_id = ?1";
+
+pub const GET_ALL_DEFAULT_BUDGET_STATISTICS: &str = 
+      "SELECT
+          c.name as category_name,
+          bc.flat_amount as category_budget,
+          ( SELECT sum(ti.amount) FROM transaction_item ti
+              WHERE 
+              ti.category_id = c.id
+              AND ti.transaction_date BETWEEN ?1 AND ?2
+          ) as category_spent
+          FROM budget_plan_category bpc
+          JOIN budget_plan bp
+              ON bp.id = bpc.budget_plan_id
+          JOIN budget_category bc
+              ON bc.id = bpc.budget_category_id
+          JOIN category c
+              ON c.id = bc.category_id
+          WHERE bp.active = true";
+
+pub const GET_ACTIVE_BUDGET_PLAN: &str =
+          "SELECT id,
+                 CYCLE,
+                 start_date_of_month,
+                 start_date_of_week,
+                 active,
+                 name
+          FROM budget_plan
+          WHERE budget_plan.active = true;";
   
 pub const GET_ALL_TRANSACTIONS_IN_RANGE: &str = 
   "SELECT transaction_item.id,
@@ -258,3 +286,11 @@ FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id
 WHERE 
       transaction_date BETWEEN ?1 AND ?2";
+
+pub const GET_ONE_BUDGET_BY_DATE: &str =
+"SELECT id,
+       start_date,
+       CYCLE,
+       end_date
+FROM budget
+WHERE ?1 BETWEEN budget.start_date AND budget.end_date;";

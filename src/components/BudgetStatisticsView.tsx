@@ -8,15 +8,21 @@ import ProgressBar from "./ui/ProgressBar";
 
 
 interface BudgetStatisticsViewProps{
-    entry:BudgetModel,
+    entry?:BudgetModel,
+    startDate?:string,
+    endDate?:string
 }
 
 function BudgetStatisticsView(props:BudgetStatisticsViewProps){
-    const budget:BudgetModel = props.entry;
+    const budget:BudgetModel | undefined = props.entry;
     const [budgetStatistics,setBudgetStatistics] = useState<BudgetStatisticsResponseModel[]>([]);
     const categoryNames:string[] = ["Category","Remaining","Budgeted"];
     useEffect(() => {
-        callTauri<BudgetStatisticsResponseModel[]>("get_active_budget_statistics",{budget:budget}).then(categories => setBudgetStatistics(categories));
+        if(!budget){
+            callTauri<BudgetStatisticsResponseModel[]>("get_default_budget_statistics",{range:{start_date: props.startDate,end_date:props.endDate}}).then(categories => setBudgetStatistics(categories))
+        } else {
+            callTauri<BudgetStatisticsResponseModel[]>("get_active_budget_statistics",{budget:budget}).then(categories => setBudgetStatistics(categories))
+        }
     },[props]);
     function tableRow(data:BudgetStatisticsResponseModel): ReactNode{
         let spentNumber = Number(data.category_spent);
