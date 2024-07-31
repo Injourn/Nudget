@@ -71,7 +71,7 @@ function BudgetCalendar(props:any){
                     </>
                 )}
             </div>
-            <BudgetView budgetDateRange={selectedYear + "-" + (index + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + "-" + activeBudgetPlan.start_date_of_month}/>
+            <BudgetView budgetDateRange={selectedYear + "-" + (index + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + "-" + (activeBudgetPlan.start_date_of_month ?? currentDate.getDate())}/>
         </>
     );
 }
