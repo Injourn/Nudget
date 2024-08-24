@@ -4,7 +4,7 @@ import callTauri from "../../functions/CallTauri";
 import BudgetPlanModel from "../../models/BudgetPlanModel";
 
 
-function BudgetCalendar(props:any){
+function BudgetCalendar(){
     const currentDate:Date = new Date();
     let monthsAbbr = ["Jan","Feb","Mar","Apr","May",
         "Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
@@ -61,7 +61,7 @@ function BudgetCalendar(props:any){
                 {index + 1 < 12 && <div className="col text-center border rounded-3" onClick={() => setSelectedMonth(monthsAbbr[index+1])}>{monthsAbbr[index+1]}</div>}
             </div>
             <div className="row align-items-center d-none d-md-flex">
-                {monthsAbbr.map((month,i) => 
+                {monthsAbbr.map((month) => 
                     <>
                         {
                             month === selectedMonth ?

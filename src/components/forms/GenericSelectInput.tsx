@@ -1,4 +1,4 @@
-import { ChangeEventHandler, ReactNode, useState } from "react";
+import { ChangeEventHandler, ReactNode } from "react";
 
 interface GenericSelectInputProps{
     onChange: ChangeEventHandler<HTMLSelectElement>;

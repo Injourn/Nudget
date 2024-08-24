@@ -5,11 +5,10 @@ import Table from "./ui/Table";
 import BudgetStatisticsResponseModel from "../models/BudgetStatisticsResponseModel";
 import BorderedWindow from "./ui/BorderedWindow";
 import ProgressBar from "./ui/ProgressBar";
-import {Line, Pie } from "react-chartjs-2";
+import {Pie } from "react-chartjs-2";
 import {
     Chart as ChartJS,
     CategoryScale,
-    LinearScale,
     PointElement,
     LineElement,
     Title,

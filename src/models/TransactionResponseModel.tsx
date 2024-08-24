@@ -1,4 +1,3 @@
-import CategoryModel from "./CategoryModel";
 
 
 interface TransactionRequestModel {
