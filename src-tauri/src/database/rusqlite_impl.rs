@@ -291,7 +291,7 @@ pub(crate) fn get_one_budget_plan_sqlite(
 
 pub(crate) fn get_active_budget_plan_sqlite(
     conn: &Connection,
-) -> anyhow::Result<BudgetPlan> {
+) -> anyhow::Result<Option<BudgetPlan>> {
     let result = get_one::<BudgetPlan>(conn, GET_ACTIVE_BUDGET_PLAN);
 
     result
@@ -449,7 +449,7 @@ fn insert_or_update_item<P: Params>(
 fn get_one<T: for<'a> Deserialize<'a>>(
     conn: &Connection,
     command: &str,
-) -> anyhow::Result<T> {
+) -> anyhow::Result<Option<T>> {
     let prepared_stmt = conn.prepare(command);
     if prepared_stmt.is_err() {
         let error_msg = prepared_stmt.unwrap_err();
@@ -457,9 +457,12 @@ fn get_one<T: for<'a> Deserialize<'a>>(
         return Err(error_msg.into());
     }
     let mut stmt = prepared_stmt.unwrap();
-    let mut rows = stmt.query_map([],map_rows)?;
+    let mut rows = stmt.query_map([],map_rows::<T>)?;
 
-    let transaction: T = rows.nth(0).unwrap()?;
+    let transaction: Option<T> = match rows.nth(0){
+        Some(item) => Some(item.unwrap()),
+        None => None
+    };
     rows.last();
 
     stmt.finalize().unwrap();

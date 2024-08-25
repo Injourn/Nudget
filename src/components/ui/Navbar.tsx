@@ -13,7 +13,7 @@ function Navbar(){
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a href="/" className="nav-link active">
+                            <a href="/home" className="nav-link active">
                                 Home
                             </a>
                         </li>

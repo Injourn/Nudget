@@ -10,6 +10,7 @@ import BudgetPlanView from "./components/BudgetPlanView";
 import BudgetPlanAddEdit from "./components/BudgetPlanAddEdit";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import LoadingPage from "./components/LoadingPage";
 
 function App() {
   
@@ -23,7 +24,8 @@ function App() {
           <Sidebar />
           <div className="col-lg-9">
             <Routes>
-              <Route path="/" element={<Home />}></Route>
+              <Route path="/" element={<LoadingPage />} />
+              <Route path="/home" element={<Home />}></Route>
               <Route path="/categories" element={<CategoryList/>}/>
               <Route path="/budget" element={<BudgetTable />} />
               <Route path="/budget/:budgetId" element={<BudgetView showTransactions={false}/>}/>

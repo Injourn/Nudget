@@ -11,7 +11,7 @@ async function callTauri<T>(commandName:string,args?: InvokeArgs){
     } else {
         console.log("From: " + commandName + "\nError:" + response.error_msg);
         toast.error("Error: "  + response.error_msg);
-        return {} as T;
+        throw new Error(response.error_msg);
     }
 }
 

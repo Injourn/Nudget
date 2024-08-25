@@ -56,6 +56,8 @@ mod commands {
     }
     pub(crate) mod get_active_budget_statistics;
     pub(crate) mod get_default_budget_statistics;
+    pub(crate) mod load_file;
+    pub(crate) mod create_file;
 }
 mod models {
     pub(crate) mod transaction;
@@ -88,7 +90,8 @@ fn greet(name: &str) -> String {
 }
 
 fn main() {
-    let conn = Connection::open("../my_db.db").expect("idk fail?");
+    let conn = Connection::open_in_memory().unwrap();
+    
     
 
     tauri::Builder::default()
@@ -129,7 +132,9 @@ fn main() {
             crate::commands::budget_plan_category::add_budget_plan_category::add_budget_plan_category,
             crate::commands::budget_plan_category::remove_budget_plan_category::remove_budget_plan_category,
             crate::commands::get_default_budget_statistics::get_default_budget_statistics,
-            crate::commands::get_active_budget_statistics::get_active_budget_statistics])
+            crate::commands::get_active_budget_statistics::get_active_budget_statistics,
+            crate::commands::load_file::load_file,
+            crate::commands::create_file::create_file])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

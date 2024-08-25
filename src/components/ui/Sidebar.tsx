@@ -12,7 +12,7 @@ return (
         <div className="offcanvas-body px-0">
             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" id="menu">
                 <li className="nav-item">
-                    <Link to="/" className="nav-link text-truncate">
+                    <Link to="/home" className="nav-link text-truncate">
                         Home
                     </Link>
                 </li>
