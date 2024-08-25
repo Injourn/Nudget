@@ -328,8 +328,8 @@ CREATE TABLE IF NOT EXISTS \"budget_category\" (
 	\"flat_amount\"	TEXT,
 	\"percentage_amount\"	TEXT,
 	\"fixed\"	INTEGER,
-	PRIMARY KEY(\"id\" AUTOINCREMENT),
-	FOREIGN KEY(\"category_id\") REFERENCES \"category\"(\"id\") ON DELETE SET NULL
+	FOREIGN KEY(\"category_id\") REFERENCES \"category\"(\"id\") ON DELETE SET NULL,
+	PRIMARY KEY(\"id\" AUTOINCREMENT)
 );
 CREATE TABLE IF NOT EXISTS \"budget\" (
 	\"id\"	bigint auto_increment NOT NULL UNIQUE,
@@ -347,6 +347,22 @@ CREATE TABLE IF NOT EXISTS \"budget_plan\" (
 	\"name\"	varchar NOT NULL,
 	PRIMARY KEY(\"id\" AUTOINCREMENT)
 );
+INSERT INTO \"category\" VALUES (1,'Groceries');
+INSERT INTO \"category\" VALUES (2,'Rent');
+INSERT INTO \"category\" VALUES (3,'Bills');
+INSERT INTO \"category\" VALUES (4,'Gas');
+INSERT INTO \"category\" VALUES (5,'Disposable Income');
+INSERT INTO \"budget_category\" VALUES (1,1,'300','',0);
+INSERT INTO \"budget_category\" VALUES (2,2,'2000','',0);
+INSERT INTO \"budget_category\" VALUES (3,3,'400','',0);
+INSERT INTO \"budget_category\" VALUES (4,4,'200','',0);
+INSERT INTO \"budget_category\" VALUES (5,5,'300','',0);
+INSERT INTO \"budget_plan\" VALUES (1,'MONTHLY',15,NULL,1,'Main Budget');
+INSERT INTO \"budget_plan_category\" VALUES (1,1);
+INSERT INTO \"budget_plan_category\" VALUES (2,1);
+INSERT INTO \"budget_plan_category\" VALUES (3,1);
+INSERT INTO \"budget_plan_category\" VALUES (4,1);
+INSERT INTO \"budget_plan_category\" VALUES (5,1);
 CREATE UNIQUE INDEX IF NOT EXISTS \"idx_budget_plan_category\" ON \"budget_plan_category\" (
 	\"budget_category_id\",
 	\"budget_plan_id\"
@@ -355,4 +371,5 @@ CREATE UNIQUE INDEX IF NOT EXISTS \"idx_budget_budget_category\" ON \"budget_bud
 	\"budget_category_id\",
 	\"budget_id\"
 );
-COMMIT;";
+COMMIT;
+";
