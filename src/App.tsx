@@ -11,33 +11,40 @@ import BudgetPlanAddEdit from "./components/BudgetPlanAddEdit";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import LoadingPage from "./components/LoadingPage";
+import { useState } from "react";
 
 function App() {
-  
+  let [dbLoaded,setDbLoaded] = useState<Boolean>(false);
 
-  return (
-    <>
-      <Navbar />
-      <ToastContainer/>
-      <div className="container-fluid">
-        <div className="row">
-          <Sidebar />
-          <div className="col-lg-9">
-            <Routes>
-              <Route path="/" element={<LoadingPage />} />
-              <Route path="/home" element={<Home />}></Route>
-              <Route path="/categories" element={<CategoryList/>}/>
-              <Route path="/budget" element={<BudgetTable />} />
-              <Route path="/budget/:budgetId" element={<BudgetView showTransactions={false}/>}/>
-              <Route path="/budgetPlan/" element={<BudgetPlanTable/>}/>
-              <Route path="/budgetPlan/new" element={<BudgetPlanAddEdit/>}/>
-              <Route path="/budgetPlan/:budgetPlanId" element={<BudgetPlanView/>}/>
-            </Routes>
+  if(!dbLoaded){
+
+    return (
+      <LoadingPage setDbLoaded={setDbLoaded}/>
+    )
+  } else {
+    return (
+      <>
+        <Navbar />
+        <ToastContainer/>
+        <div className="container-fluid">
+          <div className="row">
+            <Sidebar />
+            <div className="col-lg-9">
+              <Routes>
+                <Route path="/" element={<Home />}></Route>
+                <Route path="/categories" element={<CategoryList/>}/>
+                <Route path="/budget" element={<BudgetTable />} />
+                <Route path="/budget/:budgetId" element={<BudgetView showTransactions={false}/>}/>
+                <Route path="/budgetPlan/" element={<BudgetPlanTable/>}/>
+                <Route path="/budgetPlan/new" element={<BudgetPlanAddEdit/>}/>
+                <Route path="/budgetPlan/:budgetPlanId" element={<BudgetPlanView/>}/>
+              </Routes>
+            </div>
           </div>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 }
 
 export default App;
