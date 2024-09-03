@@ -9,23 +9,25 @@ function BudgetCalendar(){
     const currentDate:Date = new Date();
     let [activeBudgetPlan,setActiveBudgetPlan] = useState<BudgetPlanModel>({} as BudgetPlanModel);
     let [dateRange,setDateRange] = useState<string>(currentDate.getFullYear() + "-" + (currentDate.getMonth()).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + "-"
-    + (activeBudgetPlan.start_date_of_month ?? currentDate.getDate()));
+    + (activeBudgetPlan.start_date_of_month ?? currentDate.getDate()).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}));
+    console.log(dateRange);
     let [startDate,setStartDate] = useState<string>();
     let [endDate,setEndDate] = useState<string>();
     useEffect(() => {
         callTauri<BudgetPlanModel>("get_active_budget_plan").then(budgetPlan => setActiveBudgetPlan(budgetPlan));
     },[])
 
-
     return(
         <>
             {activeBudgetPlan.cycle === Cycle.MONTHLY ? 
                 <MonthlyCycle activeBudgetPlan={activeBudgetPlan} currentDate={currentDate} setDateRange={setDateRange}/> :
             <WeeklyCycle currentDate={currentDate} setDateRange={setDateRange} setStartDate={setStartDate} setEndDate={setEndDate}
-                 biWeekly={activeBudgetPlan.cycle === Cycle.BIWEEKLY}/>}
+                biWeekly={activeBudgetPlan.cycle === Cycle.BIWEEKLY}/>}
             <BudgetView startDate={startDate} endDate={endDate} budgetDateRange={dateRange}/>
         </>
     );
+    
+
 }
 
 function WeeklyCycle(props:any){
