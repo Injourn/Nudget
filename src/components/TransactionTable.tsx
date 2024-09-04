@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
+import { MouseEventHandler, ReactNode, useEffect, useReducer, useState } from "react";
 
 import TransactionRequestModel from "../models/TransactionRequestModel";
 import Modal from "./ui/Modal";
@@ -19,6 +19,7 @@ function TransactionTable(props:TransactionTableProps){
     const defaultValue: string = getLocalDate();
     const [tableData, setTableData] = useState<TransactionResponseModel[]>([]);
     const [modalData, setModalData] = useState<TransactionRequestModel>({} as TransactionRequestModel);
+    const [updater, forceUpdate] = useReducer(x => x + 1, 0);
     const columnNames:string[] = ["Amount","Categories","Date","Name"]
 
     useEffect(() => {
@@ -31,7 +32,7 @@ function TransactionTable(props:TransactionTableProps){
         } else {
             callTauri<TransactionResponseModel[]>("get_transaction").then(transactions => setTableData(transactions));
         }
-    },[props,modalData]);
+    },[props,modalData,updater]);
 
     function getLocalDate() : string{
         const date:Date = new Date();
@@ -51,7 +52,8 @@ function TransactionTable(props:TransactionTableProps){
             amount: model.amount,
             category_id: model.category_id,
             transaction_date: model.transaction_date,
-            name: model.name}  as TransactionRequestModel
+            name: model.name,
+            recurring: model.recurring}  as TransactionRequestModel
     }
     function onRowClick(model: TransactionResponseModel){
         changeModalData(responseModelToRequestModel(model))
@@ -73,8 +75,14 @@ function TransactionTable(props:TransactionTableProps){
             amount: "",
             category_id: 0,
             transaction_date: defaultValue,
-            name: ""}  as TransactionRequestModel)
+            name: "",
+            recurring: false}  as TransactionRequestModel)
         return undefined;
+    }
+
+    function onTransactionSubmit() {
+        console.log("submitted");
+        forceUpdate();
     }
 
     return (
@@ -94,7 +102,7 @@ function TransactionTable(props:TransactionTableProps){
                 <TransactionViewDetail entry={modalData} />
             </Modal>
             <Modal name="transactionModalAddEdit" title="Transaction">
-                <TransactionAddEdit modalName="transactionModalAddEdit" entry={modalData}/>
+                <TransactionAddEdit modalName="transactionModalAddEdit" entry={modalData} onSubmit={onTransactionSubmit}/>
             </Modal>
         </BorderedWindow>
         

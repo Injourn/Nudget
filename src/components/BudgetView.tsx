@@ -22,7 +22,6 @@ function BudgetView(props:any){
         }
     },[props]);
     
-
     let startDate = budget?.start_date ?? props.startDate ?? budgetDate;
     let endDate = budget?.end_date ?? props.endDate ?? setAdjacentMonth(budgetDate);
 

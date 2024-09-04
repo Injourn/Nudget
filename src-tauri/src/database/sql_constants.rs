@@ -4,7 +4,8 @@ pub const GET_ALL_TRANSACTIONS: &str =
        c.id AS category_id,
        c.name AS category_name,
        transaction_date,
-       transaction_item.name
+       transaction_item.name,
+       transaction_item.recurring
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id;";
 
@@ -15,15 +16,16 @@ pub const GET_ONE_TRANSACTION: &str =
        c.id AS category_id,
        c.name AS category_name,
        transaction_date,
-       transaction_item.name
+       transaction_item.name,
+       transaction_item.recurring
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id
 WHERE id = ?1;";
 
 
 pub const ADD_TRANSACTION: &str =
-"INSERT INTO transaction_item (amount, category_id, transaction_date, name)
-VALUES (?1,?2,?3,?4);";
+"INSERT INTO transaction_item (amount, category_id, transaction_date, name,recurring)
+VALUES (?1,?2,?3,?4,?5);";
 
 
 pub const UPDATE_TRANSACTION: &str =
@@ -31,7 +33,8 @@ pub const UPDATE_TRANSACTION: &str =
 SET amount = ?2,
     category_id = ?3,
     transaction_date = ?4,
-    name = ?5
+    name = ?5,
+    recurring = ?6
 WHERE transaction_item.id = ?1;";
 
 pub const DELETE_TRANSACTION: &str =
@@ -236,7 +239,8 @@ pub const GET_ALL_BUDGET_STATISTICS: &str =
       ( SELECT sum(ti.amount) FROM transaction_item ti
           WHERE 
           ti.category_id = c.id
-          AND ti.transaction_date BETWEEN b.start_date AND b.end_date
+          AND (ti.transaction_date BETWEEN b.start_date AND b.end_date
+          OR ti.recurring)
       ) as category_spent
       FROM budget_budget_category bbc
       JOIN budget b
@@ -254,7 +258,8 @@ pub const GET_ALL_DEFAULT_BUDGET_STATISTICS: &str =
           ( SELECT sum(ti.amount) FROM transaction_item ti
               WHERE 
               ti.category_id = c.id
-              AND ti.transaction_date BETWEEN ?1 AND ?2
+              AND (ti.transaction_date BETWEEN ?1 AND ?2
+              OR ti.recurring)
           ) as category_spent
           FROM budget_plan_category bpc
           JOIN budget_plan bp
@@ -281,11 +286,13 @@ pub const GET_ALL_TRANSACTIONS_IN_RANGE: &str =
        c.id AS category_id,
        c.name AS category_name,
        transaction_date,
-       transaction_item.name
+       transaction_item.name,
+       transaction_item.recurring
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id
 WHERE 
-      transaction_date BETWEEN ?1 AND ?2";
+      transaction_date BETWEEN ?1 AND ?2
+      OR recurring";
 
 pub const GET_ONE_BUDGET_BY_DATE: &str =
 "SELECT id,
@@ -314,6 +321,7 @@ CREATE TABLE IF NOT EXISTS \"transaction_item\" (
 	\"category_id\"	bigint,
 	\"transaction_date\"	DATE,
 	\"name\"	varchar,
+       \"recurring\" NUMERIC NOT NULL DEFAULT 0,
 	FOREIGN KEY(\"category_id\") REFERENCES \"category\"(\"id\") ON DELETE SET NULL,
 	PRIMARY KEY(\"id\" AUTOINCREMENT)
 );

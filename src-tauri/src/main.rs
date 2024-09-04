@@ -13,6 +13,7 @@ mod commands {
         pub(crate) mod add_transaction;
         pub(crate) mod remove_transaction;
         pub(crate) mod update_transaction;
+        pub(crate) mod date_recurring_transactions;
     }
     pub mod category {
         pub(crate) mod get_all_categories;

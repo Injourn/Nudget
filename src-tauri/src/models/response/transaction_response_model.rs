@@ -6,4 +6,5 @@ pub(crate) struct TransactionResponseModel {
     pub(crate)category_name: String,
     pub(crate)transaction_date: String,
     pub(crate)name: String,
+    pub(crate)recurring: bool,
 }

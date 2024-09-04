@@ -46,6 +46,7 @@ pub(crate) fn add_transaction_sqlite(
             &transaction.category_id,
             &transaction.transaction_date,
             &transaction.name,
+            &transaction.recurring
         ),
         ADD_TRANSACTION,
     );
@@ -65,6 +66,7 @@ pub(crate) fn update_transaction_sqlite(
             &transaction.category_id,
             &transaction.transaction_date,
             &transaction.name,
+            &transaction.recurring
         ),
         UPDATE_TRANSACTION,
     );
@@ -394,7 +396,7 @@ pub(crate) fn get_default_budget_statistics_sqlite(
 
 pub(crate) fn get_transactions_in_range_sqlite(
     conn: &Connection,
-    request: TransactionInRangeRequestModel,
+    request: &TransactionInRangeRequestModel,
 ) -> anyhow::Result<Vec<TransactionResponseModel>> {
     let result = get_by_params(
         conn,

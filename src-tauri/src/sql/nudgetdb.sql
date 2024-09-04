@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS "transaction_item" (
 	"category_id"	bigint,
 	"transaction_date"	DATE,
 	"name"	varchar,
+	"recurring" NUMERIC NOT NULL DEFAULT 0,
 	FOREIGN KEY("category_id") REFERENCES "category"("id") ON DELETE SET NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );

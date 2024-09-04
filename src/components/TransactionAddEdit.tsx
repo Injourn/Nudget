@@ -21,16 +21,19 @@ function TransactionAddEdit(props: any){
 
 
     function addTransaction(){
+        let promise;
         if(item.id){
-            callTauri("update_transaction",{transaction: item})
+            promise = callTauri("update_transaction",{transaction: item})
         }
         else {
-            callTauri("add_transaction",{transaction: item})
+            promise = callTauri("add_transaction",{transaction: item})
         }
+        promise.then(() => props.onSubmit());
+        event?.preventDefault();
     }
 
     function removeItem(){
-        callTauri("remove_transaction",{transaction: item})
+        callTauri("remove_transaction",{transaction: item}).then(() => props.onSubmit());
     }
     
     return(
@@ -44,6 +47,10 @@ function TransactionAddEdit(props: any){
                     <option value={data.id}>{data.name}</option>
                 )}
             </GenericSelectInput>
+            <GenericFormInput 
+             onChange={() =>{setItem({...item,recurring: !item.recurring})}}
+             id={"recurring"} label={"Recurring"} 
+             item={item.recurring} type={"checkbox"} />
             <GenericFormInput onChange={(e) => setItem({...item, transaction_date: e.target.value})} id={"date"}
                 label={"Date"} item={item.transaction_date} type={"date"}/>
             <GenericFormInput onChange={(e) => setItem({...item, name: e.target.value})} id={"name"}

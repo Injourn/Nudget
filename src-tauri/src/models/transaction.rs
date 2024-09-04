@@ -5,5 +5,6 @@ pub(crate)struct Transaction {
     pub(crate)category_id: u32,
     pub(crate)transaction_date: String,
     pub(crate)name: String,
+    pub(crate)recurring: bool,
 }
 
