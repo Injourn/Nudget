@@ -4,6 +4,8 @@ import { InvokeArgs } from "@tauri-apps/api/tauri";
 import { toast } from "react-toastify";
 
 async function callTauri<T>(commandName:string,args?: InvokeArgs){
+    console.log("running command " + commandName + " with args: ");
+    console.log(args);
     let response: TauriResponse<T> = await invoke<TauriResponse<T>>(commandName,args);
 
     if(response.success){
