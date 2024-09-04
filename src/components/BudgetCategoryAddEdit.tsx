@@ -10,6 +10,7 @@ import GenericSelectInput from "./forms/GenericSelectInput";
 interface BudgetCategoryAddEditProps{
     parentAdd(newId: number): any;
     entry: BudgetCategoryModel;
+    onSubmit(): any;
 
 }
 
@@ -29,11 +30,13 @@ function BudgetCategoryAddEdit(props:BudgetCategoryAddEditProps){
         item.fixed = false;
         console.log(item);
         callTauri<number>("add_budget_category",{budgetCategory: item}).then(newId => props.parentAdd(newId));
+        props.onSubmit();
+        event?.preventDefault();
     }
 
     function removeBudgetCategory() : MouseEventHandler<HTMLButtonElement> | undefined{
         callTauri("remove_budget_category",{budgetCategory: item});
-        location.reload()
+        props.onSubmit();
         return undefined
     }
     

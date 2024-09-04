@@ -20,8 +20,11 @@ function CategoryAddEdit(props:any){
         else {
             callTauri("add_category",{category: item})
         }
+        props.onSubmit();
+        event?.preventDefault();
     }
     function removeCategory(){
+        props.onSubmit();
         callTauri("remove_category",{category:item})
     }
 

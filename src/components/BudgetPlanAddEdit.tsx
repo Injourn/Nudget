@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 interface BudgetPlanAddProps{
     entry?:BudgetPlanModel;
+    onSubmit(): any;
 }
 
 function BudgetPlanAddEdit(props:BudgetPlanAddProps){
@@ -27,10 +28,13 @@ function BudgetPlanAddEdit(props:BudgetPlanAddProps){
         } else {
             callTauri<number>("update_budget_plan",{budgetPlan:item})
         }
+        props.onSubmit();
+        event?.preventDefault();
     }
 
     function onRemove(){
         callTauri("remove_budget_plan",{budgetPlan:item})
+        props.onSubmit();
     }
 
 
