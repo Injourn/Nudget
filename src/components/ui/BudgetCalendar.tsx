@@ -17,6 +17,9 @@ function BudgetCalendar(){
         callTauri<BudgetPlanModel>("get_active_budget_plan").then(budgetPlan => setActiveBudgetPlan(budgetPlan));
     },[])
 
+    if(!activeBudgetPlan.id){
+        return (<></>);
+    }
     return(
         <>
             {activeBudgetPlan.cycle === Cycle.MONTHLY ? 
@@ -69,6 +72,9 @@ function MonthlyCycle(props:any){
     let months = ["January","February","March","April","May",
         "June","July","August","September","October","November","December"];
     let selectedMonthNumeric = props.currentDate.getMonth()
+    if(props.currentDate.getDate() < props.activeBudgetPlan.start_date_of_month){
+        selectedMonthNumeric = selectedMonthNumeric - 1 > 0 ? selectedMonthNumeric - 1 : 11;
+    }
     let [selectedMonth,setSelectedMonth] = useState<string>(monthsAbbr[selectedMonthNumeric]);
     let [selectedYear,setSelectedYear] = useState<number>(props.currentDate.getFullYear());;
     let exampleYearList = [2023,2024,2025];
