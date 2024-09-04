@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 interface BudgetPlanAddProps{
     entry?:BudgetPlanModel;
-    onSubmit(): any;
+    onSubmit?: any;
 }
 
 function BudgetPlanAddEdit(props:BudgetPlanAddProps){
