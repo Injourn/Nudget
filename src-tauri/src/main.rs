@@ -79,10 +79,18 @@ mod models {
         pub(crate) mod budget_category_response_model;
     }
 }
+mod functions {
+    pub(crate) mod get_dates_between;
+}
 
 mod database {
     pub(crate) mod rusqlite_impl;
     pub mod sql_constants;
+}
+
+#[cfg(test)]
+mod tests{
+    pub mod get_dates_test;
 }
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
