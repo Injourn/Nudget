@@ -5,7 +5,10 @@ pub const GET_ALL_TRANSACTIONS: &str =
        c.name AS category_name,
        transaction_date,
        transaction_item.name,
-       transaction_item.recurring
+       transaction_item.recurring,
+       cycle,
+       day_of_month,
+       day_of_week
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id;";
 
@@ -17,15 +20,18 @@ pub const GET_ONE_TRANSACTION: &str =
        c.name AS category_name,
        transaction_date,
        transaction_item.name,
-       transaction_item.recurring
+       transaction_item.recurring,
+       cycle,
+       day_of_month,
+       day_of_week
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id
 WHERE id = ?1;";
 
 
 pub const ADD_TRANSACTION: &str =
-"INSERT INTO transaction_item (amount, category_id, transaction_date, name,recurring)
-VALUES (?1,?2,?3,?4,?5);";
+"INSERT INTO transaction_item (amount, category_id, transaction_date, name,recurring,cycle,day_of_month,day_of_week)
+VALUES (?1,?2,?3,?4,?5,?6,?7,?8);";
 
 
 pub const UPDATE_TRANSACTION: &str =
@@ -34,7 +40,10 @@ SET amount = ?2,
     category_id = ?3,
     transaction_date = ?4,
     name = ?5,
-    recurring = ?6
+    recurring = ?6,
+    cycle = ?7,
+    day_of_month = ?8,
+    day_of_week ?9
 WHERE transaction_item.id = ?1;";
 
 pub const DELETE_TRANSACTION: &str =
@@ -287,7 +296,10 @@ pub const GET_ALL_TRANSACTIONS_IN_RANGE: &str =
        c.name AS category_name,
        transaction_date,
        transaction_item.name,
-       transaction_item.recurring
+       transaction_item.recurring,
+       cycle,
+       day_of_month,
+       day_of_week
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id
 WHERE 

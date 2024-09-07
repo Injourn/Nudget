@@ -5,15 +5,17 @@ import GenericForm from "./forms/GenericForm";
 import GenericFormInput from "./forms/GenericFormInput";
 import GenericSelectInput from "./forms/GenericSelectInput";
 import callTauri from "../functions/CallTauri";
+import Cycle from "../models/Cycle";
 
 
 function TransactionAddEdit(props: any){
     const [item,setItem] = useState<TransactionRequestModel>({} as TransactionRequestModel);
     const [categories,setCategories]= useState<CategoryModel[]>([]);
+    const [showDayOfMonth,setShowDayOfMonth] = useState<boolean>(item.cycle == Cycle.MONTHLY);
 
     useEffect(() => {
         setItem(props.entry);
-    },[props.entry.id])
+    },[props.entry.id,showDayOfMonth])
 
     useEffect(() => {   
         callTauri<CategoryModel[]>("get_all_categories").then(items => setCategories(items));
@@ -51,8 +53,41 @@ function TransactionAddEdit(props: any){
              onChange={() =>{setItem({...item,recurring: !item.recurring})}}
              id={"recurring"} label={"Recurring"} 
              item={item.recurring} type={"checkbox"} />
-            <GenericFormInput onChange={(e) => setItem({...item, transaction_date: e.target.value})} id={"date"}
+            {item.recurring ?
+                <>
+                    <GenericSelectInput 
+                        onChange={(e) => {
+                            let cycle = e.target.value as keyof typeof Cycle;
+                            setItem({...item,cycle: Cycle[cycle]});
+                            setShowDayOfMonth(cycle == Cycle.MONTHLY)}} 
+                        id={"cycle"} label={"Budget Cycle"} 
+                        item={item.cycle}>
+                        <option value={"MONTHLY"}>Monthly</option>
+                        <option value={"WEEKLY"}>Weekly</option>
+                        <option value={"BIWEEKLY"}>Biweekly</option>
+                    </GenericSelectInput>
+                    {showDayOfMonth ?
+                    <GenericFormInput onChange={(e) => setItem({...item,day_of_month: Number(e.target.value)})}
+                    id={"startDayOfCycle"} label={"Start Day of the Month"} item={item.day_of_month} type={"text"} numeric={true} />
+                    
+                    :
+                    <GenericSelectInput onChange={(e) => setItem({...item,day_of_week: Number(e.target.value)})}
+                    id={"startDayOfWeek"} label={"Start Day of the Week"} item={item.day_of_week}> 
+                        <option value={0}>Sunday</option>
+                        <option value={1}>Monday</option>
+                        <option value={2}>Tuesday</option>
+                        <option value={3}>Wednesday</option>
+                        <option value={4}>Thursday</option>
+                        <option value={5}>Friday</option>
+                        <option value={6}>Saturday</option>
+
+                    </GenericSelectInput>
+                    }
+                </>
+                :
+                <GenericFormInput onChange={(e) => setItem({...item, transaction_date: e.target.value})} id={"date"}
                 label={"Date"} item={item.transaction_date} type={"date"}/>
+            }
             <GenericFormInput onChange={(e) => setItem({...item, name: e.target.value})} id={"name"}
                 label={"Name"} item={item.name} type={"text"}/>
         </GenericForm>

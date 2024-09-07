@@ -46,7 +46,10 @@ pub(crate) fn add_transaction_sqlite(
             &transaction.category_id,
             &transaction.transaction_date,
             &transaction.name,
-            &transaction.recurring
+            &transaction.recurring,
+            &transaction.cycle,
+            &transaction.day_of_month,
+            &transaction.day_of_week
         ),
         ADD_TRANSACTION,
     );
@@ -66,7 +69,10 @@ pub(crate) fn update_transaction_sqlite(
             &transaction.category_id,
             &transaction.transaction_date,
             &transaction.name,
-            &transaction.recurring
+            &transaction.recurring,
+            &transaction.cycle,
+            &transaction.day_of_month,
+            &transaction.day_of_week
         ),
         UPDATE_TRANSACTION,
     );

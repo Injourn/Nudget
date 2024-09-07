@@ -1,3 +1,4 @@
+import Cycle from "./Cycle";
 
 
 interface TransactionRequestModel {
@@ -8,6 +9,9 @@ interface TransactionRequestModel {
     transaction_date: string;
     name: string;
     recurring:boolean;
+    cycle:Cycle;
+    day_of_month:number;
+    day_of_week:number;
 }
 
 export default TransactionRequestModel;

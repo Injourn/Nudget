@@ -1,3 +1,5 @@
+use crate::models::cycle::Cycle;
+
 #[derive(serde::Serialize,serde::Deserialize)]
 pub(crate) struct TransactionResponseModel {
     pub(crate)id: u32,
@@ -7,4 +9,7 @@ pub(crate) struct TransactionResponseModel {
     pub(crate)transaction_date: String,
     pub(crate)name: String,
     pub(crate)recurring: bool,
+    pub(crate)cycle:Option<Cycle>,
+    pub(crate)day_of_month:Option<u8>,
+    pub(crate)day_of_week:Option<u8>,
 }
