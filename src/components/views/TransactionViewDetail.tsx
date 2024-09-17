@@ -1,4 +1,4 @@
-import TransactionRequestModel from "../models/TransactionRequestModel";
+import TransactionRequestModel from "../../models/TransactionRequestModel";
 
 
 function TransactionViewDetail(props:any){

@@ -1,11 +1,11 @@
-import TransactionRequestModel from "../models/TransactionRequestModel";
-import CategoryModel from "../models/CategoryModel";
+import TransactionRequestModel from "../../models/TransactionRequestModel";
+import CategoryModel from "../../models/CategoryModel";
 import { useEffect, useState } from "react";
-import GenericForm from "./forms/GenericForm";
-import GenericFormInput from "./forms/GenericFormInput";
-import GenericSelectInput from "./forms/GenericSelectInput";
-import callTauri from "../functions/CallTauri";
-import Cycle from "../models/Cycle";
+import GenericForm from "./generic/GenericForm";
+import GenericFormInput from "./generic/GenericFormInput";
+import GenericSelectInput from "./generic/GenericSelectInput";
+import callTauri from "../../functions/CallTauri";
+import Cycle from "../../models/Cycle";
 
 
 function TransactionAddEdit(props: any){

@@ -1,20 +1,38 @@
-import Navbar from "./components/ui/Navbar";
-import Sidebar from "./components/ui/Sidebar";
+import Navbar from "./components/uiElements/Navbar";
+import Sidebar from "./components/uiElements/Sidebar";
 import {Route, Routes} from 'react-router-dom'
 import Home from "./pages/Home"
-import CategoryList from "./components/CategoryList";
-import BudgetView from "./components/BudgetView";
-import BudgetTable from "./components/BudgetTable";
-import BudgetPlanTable from "./components/BudgetPlanTable";
-import BudgetPlanView from "./components/BudgetPlanView";
-import BudgetPlanAddEdit from "./components/BudgetPlanAddEdit";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import LoadingPage from "./components/LoadingPage";
 import { useState } from "react";
-
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+} from 'chart.js';
+import LoadingPage from "./components/views/LoadingPage";
+import CategoryList from "./components/views/CategoryList";
+import BudgetTable from "./components/views/BudgetTable";
+import BudgetView from "./components/views/BudgetView";
+import BudgetPlanAddEdit from "./components/forms/BudgetPlanAddEdit";
+import BudgetPlanTable from "./components/views/BudgetPlanTable";
+import BudgetPlanView from "./components/views/BudgetPlanView";
 function App() {
   let [dbLoaded,setDbLoaded] = useState<Boolean>(false);
+  ChartJS.register(
+    CategoryScale,
+    ArcElement,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  );
 
   if(!dbLoaded){
 

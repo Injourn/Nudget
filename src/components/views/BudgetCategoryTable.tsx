@@ -1,10 +1,10 @@
 import { MouseEventHandler, useEffect, useState } from "react";
-import BudgetCategoryModel from "../models/BudgetCategoryModel";
-import callTauri from "../functions/CallTauri";
-import Table from "./ui/Table";
-import Modal from "./ui/Modal";
-import BudgetCategoryAddEdit from "./BudgetCategoryAddEdit";
-import BudgetModel from "../models/BudgetModel";
+import BudgetCategoryModel from "../../models/BudgetCategoryModel";
+import callTauri from "../../functions/CallTauri";
+import Table from "../uiElements/Table";
+import Modal from "../uiElements/Modal";
+import BudgetCategoryAddEdit from "../forms/BudgetCategoryAddEdit";
+import BudgetModel from "../../models/BudgetModel";
 
 interface BudgetCategoryTableProps{
     entry:BudgetModel;
@@ -66,7 +66,7 @@ function BudgetCategoryTable(props:BudgetCategoryTableProps){
              >
             </Table>
             <Modal name={"budgetCategoryModal"} title={"Budget Category"}>
-                <BudgetCategoryAddEdit entry={modalData} parentAdd={addBudgetBudgetCategory}/>
+                <BudgetCategoryAddEdit entry={modalData} parentAdd={addBudgetBudgetCategory} onSubmit={() => {}}/>
             </Modal>
         </>
     )

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import callTauri from "../functions/CallTauri";
-import CategoryModel from "../models/CategoryModel";
-import GenericForm from "./forms/GenericForm";
-import GenericFormInput from "./forms/GenericFormInput";
+import callTauri from "../../functions/CallTauri";
+import CategoryModel from "../../models/CategoryModel";
+import GenericForm from "./generic/GenericForm";
+import GenericFormInput from "./generic/GenericFormInput";
 
 
 function CategoryAddEdit(props:any){

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import BudgetPlanCategoryTable from "./BudgetPlanCategoryTable"
-import BudgetPlanModel from "../models/BudgetPlanModel";
-import callTauri from "../functions/CallTauri";
 import { useParams } from "react-router-dom";
-import BudgetPlanAddEdit from "./BudgetPlanAddEdit";
+import BudgetPlanModel from "../../models/BudgetPlanModel";
+import callTauri from "../../functions/CallTauri";
+import BudgetPlanAddEdit from "../forms/BudgetPlanAddEdit";
 
 
 function BudgetPlanView(props:any){

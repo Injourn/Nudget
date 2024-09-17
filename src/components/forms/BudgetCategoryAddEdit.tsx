@@ -1,11 +1,10 @@
 import { MouseEventHandler, useEffect, useState } from "react";
-import BudgetCategoryModel from "../models/BudgetCategoryModel";
-import CategoryModel from "../models/CategoryModel";
-import callTauri from "../functions/CallTauri";
-import GenericForm from "./forms/GenericForm";
-import GenericFormInput from "./forms/GenericFormInput";
-import GenericSelectInput from "./forms/GenericSelectInput";
-
+import BudgetCategoryModel from "../../models/BudgetCategoryModel";
+import CategoryModel from "../../models/CategoryModel";
+import callTauri from "../../functions/CallTauri";
+import GenericForm from "./generic/GenericForm";
+import GenericFormInput from "./generic/GenericFormInput";
+import GenericSelectInput from "./generic/GenericSelectInput";
 
 interface BudgetCategoryAddEditProps{
     parentAdd(newId: number): any;

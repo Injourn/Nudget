@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import BudgetModel from "../models/BudgetModel";
-import callTauri from "../functions/CallTauri";
 import BudgetStatisticsView from "./BudgetStatisticsView";
 import { useParams } from "react-router-dom";
 import TransactionTable from "./TransactionTable";
+import BudgetModel from "../../models/BudgetModel";
+import callTauri from "../../functions/CallTauri";
 
 
 function BudgetView(props:any){

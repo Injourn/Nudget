@@ -1,5 +1,5 @@
 import { open, save } from '@tauri-apps/api/dialog';
-import callTauri from '../functions/CallTauri';
+import callTauri from '../../functions/CallTauri';
 
 function LoadingPage(props:any){
 

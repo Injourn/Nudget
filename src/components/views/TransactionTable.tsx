@@ -1,14 +1,13 @@
 import { MouseEventHandler, ReactNode, useEffect, useReducer, useState } from "react";
-
-import TransactionRequestModel from "../models/TransactionRequestModel";
-import Modal from "./ui/Modal";
 import TransactionViewDetail from "./TransactionViewDetail";
-import TransactionAddEdit from "./TransactionAddEdit";
-import TransactionResponseModel from "../models/TransactionResponseModel";
-import Table from "./ui/Table";
-import callTauri from "../functions/CallTauri";
-import BorderedWindow from "./ui/BorderedWindow";
-import TransactionRangeRequestModel from "../models/TransactionRangeRequestModel";
+import TransactionResponseModel from "../../models/TransactionResponseModel";
+import TransactionRequestModel from "../../models/TransactionRequestModel";
+import TransactionRangeRequestModel from "../../models/TransactionRangeRequestModel";
+import callTauri from "../../functions/CallTauri";
+import BorderedWindow from "../uiElements/BorderedWindow";
+import Table from "../uiElements/Table";
+import Modal from "../uiElements/Modal";
+import TransactionAddEdit from "../forms/TransactionAddEdit";
 
 interface TransactionTableProps{
     startDate?:string,

@@ -1,21 +1,11 @@
-import BudgetModel from "../models/BudgetModel";
 import { ReactNode, useEffect, useState } from "react";
-import callTauri from "../functions/CallTauri";
-import Table from "./ui/Table";
-import BudgetStatisticsResponseModel from "../models/BudgetStatisticsResponseModel";
-import BorderedWindow from "./ui/BorderedWindow";
-import ProgressBar from "./ui/ProgressBar";
 import {Pie } from "react-chartjs-2";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement,
-  } from 'chart.js';
+import BudgetModel from "../../models/BudgetModel";
+import BudgetStatisticsResponseModel from "../../models/BudgetStatisticsResponseModel";
+import callTauri from "../../functions/CallTauri";
+import ProgressBar from "../uiElements/ProgressBar";
+import BorderedWindow from "../uiElements/BorderedWindow";
+import Table from "../uiElements/Table";
 
 
 interface BudgetStatisticsViewProps{
@@ -47,15 +37,6 @@ function BudgetStatisticsView(props:BudgetStatisticsViewProps){
             </>
             );
     }
-    ChartJS.register(
-        CategoryScale,
-        ArcElement,
-        PointElement,
-        LineElement,
-        Title,
-        Tooltip,
-        Legend
-      );
     
     return (
         <BorderedWindow>

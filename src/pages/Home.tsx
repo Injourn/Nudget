@@ -1,4 +1,4 @@
-import BudgetCalendar from "../components/ui/BudgetCalendar";
+import BudgetCalendar from "../components/uiElements/BudgetCalendar";
 
 
 
