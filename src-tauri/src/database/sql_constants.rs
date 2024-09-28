@@ -43,7 +43,7 @@ SET amount = ?2,
     recurring = ?6,
     cycle = ?7,
     day_of_month = ?8,
-    day_of_week ?9
+    day_of_week = ?9
 WHERE transaction_item.id = ?1;";
 
 pub const DELETE_TRANSACTION: &str =

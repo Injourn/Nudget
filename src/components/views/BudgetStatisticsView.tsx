@@ -32,7 +32,7 @@ function BudgetStatisticsView(props:BudgetStatisticsViewProps){
         return(
             <>
                 <td>{data.category_name} <br/> <ProgressBar value={spentNumber/budgetNumber*100}/></td>
-                <td>{budgetNumber - spentNumber}</td>
+                <td>{Math.round(((budgetNumber - spentNumber) + Number.EPSILON) * 100) / 100 }</td>
                 <td>{data.category_budget}</td>
             </>
             );
