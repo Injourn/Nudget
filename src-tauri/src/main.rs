@@ -91,6 +91,7 @@ mod database {
 #[cfg(test)]
 mod tests{
     pub mod get_dates_test;
+    pub mod sql_tests;
 }
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
