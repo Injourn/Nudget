@@ -30,7 +30,7 @@ pub(crate) fn get_transaction_sqlite(
 pub(crate) fn get_one_transaction_sqlite(
     conn: &Connection,
     id: &str,
-) -> anyhow::Result<TransactionResponseModel> {
+) -> anyhow::Result<Option<TransactionResponseModel>> {
     let result = get_one_by_id::<TransactionResponseModel>(conn, id, GET_ONE_TRANSACTION);
 
     result
@@ -113,7 +113,7 @@ pub(crate) fn get_all_categories_sqlite(conn: &Connection) -> anyhow::Result<Vec
     result
 }
 
-pub(crate) fn get_one_category_sqlite(conn: &Connection, id: &str) -> anyhow::Result<Category> {
+pub(crate) fn get_one_category_sqlite(conn: &Connection, id: &str) -> anyhow::Result<Option<Category>> {
     let result = get_one_by_id::<Category>(conn, id, GET_ONE_CATEGORY);
 
     result
@@ -176,7 +176,7 @@ pub(crate) fn get_all_budget_categories_sqlite(
 pub(crate) fn get_one_budget_category_sqlite(
     conn: &Connection,
     id: &str,
-) -> anyhow::Result<BudgetCategory> {
+) -> anyhow::Result<Option<BudgetCategory>> {
     let result = get_one_by_id::<BudgetCategory>(conn, id, GET_ONE_BUDGET_CATEGORY);
 
     result
@@ -228,7 +228,7 @@ pub(crate) fn get_all_budget_sqlite(conn: &Connection) -> anyhow::Result<Vec<Bud
     result
 }
 
-pub(crate) fn get_one_budget_sqlite(conn: &Connection, id: &str) -> anyhow::Result<Budget> {
+pub(crate) fn get_one_budget_sqlite(conn: &Connection, id: &str) -> anyhow::Result<Option<Budget>> {
     let result = get_one_by_id::<Budget>(conn, id, GET_ONE_BUDGET);
 
     result
@@ -291,7 +291,7 @@ pub(crate) fn get_all_budget_plan_sqlite(conn: &Connection) -> anyhow::Result<Ve
 pub(crate) fn get_one_budget_plan_sqlite(
     conn: &Connection,
     id: &str,
-) -> anyhow::Result<BudgetPlan> {
+) -> anyhow::Result<Option<BudgetPlan>> {
     let result = get_one_by_id::<BudgetPlan>(conn, id, GET_ONE_BUDGET_PLAN);
 
     result
@@ -482,7 +482,7 @@ fn get_one_by_id<T: for<'a> Deserialize<'a>>(
     conn: &Connection,
     id: &str,
     command: &str,
-) -> anyhow::Result<T> {
+) -> anyhow::Result<Option<T>> {
     let parsed_id: u32 = id.parse().unwrap();
     let prepared_stmt = conn.prepare(command);
     if prepared_stmt.is_err() {
@@ -493,7 +493,12 @@ fn get_one_by_id<T: for<'a> Deserialize<'a>>(
     let mut stmt = prepared_stmt.unwrap();
     let mut rows = stmt.query_map([parsed_id],map_rows)?;
 
-    let transaction: T = rows.nth(0).unwrap()?;
+    let mut transaction: Option<T> = None;
+    let row = rows.nth(0);
+    if row.is_some() {
+        let result = row.unwrap()?;
+        transaction = Some(result);
+    }
     rows.last();
 
     stmt.finalize().unwrap();

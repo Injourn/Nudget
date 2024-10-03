@@ -7,7 +7,7 @@ use crate::{database::rusqlite_impl::get_one_budget_sqlite, models::{budget::Bud
 
 
 #[tauri::command]
-pub(crate) fn get_one_budget(conn_state: State<'_, Mutex<Connection>>,id: &str) -> Response<Budget>{
+pub(crate) fn get_one_budget(conn_state: State<'_, Mutex<Connection>>,id: &str) -> Response<Option<Budget>>{
     let conn = conn_state.inner().lock().expect("could not get db connection");
     let conn = conn.deref();
 

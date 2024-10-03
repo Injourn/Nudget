@@ -7,7 +7,7 @@ use crate::{database::rusqlite_impl::get_one_category_sqlite, models::{category:
 
 
 #[tauri::command]
-pub(crate) fn get_one_category(conn_state: State<'_, Mutex<Connection>>,id: &str) -> Response<Category>{
+pub(crate) fn get_one_category(conn_state: State<'_, Mutex<Connection>>,id: &str) -> Response<Option<Category>>{
     let conn = conn_state.inner().lock().expect("could not get db connection");
     let conn = conn.deref();
 
