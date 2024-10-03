@@ -26,7 +26,7 @@ pub const GET_ONE_TRANSACTION: &str =
        day_of_week
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id
-WHERE id = ?1;";
+WHERE transaction_item.id = ?1;";
 
 
 pub const ADD_TRANSACTION: &str =
