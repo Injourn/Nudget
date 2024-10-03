@@ -3,7 +3,7 @@ use std::{fs, sync::{Mutex, Once}};
 use chrono::NaiveDate;
 use rusqlite::Connection;
 
-use crate::{database::rusqlite_impl::{add_transaction_sqlite, get_one_transaction_sqlite, get_transaction_sqlite, get_transactions_in_range_sqlite, remove_transaction_sqlite, update_transaction_sqlite}, models::{request::transaction_in_range_request_model::TransactionInRangeRequestModel, transaction::Transaction}};
+use crate::{database::rusqlite_impl::{add_category_sqlite, add_transaction_sqlite, get_one_category_sqlite, get_one_transaction_sqlite, get_transaction_sqlite, get_transactions_in_range_sqlite, remove_transaction_sqlite, update_transaction_sqlite}, models::{category::Category, request::transaction_in_range_request_model::TransactionInRangeRequestModel, transaction::Transaction}};
 
 static INIT: Once = Once::new();
 static CONN: Mutex<Option<Connection>> = Mutex::new(Option::None);
@@ -17,6 +17,37 @@ pub fn initialize() {
         *conn_opt = Some(conn);
     });
 }
+
+macro_rules! create_test {
+    ($test_name:ident,$sql_create_func_name:ident,$sql_get_func_name:ident,$type:ident,$($field:ident;$value:expr),*) => {
+        #[test]
+        fn $test_name (){
+            initialize();
+            let conn_opt = CONN.lock().unwrap();
+            let conn = conn_opt.as_ref().unwrap();
+
+            let item = $type {
+                id:0,
+                $($field:$value),*
+            };
+
+            let result = $sql_create_func_name(conn,item);
+            
+            let mut id = 0;
+            match result {
+                Ok(item_id) => id = item_id,
+                Err(error) => assert!(false,"Error during sql execution \n {error}"),
+            };
+            let retrieved_object = $sql_get_func_name(conn, &id.to_string()).unwrap().unwrap();
+
+            println!("retrieved object id: {id}");
+            $(assert_eq!($value,retrieved_object.$field));*
+        }
+    };
+}
+
+create_test!(create_category,add_category_sqlite,get_one_category_sqlite,Category,
+name;"example".to_string());
 
 #[test]
 fn create_transaction(){
@@ -57,18 +88,25 @@ fn create_transaction(){
     
 }
 
-#[test]
-fn get_one_transaction(){
-    initialize();
-    let conn_opt = CONN.lock().unwrap();
-    let conn = conn_opt.as_ref().unwrap();
-    let response = get_one_transaction_sqlite(conn, "20");
+macro_rules! get_one_test {
+    ($x:ident,$y:ident,$z:expr) => {
+        #[test]
+        fn $x(){
+            initialize();
+            let conn_opt = CONN.lock().unwrap();
+            let conn = conn_opt.as_ref().unwrap();
+            let response = $y(conn, stringify!($z));
 
-    match response {
-        Ok(result) => assert_eq!(20,result.unwrap().id),
-        Err(error) => assert!(false,"Error during sql execution \n {error}"),
-    }
+            match response {
+                Ok(result) => assert_eq!($z,result.unwrap().id),
+                Err(error) => assert!(false,"Error during sql execution \n {error}"),
+            }
+        }
+    };
 }
+
+get_one_test!(get_one_transaction,get_one_transaction_sqlite,20);
+get_one_test!(get_one_category,get_one_category_sqlite,2);
 
 #[test]
 fn update_transaction(){
