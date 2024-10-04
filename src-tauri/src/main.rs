@@ -69,6 +69,7 @@ mod models {
     pub(crate) mod cycle;
     pub(crate) mod budget_plan_category;
     pub(crate) mod budget_budget_category;
+    pub(crate) mod account;
     pub mod request{
         pub(crate) mod transaction_in_range_request_model;
     }
