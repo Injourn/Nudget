@@ -91,7 +91,7 @@ SET category_id = ?2,
     flat_amount = ?3,
     percentage_amount = ?4,
     fixed = ?5
-WHERE category.id = ?1;";
+WHERE id = ?1;";
 
 
 pub const GET_ALL_BUDGET_CATEGORIES: &str =
@@ -109,7 +109,7 @@ pub const GET_ONE_BUDGET_CATEGORY: &str =
        percentage_amount,
        fixed
 FROM budget_category
-WHERE category.id = ?1;";
+WHERE id = ?1;";
 
 
 pub const DELETE_BUDGET_CATEGORY: &str =
@@ -127,7 +127,7 @@ pub const UPDATE_BUDGET: &str =
 "UPDATE budget
 SET start_date = ?2,
     CYCLE = ?3,
-    end_date = ?3
+    end_date = ?4
 WHERE budget.id = ?1;";
 
 pub const GET_ALL_BUDGET: &str =
@@ -352,11 +352,11 @@ CREATE TABLE IF NOT EXISTS \"budget_category\" (
 	PRIMARY KEY(\"id\" AUTOINCREMENT)
 );
 CREATE TABLE IF NOT EXISTS \"budget\" (
-	\"id\"	bigint auto_increment NOT NULL UNIQUE,
+	\"id\"	bigint NOT NULL UNIQUE,
 	\"start_date\"	DATE,
 	\"cycle\"	varchar,
 	\"end_date\"	DATE,
-	PRIMARY KEY(\"id\")
+	PRIMARY KEY(\"id\" AUTOINCREMENT)
 );
 CREATE TABLE IF NOT EXISTS \"budget_plan\" (
 	\"id\"	INTEGER NOT NULL UNIQUE,

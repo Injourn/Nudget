@@ -3,7 +3,7 @@ use std::{fs, sync::{Mutex, Once}};
 use chrono::NaiveDate;
 use rusqlite::Connection;
 
-use crate::{database::rusqlite_impl::{add_category_sqlite, add_transaction_sqlite, get_all_categories_sqlite, get_one_category_sqlite, get_one_transaction_sqlite, get_transaction_sqlite, get_transactions_in_range_sqlite, remove_category_sqlite, remove_transaction_sqlite, update_category_sqlite, update_transaction_sqlite}, models::{category::Category, request::transaction_in_range_request_model::TransactionInRangeRequestModel, transaction::Transaction}};
+use crate::{database::rusqlite_impl::{add_budget_category_sqlite, add_budget_plan_sqlite, add_budget_sqlite, add_category_sqlite, add_transaction_sqlite, get_all_budget_categories_sqlite, get_all_budget_plan_sqlite, get_all_budget_sqlite, get_all_categories_sqlite, get_one_budget_category_sqlite, get_one_budget_plan_sqlite, get_one_budget_sqlite, get_one_category_sqlite, get_one_transaction_sqlite, get_transaction_sqlite, get_transactions_in_range_sqlite, remove_budget_category_sqlite, remove_budget_plan_sqlite, remove_budget_sqlite, remove_category_sqlite, remove_transaction_sqlite, update_budget_category_sqlite, update_budget_plan_sqlite, update_budget_sqlite, update_category_sqlite, update_transaction_sqlite}, models::{budget::Budget, budget_category::BudgetCategory, budget_plan::BudgetPlan, category::Category, cycle::Cycle, request::transaction_in_range_request_model::TransactionInRangeRequestModel, transaction::Transaction}};
 
 static INIT: Once = Once::new();
 static CONN: Mutex<Option<Connection>> = Mutex::new(Option::None);
@@ -41,7 +41,7 @@ macro_rules! create_test {
             let retrieved_object = $sql_get_func_name(conn, &id.to_string()).unwrap().unwrap();
 
             println!("retrieved object id: {id}");
-            $(assert_eq!($value,retrieved_object.$field));*
+            $(assert_eq!($value,retrieved_object.$field,"field {} failed to match value", stringify!($field)));*
         }
     };
 }
@@ -57,6 +57,22 @@ recurring; false,
 cycle; None,
 day_of_month; None,
 day_of_week; None);
+create_test!(create_budget,add_budget_sqlite,get_one_budget_sqlite,Budget,
+start_date;"2024-05-15".to_string(),
+end_date;"2024-06-15".to_string(),
+cycle;Some(Cycle::MONTHLY));
+create_test!(create_budget_plan,add_budget_plan_sqlite,get_one_budget_plan_sqlite,BudgetPlan,
+    cycle;Cycle::MONTHLY,
+    start_date_of_month;Some(15),
+    start_date_of_week;None,
+    active;false,
+    name;"Next".to_string());
+create_test!(create_budget_category,add_budget_category_sqlite,get_one_budget_category_sqlite,BudgetCategory,
+    category_id; 2,
+    flat_amount; "700".to_string(),
+    fixed;true,
+    percentage_amount;"".to_string()
+);
 
 macro_rules! get_one_test {
     ($x:ident,$y:ident,$z:expr) => {
@@ -77,6 +93,9 @@ macro_rules! get_one_test {
 
 get_one_test!(get_one_transaction,get_one_transaction_sqlite,20);
 get_one_test!(get_one_category,get_one_category_sqlite,2);
+get_one_test!(get_one_budget,get_one_budget_sqlite,1);
+get_one_test!(get_one_budget_category,get_one_budget_category_sqlite,2);
+get_one_test!(get_one_budget_plan,get_one_budget_plan_sqlite,2);
 
 
 macro_rules! update_test {
@@ -118,6 +137,25 @@ update_test!(update_transaction,update_transaction_sqlite,get_one_transaction_sq
     cycle; None,
     day_of_month; None,
     day_of_week; None);
+update_test!(update_budget,update_budget_sqlite,get_one_budget_sqlite,Budget,
+    id;1,
+    start_date;"2024-05-15".to_string(),
+    end_date;"2024-06-15".to_string(),
+    cycle;Some(Cycle::MONTHLY));
+update_test!(update_budget_plan,update_budget_plan_sqlite,get_one_budget_plan_sqlite,BudgetPlan,
+    id;2,
+    cycle;Cycle::MONTHLY,
+    start_date_of_month;Some(15),
+    start_date_of_week;None,
+    active;false,
+    name;"Next".to_string());
+update_test!(update_budget_category,update_budget_category_sqlite,get_one_budget_category_sqlite,BudgetCategory,
+    id;2,
+    category_id; 2,
+    flat_amount; "700".to_string(),
+    fixed;true,
+    percentage_amount;"".to_string()
+);
 
 macro_rules! get_all {
     ($test_name:ident,$func_name:ident) => {
@@ -139,6 +177,9 @@ macro_rules! get_all {
 
 get_all!(get_all_categories,get_all_categories_sqlite);
 get_all!(get_all_transactions,get_transaction_sqlite);
+get_all!(get_all_budget,get_all_budget_sqlite);
+get_all!(get_all_budget_category,get_all_budget_categories_sqlite);
+get_all!(get_all_budget_plan,get_all_budget_plan_sqlite);
 
 
 macro_rules! remove_test {
@@ -177,6 +218,25 @@ remove_test!(remove_transaction,remove_transaction_sqlite,get_one_transaction_sq
     cycle; None,
     day_of_month; None,
     day_of_week; None);
+remove_test!(remove_budget,remove_budget_sqlite,get_one_budget_sqlite,Budget,
+    id;2,
+    start_date;"2024-05-15".to_string(),
+    end_date;"2024-06-15".to_string(),
+    cycle;Some(Cycle::MONTHLY));
+remove_test!(remove_budget_plan,remove_budget_plan_sqlite,get_one_budget_plan_sqlite,BudgetPlan,
+    id;3,
+    cycle;Cycle::MONTHLY,
+    start_date_of_month;Some(15),
+    start_date_of_week;None,
+    active;false,
+    name;"Next".to_string());
+remove_test!(remove_budget_category,remove_budget_category_sqlite,get_one_budget_category_sqlite,BudgetCategory,
+    id;3,
+    category_id; 2,
+    flat_amount; "700".to_string(),
+    fixed;true,
+    percentage_amount;"".to_string()
+);
 
 #[test]
 fn get_transaction_in_range(){

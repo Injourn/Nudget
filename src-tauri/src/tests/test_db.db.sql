@@ -5,11 +5,11 @@ CREATE TABLE IF NOT EXISTS "category" (
 	PRIMARY KEY("id" AUTOINCREMENT)
 );
 CREATE TABLE IF NOT EXISTS "budget" (
-	"id"	bigint auto_increment NOT NULL UNIQUE,
+	"id"	INTEGER NOT NULL UNIQUE,
 	"start_date"	DATE,
 	"cycle"	varchar,
 	"end_date"	DATE,
-	PRIMARY KEY("id")
+	PRIMARY KEY("id" AUTOINCREMENT)
 );
 CREATE TABLE IF NOT EXISTS "budget_plan" (
 	"id"	INTEGER NOT NULL UNIQUE,
@@ -58,7 +58,8 @@ INSERT INTO "category" ("id","name") VALUES (2,'Groceries'),
  (5,'Bills'),
  (6,'Gas'),
  (7,'Disposable Income');
-INSERT INTO "budget" ("id","start_date","cycle","end_date") VALUES (1,'2024-06-15','MONTHLY','2024-07-14');
+INSERT INTO "budget" ("id","start_date","cycle","end_date") VALUES (1,'2024-06-15','MONTHLY','2024-07-14'),
+(2,'2025-06-15','MONTHLY','2025-07-14');
 INSERT INTO "budget_plan" ("id","cycle","start_date_of_month","start_date_of_week","active","name") VALUES (2,'MONTHLY',15,NULL,1,'Main Budget'),
  (3,'WEEKLY',NULL,3,0,'new budget');
 INSERT INTO "budget_category" ("id","category_id","flat_amount","percentage_amount","fixed") VALUES (2,2,'1000','',0),

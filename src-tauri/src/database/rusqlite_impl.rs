@@ -194,7 +194,7 @@ pub(crate) fn get_one_budget_by_date_sqlite(
 pub(crate) fn add_budget_sqlite(conn: &Connection, budget: Budget) -> anyhow::Result<i64> {
     let result = insert_or_update_item(
         conn,
-        (&budget.start_date, &budget.cycle, &budget.cycle),
+        (&budget.start_date, &budget.cycle, &budget.end_date),
         INSERT_BUDGET,
     );
 
