@@ -55,6 +55,13 @@ mod commands {
         pub(crate) mod add_budget_plan_category;
         pub(crate) mod remove_budget_plan_category;
     }
+    pub mod account {
+        pub(crate) mod get_all_account;
+        pub(crate) mod get_one_account;
+        pub(crate) mod add_account;
+        pub(crate) mod remove_account;
+        pub(crate) mod update_account;
+    }
     pub(crate) mod get_active_budget_statistics;
     pub(crate) mod get_default_budget_statistics;
     pub(crate) mod load_file;
@@ -144,6 +151,11 @@ fn main() {
             crate::commands::budget_plan_category::remove_budget_plan_category::remove_budget_plan_category,
             crate::commands::get_default_budget_statistics::get_default_budget_statistics,
             crate::commands::get_active_budget_statistics::get_active_budget_statistics,
+            crate::commands::account::get_all_account::get_all_account,
+            crate::commands::account::get_one_account::get_one_account,
+            crate::commands::account::add_account::add_account,
+            crate::commands::account::remove_account::remove_account,
+            crate::commands::account::update_account::update_account,
             crate::commands::load_file::load_file,
             crate::commands::create_file::create_file])
         .run(tauri::generate_context!())
