@@ -5,10 +5,8 @@ use tauri::State;
 
 use crate::models::response::response::Response;
 
-
-
 #[tauri::command]
-pub(crate) fn load_file(conn_state: State<'_, Mutex<Connection>>, file_path: &str) -> Response<()>{
+pub(crate) fn load_file(conn_state: State<'_, Mutex<Connection>>, file_path: &str) -> Response<()> {
     let conn = Connection::open(file_path);
     let mut state = conn_state.inner().lock().unwrap();
     let response = match conn {
@@ -20,5 +18,4 @@ pub(crate) fn load_file(conn_state: State<'_, Mutex<Connection>>, file_path: &st
     };
 
     response
-
 }

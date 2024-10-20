@@ -1,5 +1,4 @@
-pub const GET_ALL_TRANSACTIONS: &str =
-"SELECT transaction_item.id,
+pub const GET_ALL_TRANSACTIONS: &str = "SELECT transaction_item.id,
        amount,
        c.id AS category_id,
        c.name AS category_name,
@@ -12,9 +11,7 @@ pub const GET_ALL_TRANSACTIONS: &str =
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id;";
 
-
-pub const GET_ONE_TRANSACTION: &str =
-"SELECT transaction_item.id,
+pub const GET_ONE_TRANSACTION: &str = "SELECT transaction_item.id,
        amount,
        c.id AS category_id,
        c.name AS category_name,
@@ -28,14 +25,11 @@ FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id
 WHERE transaction_item.id = ?1;";
 
-
 pub const ADD_TRANSACTION: &str =
 "INSERT INTO transaction_item (amount, category_id, transaction_date, name,recurring,cycle,day_of_month,day_of_week)
 VALUES (?1,?2,?3,?4,?5,?6,?7,?8);";
 
-
-pub const UPDATE_TRANSACTION: &str =
-"UPDATE transaction_item
+pub const UPDATE_TRANSACTION: &str = "UPDATE transaction_item
 SET amount = ?2,
     category_id = ?3,
     transaction_date = ?4,
@@ -46,64 +40,49 @@ SET amount = ?2,
     day_of_week = ?9
 WHERE transaction_item.id = ?1;";
 
-pub const DELETE_TRANSACTION: &str =
-"DELETE
+pub const DELETE_TRANSACTION: &str = "DELETE
 FROM transaction_item
 WHERE id = ?1;";
 
-
-pub const INSERT_CATEGORY: &str =
-"INSERT INTO category (name)
+pub const INSERT_CATEGORY: &str = "INSERT INTO category (name)
 VALUES (?1);";
 
-
-pub const UPDATE_CATEGORY: &str =
-"UPDATE category
+pub const UPDATE_CATEGORY: &str = "UPDATE category
 SET name = ?2
 WHERE category.id = ?1;";
 
-pub const GET_ALL_CATEGORIES: &str =
-"SELECT id,
+pub const GET_ALL_CATEGORIES: &str = "SELECT id,
        name
 FROM category";
 
-pub const GET_ONE_CATEGORY: &str =
-"SELECT id,
+pub const GET_ONE_CATEGORY: &str = "SELECT id,
        name
 FROM category
 WHERE category.id = ?1;";
 
-
-pub const DELETE_CATEGORY: &str =
-"DELETE
+pub const DELETE_CATEGORY: &str = "DELETE
 FROM category
 WHERE id = ?1;";
 
-
 pub const INSERT_BUDGET_CATEGORY: &str =
-"INSERT INTO budget_category (category_id, flat_amount, percentage_amount, fixed)
+    "INSERT INTO budget_category (category_id, flat_amount, percentage_amount, fixed)
 VALUES (?1,?2,?3,?4);";
 
-
-pub const UPDATE_BUDGET_CATEGORY: &str =
-"UPDATE budget_category
+pub const UPDATE_BUDGET_CATEGORY: &str = "UPDATE budget_category
 SET category_id = ?2,
     flat_amount = ?3,
     percentage_amount = ?4,
     fixed = ?5
 WHERE id = ?1;";
 
-
-pub const GET_ALL_BUDGET_CATEGORIES: &str =
-"SELECT id,
+pub const GET_ALL_BUDGET_CATEGORIES: &str = "SELECT id,
        category_id,
        flat_amount,
        percentage_amount,
        fixed
 FROM budget_category";
 
-pub const GET_ONE_BUDGET_CATEGORY: &str =
-"SELECT id,
+pub const GET_ONE_BUDGET_CATEGORY: &str = "SELECT id,
        category_id,
        flat_amount,
        percentage_amount,
@@ -111,54 +90,41 @@ pub const GET_ONE_BUDGET_CATEGORY: &str =
 FROM budget_category
 WHERE id = ?1;";
 
-
-pub const DELETE_BUDGET_CATEGORY: &str =
-"DELETE
+pub const DELETE_BUDGET_CATEGORY: &str = "DELETE
 FROM budget_category
 WHERE id = ?1;";
 
-
-pub const INSERT_BUDGET: &str =
-"INSERT INTO budget (start_date, CYCLE, end_date)
+pub const INSERT_BUDGET: &str = "INSERT INTO budget (start_date, CYCLE, end_date)
 VALUES (?1,?2,?3);";
 
-
-pub const UPDATE_BUDGET: &str =
-"UPDATE budget
+pub const UPDATE_BUDGET: &str = "UPDATE budget
 SET start_date = ?2,
     CYCLE = ?3,
     end_date = ?4
 WHERE budget.id = ?1;";
 
-pub const GET_ALL_BUDGET: &str =
-"SELECT id,
+pub const GET_ALL_BUDGET: &str = "SELECT id,
        start_date,
        CYCLE,
        end_date
 FROM budget";
 
-pub const GET_ONE_BUDGET: &str =
-"SELECT id,
+pub const GET_ONE_BUDGET: &str = "SELECT id,
        start_date,
        CYCLE,
        end_date
 FROM budget
 WHERE budget.id = ?1;";
 
-
-pub const DELETE_BUDGET: &str =
-"DELETE
+pub const DELETE_BUDGET: &str = "DELETE
 FROM budget
 WHERE id = ?1;";
 
-
 pub const INSERT_BUDGET_PLAN: &str =
-"INSERT INTO budget_plan (CYCLE, start_date_of_month, start_date_of_week, name, active)
+    "INSERT INTO budget_plan (CYCLE, start_date_of_month, start_date_of_week, name, active)
 VALUES (?1,?2,?3,?4,?5);";
 
-
-pub const UPDATE_BUDGET_PLAN: &str =
-"UPDATE budget_plan
+pub const UPDATE_BUDGET_PLAN: &str = "UPDATE budget_plan
 SET CYCLE = ?2,
     start_date_of_month = ?3,
     start_date_of_week = ?4,
@@ -166,9 +132,7 @@ SET CYCLE = ?2,
     active = ?6
 WHERE budget_plan.id = ?1;";
 
-
-pub const GET_ALL_BUDGET_PLAN: &str =
-"SELECT id,
+pub const GET_ALL_BUDGET_PLAN: &str = "SELECT id,
        CYCLE,
        start_date_of_month,
        start_date_of_week,
@@ -176,8 +140,7 @@ pub const GET_ALL_BUDGET_PLAN: &str =
        name
 FROM budget_plan";
 
-pub const GET_ONE_BUDGET_PLAN: &str =
-"SELECT id,
+pub const GET_ONE_BUDGET_PLAN: &str = "SELECT id,
        CYCLE,
        start_date_of_month,
        start_date_of_week,
@@ -186,19 +149,15 @@ pub const GET_ONE_BUDGET_PLAN: &str =
 FROM budget_plan
 WHERE budget_plan.id = ?1;";
 
-
-pub const DELETE_BUDGET_PLAN: &str =
-"DELETE
+pub const DELETE_BUDGET_PLAN: &str = "DELETE
 FROM budget_plan
 WHERE id = ?1;";
 
-
 pub const INSERT_BUDGET_BUDGET_CATEGORIES: &str =
-"INSERT INTO budget_budget_category (budget_category_id, budget_id)
+    "INSERT INTO budget_budget_category (budget_category_id, budget_id)
 VALUES (?1,?2);";
 
-pub const GET_ALL_BUDGET_BUDGET_CATEGORIES: &str =
-"SELECT bc.id,
+pub const GET_ALL_BUDGET_BUDGET_CATEGORIES: &str = "SELECT bc.id,
        bc.category_id,
        bc.flat_amount,
        bc.percentage_amount,
@@ -209,21 +168,16 @@ JOIN budget_category bc ON bc.id = bbc.budget_category_id
 JOIN category c ON c.id = bc.category_id
 WHERE bbc.budget_id = ?1;";
 
-
-pub const DELETE_BUDGET_BUDGET_CATEGORY: &str =
-"DELETE
+pub const DELETE_BUDGET_BUDGET_CATEGORY: &str = "DELETE
 FROM budget_budget_category
 WHERE budget_category_id = ?1
   AND budget_id = ?2;";
 
-
 pub const INSERT_BUDGET_PLAN_CATEGORIES: &str =
-"INSERT INTO budget_plan_category (budget_category_id, budget_plan_id)
+    "INSERT INTO budget_plan_category (budget_category_id, budget_plan_id)
 VALUES (?1,?2);";
 
-
-pub const GET_ALL_BUDGET_PLAN_CATEGORIES: &str =
-"SELECT bc.id,
+pub const GET_ALL_BUDGET_PLAN_CATEGORIES: &str = "SELECT bc.id,
        bc.category_id,
        bc.flat_amount,
        bc.percentage_amount,
@@ -234,15 +188,12 @@ JOIN budget_category bc ON bc.id = bpc.budget_category_id
 JOIN category c ON c.id = bc.category_id
 WHERE bpc.budget_plan_id = ?1;";
 
-
-pub const DELETE_BUDGET_PLAN_CATEGORY: &str =
-"DELETE
+pub const DELETE_BUDGET_PLAN_CATEGORY: &str = "DELETE
 FROM budget_plan_category
 WHERE budget_category_id = ?1
   AND budget_plan_id = ?2;";
 
-pub const GET_ALL_BUDGET_STATISTICS: &str = 
-  "SELECT
+pub const GET_ALL_BUDGET_STATISTICS: &str = "SELECT
       c.name as category_name,
       bc.flat_amount as category_budget,
       ( SELECT sum(ti.amount) FROM transaction_item ti
@@ -260,8 +211,7 @@ pub const GET_ALL_BUDGET_STATISTICS: &str =
           ON c.id = bc.category_id
       WHERE bbc.budget_id = ?1";
 
-pub const GET_ALL_DEFAULT_BUDGET_STATISTICS: &str = 
-      "SELECT
+pub const GET_ALL_DEFAULT_BUDGET_STATISTICS: &str = "SELECT
           c.name as category_name,
           bc.flat_amount as category_budget,
           ( SELECT sum(ti.amount) FROM transaction_item ti
@@ -279,8 +229,7 @@ pub const GET_ALL_DEFAULT_BUDGET_STATISTICS: &str =
               ON c.id = bc.category_id
           WHERE bp.active = true";
 
-pub const GET_ACTIVE_BUDGET_PLAN: &str =
-          "SELECT id,
+pub const GET_ACTIVE_BUDGET_PLAN: &str = "SELECT id,
                  CYCLE,
                  start_date_of_month,
                  start_date_of_week,
@@ -288,9 +237,8 @@ pub const GET_ACTIVE_BUDGET_PLAN: &str =
                  name
           FROM budget_plan
           WHERE budget_plan.active = true;";
-  
-pub const GET_ALL_TRANSACTIONS_IN_RANGE: &str = 
-  "SELECT transaction_item.id,
+
+pub const GET_ALL_TRANSACTIONS_IN_RANGE: &str = "SELECT transaction_item.id,
        amount,
        c.id AS category_id,
        c.name AS category_name,
@@ -306,16 +254,14 @@ WHERE
       transaction_date BETWEEN ?1 AND ?2
       OR recurring";
 
-pub const GET_ONE_BUDGET_BY_DATE: &str =
-"SELECT id,
+pub const GET_ONE_BUDGET_BY_DATE: &str = "SELECT id,
        start_date,
        CYCLE,
        end_date
 FROM budget
 WHERE ?1 BETWEEN budget.start_date AND budget.end_date;";
 
-pub const SQL_BUILD: &str = 
-"BEGIN TRANSACTION;
+pub const SQL_BUILD: &str = "BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS \"budget_plan_category\" (
 	\"budget_category_id\"	bigint NOT NULL,
 	\"budget_plan_id\"	bigint NOT NULL,

@@ -10,13 +10,24 @@ use crate::models::{
     category::Category,
     request::transaction_in_range_request_model::TransactionInRangeRequestModel,
     response::{
-        budget_category_response_model::BudgetCategoryResponse, budget_statistics_response_model::BudgetStatisticsResponseModel, transaction_response_model::TransactionResponseModel
+        budget_category_response_model::BudgetCategoryResponse,
+        budget_statistics_response_model::BudgetStatisticsResponseModel,
+        transaction_response_model::TransactionResponseModel,
     },
     transaction::Transaction,
 };
 
 use super::sql_constants::{
-    ADD_TRANSACTION, DELETE_BUDGET, DELETE_BUDGET_BUDGET_CATEGORY, DELETE_BUDGET_CATEGORY, DELETE_BUDGET_PLAN, DELETE_BUDGET_PLAN_CATEGORY, DELETE_CATEGORY, DELETE_TRANSACTION, GET_ACTIVE_BUDGET_PLAN, GET_ALL_BUDGET, GET_ALL_BUDGET_BUDGET_CATEGORIES, GET_ALL_BUDGET_CATEGORIES, GET_ALL_BUDGET_PLAN, GET_ALL_BUDGET_PLAN_CATEGORIES, GET_ALL_BUDGET_STATISTICS, GET_ALL_CATEGORIES, GET_ALL_DEFAULT_BUDGET_STATISTICS, GET_ALL_TRANSACTIONS, GET_ALL_TRANSACTIONS_IN_RANGE, GET_ONE_BUDGET, GET_ONE_BUDGET_BY_DATE, GET_ONE_BUDGET_CATEGORY, GET_ONE_BUDGET_PLAN, GET_ONE_CATEGORY, GET_ONE_TRANSACTION, INSERT_BUDGET, INSERT_BUDGET_BUDGET_CATEGORIES, INSERT_BUDGET_CATEGORY, INSERT_BUDGET_PLAN, INSERT_BUDGET_PLAN_CATEGORIES, INSERT_CATEGORY, UPDATE_BUDGET, UPDATE_BUDGET_CATEGORY, UPDATE_BUDGET_PLAN, UPDATE_CATEGORY, UPDATE_TRANSACTION
+    ADD_TRANSACTION, DELETE_BUDGET, DELETE_BUDGET_BUDGET_CATEGORY, DELETE_BUDGET_CATEGORY,
+    DELETE_BUDGET_PLAN, DELETE_BUDGET_PLAN_CATEGORY, DELETE_CATEGORY, DELETE_TRANSACTION,
+    GET_ACTIVE_BUDGET_PLAN, GET_ALL_BUDGET, GET_ALL_BUDGET_BUDGET_CATEGORIES,
+    GET_ALL_BUDGET_CATEGORIES, GET_ALL_BUDGET_PLAN, GET_ALL_BUDGET_PLAN_CATEGORIES,
+    GET_ALL_BUDGET_STATISTICS, GET_ALL_CATEGORIES, GET_ALL_DEFAULT_BUDGET_STATISTICS,
+    GET_ALL_TRANSACTIONS, GET_ALL_TRANSACTIONS_IN_RANGE, GET_ONE_BUDGET, GET_ONE_BUDGET_BY_DATE,
+    GET_ONE_BUDGET_CATEGORY, GET_ONE_BUDGET_PLAN, GET_ONE_CATEGORY, GET_ONE_TRANSACTION,
+    INSERT_BUDGET, INSERT_BUDGET_BUDGET_CATEGORIES, INSERT_BUDGET_CATEGORY, INSERT_BUDGET_PLAN,
+    INSERT_BUDGET_PLAN_CATEGORIES, INSERT_CATEGORY, UPDATE_BUDGET, UPDATE_BUDGET_CATEGORY,
+    UPDATE_BUDGET_PLAN, UPDATE_CATEGORY, UPDATE_TRANSACTION,
 };
 
 pub(crate) fn get_transaction_sqlite(
@@ -49,7 +60,7 @@ pub(crate) fn add_transaction_sqlite(
             &transaction.recurring,
             &transaction.cycle,
             &transaction.day_of_month,
-            &transaction.day_of_week
+            &transaction.day_of_week,
         ),
         ADD_TRANSACTION,
     );
@@ -72,7 +83,7 @@ pub(crate) fn update_transaction_sqlite(
             &transaction.recurring,
             &transaction.cycle,
             &transaction.day_of_month,
-            &transaction.day_of_week
+            &transaction.day_of_week,
         ),
         UPDATE_TRANSACTION,
     );
@@ -113,7 +124,10 @@ pub(crate) fn get_all_categories_sqlite(conn: &Connection) -> anyhow::Result<Vec
     result
 }
 
-pub(crate) fn get_one_category_sqlite(conn: &Connection, id: &str) -> anyhow::Result<Option<Category>> {
+pub(crate) fn get_one_category_sqlite(
+    conn: &Connection,
+    id: &str,
+) -> anyhow::Result<Option<Category>> {
     let result = get_one_by_id::<Category>(conn, id, GET_ONE_CATEGORY);
 
     result
@@ -395,7 +409,11 @@ pub(crate) fn get_default_budget_statistics_sqlite(
     conn: &Connection,
     range: TransactionInRangeRequestModel,
 ) -> anyhow::Result<Vec<BudgetStatisticsResponseModel>> {
-    let result = get_by_params(conn, (&range.start_date,&range.end_date), GET_ALL_DEFAULT_BUDGET_STATISTICS);
+    let result = get_by_params(
+        conn,
+        (&range.start_date, &range.end_date),
+        GET_ALL_DEFAULT_BUDGET_STATISTICS,
+    );
 
     result
 }
@@ -465,11 +483,11 @@ fn get_one<T: for<'a> Deserialize<'a>>(
         return Err(error_msg.into());
     }
     let mut stmt = prepared_stmt.unwrap();
-    let mut rows = stmt.query_map([],map_rows::<T>)?;
+    let mut rows = stmt.query_map([], map_rows::<T>)?;
 
-    let transaction: Option<T> = match rows.nth(0){
+    let transaction: Option<T> = match rows.nth(0) {
         Some(item) => Some(item.unwrap()),
-        None => None
+        None => None,
     };
     rows.last();
 
@@ -491,7 +509,7 @@ fn get_one_by_id<T: for<'a> Deserialize<'a>>(
         return Err(error_msg.into());
     }
     let mut stmt = prepared_stmt.unwrap();
-    let mut rows = stmt.query_map([parsed_id],map_rows)?;
+    let mut rows = stmt.query_map([parsed_id], map_rows)?;
 
     let mut transaction: Option<T> = None;
     let row = rows.nth(0);
@@ -539,7 +557,7 @@ fn get_by_params<P: Params, T: for<'a> Deserialize<'a>>(
         return Err(error_msg.into());
     }
     let mut stmt = prepared_stmt.unwrap();
-    let rows = stmt.query_map(params,map_rows)?;
+    let rows = stmt.query_map(params, map_rows)?;
 
     let mut transactions: Vec<T> = Vec::new();
 

@@ -1,7 +1,7 @@
-#[derive(serde::Serialize,serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize)]
 
-pub(crate) struct BudgetCategoryResponse{
-    pub(crate) id:u32,
+pub(crate) struct BudgetCategoryResponse {
+    pub(crate) id: u32,
     pub(crate) category_id: u32,
     pub(crate) category_name: String,
     pub(crate) fixed: bool,
