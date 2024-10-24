@@ -10,6 +10,7 @@ interface TransactionRequestModel {
     cycle:Cycle;
     day_of_month:number;
     day_of_week:number;
+    account_id:number;
 
 }
 

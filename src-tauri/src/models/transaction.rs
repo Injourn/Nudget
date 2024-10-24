@@ -11,4 +11,5 @@ pub(crate) struct Transaction {
     pub(crate) cycle: Option<Cycle>,
     pub(crate) day_of_month: Option<u8>,
     pub(crate) day_of_week: Option<u8>,
+    pub(crate) account_id: Option<u32>
 }

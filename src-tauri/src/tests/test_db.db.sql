@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS "budget_budget_category" (
 	"budget_id"	bigint NOT NULL,
 	FOREIGN KEY("budget_category_id") REFERENCES "budget_category"("id") ON DELETE CASCADE
 );
-CREATE TABLE IF NOT EXISTS "transaction_item" (
+CREATE TABLE "transaction_item" (
 	"id"	INTEGER NOT NULL,
 	"amount"	varchar,
 	"category_id"	bigint,
@@ -57,6 +57,8 @@ CREATE TABLE IF NOT EXISTS "transaction_item" (
 	"cycle"	TEXT,
 	"day_of_month"	INTEGER,
 	"day_of_week"	INTEGER,
+	"account_id"	INTEGER DEFAULT NULL,
+	FOREIGN KEY("account_id") REFERENCES "account"("id") ON DELETE SET NULL,
 	PRIMARY KEY("id" AUTOINCREMENT),
 	FOREIGN KEY("category_id") REFERENCES "category"("id") ON DELETE SET NULL
 );
