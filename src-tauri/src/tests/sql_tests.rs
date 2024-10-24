@@ -1,9 +1,30 @@
-use std::{fs, sync::{Mutex, Once}};
+use std::{
+    fs,
+    sync::{Mutex, Once},
+};
 
 use chrono::NaiveDate;
 use rusqlite::Connection;
 
-use crate::{database::rusqlite_impl::{add_budget_category_sqlite, add_budget_plan_sqlite, add_budget_sqlite, add_category_sqlite, add_transaction_sqlite, get_all_budget_categories_sqlite, get_all_budget_plan_sqlite, get_all_budget_sqlite, get_all_categories_sqlite, get_one_budget_category_sqlite, get_one_budget_plan_sqlite, get_one_budget_sqlite, get_one_category_sqlite, get_one_transaction_sqlite, get_transaction_sqlite, get_transactions_in_range_sqlite, remove_budget_category_sqlite, remove_budget_plan_sqlite, remove_budget_sqlite, remove_category_sqlite, remove_transaction_sqlite, update_budget_category_sqlite, update_budget_plan_sqlite, update_budget_sqlite, update_category_sqlite, update_transaction_sqlite}, models::{budget::Budget, budget_category::BudgetCategory, budget_plan::BudgetPlan, category::Category, cycle::Cycle, request::transaction_in_range_request_model::TransactionInRangeRequestModel, transaction::Transaction}};
+use crate::{
+    database::rusqlite_impl::{
+        add_budget_category_sqlite, add_budget_plan_sqlite, add_budget_sqlite, add_category_sqlite,
+        add_transaction_sqlite, get_all_budget_categories_sqlite, get_all_budget_plan_sqlite,
+        get_all_budget_sqlite, get_all_categories_sqlite, get_one_budget_category_sqlite,
+        get_one_budget_plan_sqlite, get_one_budget_sqlite, get_one_category_sqlite,
+        get_one_transaction_sqlite, get_transaction_sqlite, get_transactions_in_range_sqlite,
+        remove_budget_category_sqlite, remove_budget_plan_sqlite, remove_budget_sqlite,
+        remove_category_sqlite, remove_transaction_sqlite, update_budget_category_sqlite,
+        update_budget_plan_sqlite, update_budget_sqlite, update_category_sqlite,
+        update_transaction_sqlite,
+    },
+    models::{
+        budget::Budget, budget_category::BudgetCategory, budget_plan::BudgetPlan,
+        category::Category, cycle::Cycle,
+        request::transaction_in_range_request_model::TransactionInRangeRequestModel,
+        transaction::Transaction,
+    },
+};
 
 static INIT: Once = Once::new();
 static CONN: Mutex<Option<Connection>> = Mutex::new(Option::None);
@@ -32,7 +53,7 @@ macro_rules! create_test {
             };
 
             let result = $sql_create_func_name(conn,item);
-            
+
             let mut id = 0;
             match result {
                 Ok(item_id) => id = item_id,
@@ -77,26 +98,25 @@ create_test!(create_budget_category,add_budget_category_sqlite,get_one_budget_ca
 macro_rules! get_one_test {
     ($x:ident,$y:ident,$z:expr) => {
         #[test]
-        fn $x(){
+        fn $x() {
             initialize();
             let conn_opt = CONN.lock().unwrap();
             let conn = conn_opt.as_ref().unwrap();
             let response = $y(conn, stringify!($z));
 
             match response {
-                Ok(result) => assert_eq!($z,result.unwrap().id),
-                Err(error) => assert!(false,"Error during sql execution \n {error}"),
+                Ok(result) => assert_eq!($z, result.unwrap().id),
+                Err(error) => assert!(false, "Error during sql execution \n {error}"),
             }
         }
     };
 }
 
-get_one_test!(get_one_transaction,get_one_transaction_sqlite,20);
-get_one_test!(get_one_category,get_one_category_sqlite,2);
-get_one_test!(get_one_budget,get_one_budget_sqlite,1);
-get_one_test!(get_one_budget_category,get_one_budget_category_sqlite,2);
-get_one_test!(get_one_budget_plan,get_one_budget_plan_sqlite,2);
-
+get_one_test!(get_one_transaction, get_one_transaction_sqlite, 20);
+get_one_test!(get_one_category, get_one_category_sqlite, 2);
+get_one_test!(get_one_budget, get_one_budget_sqlite, 1);
+get_one_test!(get_one_budget_category, get_one_budget_category_sqlite, 2);
+get_one_test!(get_one_budget_plan, get_one_budget_plan_sqlite, 2);
 
 macro_rules! update_test {
     ($test_name:ident,$sql_update_func_name:ident,$sql_get_func_name:ident,$type:ident,$($field:ident;$value:expr),*) => {
@@ -112,7 +132,7 @@ macro_rules! update_test {
             let id = item.id;
 
             let result = $sql_update_func_name(conn,item);
-            
+
             match result {
                 Ok(_) => println!("updated object successfully"),
                 Err(error) => assert!(false,"Error during sql execution \n {error}"),
@@ -160,7 +180,7 @@ update_test!(update_budget_category,update_budget_category_sqlite,get_one_budget
 macro_rules! get_all {
     ($test_name:ident,$func_name:ident) => {
         #[test]
-        fn $test_name(){
+        fn $test_name() {
             initialize();
             let conn_opt = CONN.lock().unwrap();
             let conn = conn_opt.as_ref().unwrap();
@@ -169,18 +189,17 @@ macro_rules! get_all {
 
             match response {
                 Ok(result) => assert!(result.len() > 0, "Incorrectly returned 0 items"),
-                Err(error) => assert!(false,"Error during sql execution \n {error}"),
+                Err(error) => assert!(false, "Error during sql execution \n {error}"),
             }
         }
     };
 }
 
-get_all!(get_all_categories,get_all_categories_sqlite);
-get_all!(get_all_transactions,get_transaction_sqlite);
-get_all!(get_all_budget,get_all_budget_sqlite);
-get_all!(get_all_budget_category,get_all_budget_categories_sqlite);
-get_all!(get_all_budget_plan,get_all_budget_plan_sqlite);
-
+get_all!(get_all_categories, get_all_categories_sqlite);
+get_all!(get_all_transactions, get_transaction_sqlite);
+get_all!(get_all_budget, get_all_budget_sqlite);
+get_all!(get_all_budget_category, get_all_budget_categories_sqlite);
+get_all!(get_all_budget_plan, get_all_budget_plan_sqlite);
 
 macro_rules! remove_test {
     ($test_name:ident,$sql_remove_func_name:ident,$sql_get_func_name:ident,$type:ident,$($field:ident;$value:expr),*) => {
@@ -239,12 +258,12 @@ remove_test!(remove_budget_category,remove_budget_category_sqlite,get_one_budget
 );
 
 #[test]
-fn get_transaction_in_range(){
+fn get_transaction_in_range() {
     initialize();
     let conn_opt = CONN.lock().unwrap();
     let conn = conn_opt.as_ref().unwrap();
 
-    let transaction_range = TransactionInRangeRequestModel{
+    let transaction_range = TransactionInRangeRequestModel {
         start_date: "2024-09-01".to_string(),
         end_date: "2024-09-30".to_string(),
     };
@@ -252,14 +271,25 @@ fn get_transaction_in_range(){
     let response = get_transactions_in_range_sqlite(conn, &transaction_range);
 
     match response {
-        Ok(result) => for transaction in result{
-            let transaction_date = NaiveDate::parse_from_str(&transaction.transaction_date, "%Y-%m-%d").unwrap();
-            let range_start = NaiveDate::parse_from_str(&transaction_range.start_date, "%Y-%m-%d").unwrap();
-            let range_end = NaiveDate::parse_from_str(&transaction_range.end_date, "%Y-%m-%d").unwrap();
+        Ok(result) => {
+            for transaction in result {
+                let transaction_date =
+                    NaiveDate::parse_from_str(&transaction.transaction_date, "%Y-%m-%d").unwrap();
+                let range_start =
+                    NaiveDate::parse_from_str(&transaction_range.start_date, "%Y-%m-%d").unwrap();
+                let range_end =
+                    NaiveDate::parse_from_str(&transaction_range.end_date, "%Y-%m-%d").unwrap();
 
-            assert!(transaction_date >= range_start, "transaction date is '{transaction_date}' and range start is '{range_start}'");
-            assert!(transaction_date <= range_end,"transaction date is '{transaction_date}' and range end is '{range_end}'");
-        },
-        Err(error) => assert!(false,"Error during sql execution \n {error}"),
+                assert!(
+                    transaction_date >= range_start,
+                    "transaction date is '{transaction_date}' and range start is '{range_start}'"
+                );
+                assert!(
+                    transaction_date <= range_end,
+                    "transaction date is '{transaction_date}' and range end is '{range_end}'"
+                );
+            }
+        }
+        Err(error) => assert!(false, "Error during sql execution \n {error}"),
     }
 }

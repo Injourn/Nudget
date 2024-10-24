@@ -5,10 +5,11 @@ use tauri::State;
 
 use crate::{database::sql_constants::SQL_BUILD, models::response::response::Response};
 
-
-
 #[tauri::command]
-pub(crate) fn create_file(conn_state: State<'_, Mutex<Connection>>, file_path: &str) -> Response<()>{
+pub(crate) fn create_file(
+    conn_state: State<'_, Mutex<Connection>>,
+    file_path: &str,
+) -> Response<()> {
     let mut file_path_owned = file_path.to_owned();
     if !file_path_owned.ends_with(".db") {
         file_path_owned = file_path_owned + ".db";
@@ -25,5 +26,4 @@ pub(crate) fn create_file(conn_state: State<'_, Mutex<Connection>>, file_path: &
     };
 
     response
-
 }

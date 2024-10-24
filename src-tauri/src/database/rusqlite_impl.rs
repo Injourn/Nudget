@@ -2,9 +2,20 @@ use rusqlite::{Connection, Params};
 use serde::Deserialize;
 
 use crate::models::{
-    account::Account, budget::Budget, budget_budget_category::BudgetBudgetCategory, budget_category::BudgetCategory, budget_plan::BudgetPlan, budget_plan_category::BudgetPlanCategory, category::Category, request::transaction_in_range_request_model::TransactionInRangeRequestModel, response::{
-        budget_category_response_model::BudgetCategoryResponse, budget_statistics_response_model::BudgetStatisticsResponseModel, transaction_response_model::TransactionResponseModel
-    }, transaction::Transaction
+    budget::Budget,
+    budget_budget_category::BudgetBudgetCategory,
+    budget_category::BudgetCategory,
+    budget_plan::BudgetPlan,
+    budget_plan_category::BudgetPlanCategory,
+    category::Category,
+    request::transaction_in_range_request_model::TransactionInRangeRequestModel,
+    response::{
+        budget_category_response_model::BudgetCategoryResponse,
+        budget_statistics_response_model::BudgetStatisticsResponseModel,
+        transaction_response_model::TransactionResponseModel,
+    },
+    transaction::Transaction,
+    account::Account
 };
 
 use super::sql_constants::{
@@ -41,7 +52,7 @@ pub(crate) fn add_transaction_sqlite(
             &transaction.recurring,
             &transaction.cycle,
             &transaction.day_of_month,
-            &transaction.day_of_week
+            &transaction.day_of_week,
         ),
         ADD_TRANSACTION,
     );
@@ -64,7 +75,7 @@ pub(crate) fn update_transaction_sqlite(
             &transaction.recurring,
             &transaction.cycle,
             &transaction.day_of_month,
-            &transaction.day_of_week
+            &transaction.day_of_week,
         ),
         UPDATE_TRANSACTION,
     );
@@ -105,7 +116,10 @@ pub(crate) fn get_all_categories_sqlite(conn: &Connection) -> anyhow::Result<Vec
     result
 }
 
-pub(crate) fn get_one_category_sqlite(conn: &Connection, id: &str) -> anyhow::Result<Option<Category>> {
+pub(crate) fn get_one_category_sqlite(
+    conn: &Connection,
+    id: &str,
+) -> anyhow::Result<Option<Category>> {
     let result = get_one_by_id::<Category>(conn, id, GET_ONE_CATEGORY);
 
     result
@@ -417,7 +431,11 @@ pub(crate) fn get_default_budget_statistics_sqlite(
     conn: &Connection,
     range: TransactionInRangeRequestModel,
 ) -> anyhow::Result<Vec<BudgetStatisticsResponseModel>> {
-    let result = get_by_params(conn, (&range.start_date,&range.end_date), GET_ALL_DEFAULT_BUDGET_STATISTICS);
+    let result = get_by_params(
+        conn,
+        (&range.start_date, &range.end_date),
+        GET_ALL_DEFAULT_BUDGET_STATISTICS,
+    );
 
     result
 }
@@ -487,11 +505,11 @@ fn get_one<T: for<'a> Deserialize<'a>>(
         return Err(error_msg.into());
     }
     let mut stmt = prepared_stmt.unwrap();
-    let mut rows = stmt.query_map([],map_rows::<T>)?;
+    let mut rows = stmt.query_map([], map_rows::<T>)?;
 
-    let transaction: Option<T> = match rows.nth(0){
+    let transaction: Option<T> = match rows.nth(0) {
         Some(item) => Some(item.unwrap()),
-        None => None
+        None => None,
     };
     rows.last();
 
@@ -513,7 +531,7 @@ fn get_one_by_id<T: for<'a> Deserialize<'a>>(
         return Err(error_msg.into());
     }
     let mut stmt = prepared_stmt.unwrap();
-    let mut rows = stmt.query_map([parsed_id],map_rows)?;
+    let mut rows = stmt.query_map([parsed_id], map_rows)?;
 
     let mut transaction: Option<T> = None;
     let row = rows.nth(0);
@@ -561,7 +579,7 @@ fn get_by_params<P: Params, T: for<'a> Deserialize<'a>>(
         return Err(error_msg.into());
     }
     let mut stmt = prepared_stmt.unwrap();
-    let rows = stmt.query_map(params,map_rows)?;
+    let rows = stmt.query_map(params, map_rows)?;
 
     let mut transactions: Vec<T> = Vec::new();
 

@@ -1,6 +1,6 @@
-import { invoke } from "@tauri-apps/api";
+import { invoke } from "@tauri-apps/api/core";
 import TauriResponse from "../models/TauriResponse";
-import { InvokeArgs } from "@tauri-apps/api/tauri";
+import { InvokeArgs } from "@tauri-apps/api/core";
 import { toast } from "react-toastify";
 
 async function callTauri<T>(commandName:string,args?: InvokeArgs){
