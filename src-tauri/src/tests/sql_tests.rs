@@ -8,21 +8,10 @@ use rusqlite::Connection;
 
 use crate::{
     database::rusqlite_impl::{
-        add_budget_category_sqlite, add_budget_plan_sqlite, add_budget_sqlite, add_category_sqlite,
-        add_transaction_sqlite, get_all_budget_categories_sqlite, get_all_budget_plan_sqlite,
-        get_all_budget_sqlite, get_all_categories_sqlite, get_one_budget_category_sqlite,
-        get_one_budget_plan_sqlite, get_one_budget_sqlite, get_one_category_sqlite,
-        get_one_transaction_sqlite, get_transaction_sqlite, get_transactions_in_range_sqlite,
-        remove_budget_category_sqlite, remove_budget_plan_sqlite, remove_budget_sqlite,
-        remove_category_sqlite, remove_transaction_sqlite, update_budget_category_sqlite,
-        update_budget_plan_sqlite, update_budget_sqlite, update_category_sqlite,
-        update_transaction_sqlite,
+        add_account_sqlite, add_budget_category_sqlite, add_budget_plan_sqlite, add_budget_sqlite, add_category_sqlite, add_transaction_sqlite, get_all_accounts_sqlite, get_all_budget_categories_sqlite, get_all_budget_plan_sqlite, get_all_budget_sqlite, get_all_categories_sqlite, get_one_account_sqlite, get_one_budget_category_sqlite, get_one_budget_plan_sqlite, get_one_budget_sqlite, get_one_category_sqlite, get_one_transaction_sqlite, get_transaction_sqlite, get_transactions_in_range_sqlite, remove_account_sqlite, remove_budget_category_sqlite, remove_budget_plan_sqlite, remove_budget_sqlite, remove_category_sqlite, remove_transaction_sqlite, update_account_sqlite, update_budget_category_sqlite, update_budget_plan_sqlite, update_budget_sqlite, update_category_sqlite, update_transaction_sqlite
     },
     models::{
-        budget::Budget, budget_category::BudgetCategory, budget_plan::BudgetPlan,
-        category::Category, cycle::Cycle,
-        request::transaction_in_range_request_model::TransactionInRangeRequestModel,
-        transaction::Transaction,
+        account::Account, budget::Budget, budget_category::BudgetCategory, budget_plan::BudgetPlan, category::Category, cycle::Cycle, request::transaction_in_range_request_model::TransactionInRangeRequestModel, transaction::Transaction
     },
 };
 
@@ -94,6 +83,11 @@ create_test!(create_budget_category,add_budget_category_sqlite,get_one_budget_ca
     fixed;true,
     percentage_amount;"".to_string()
 );
+create_test!(create_account,add_account_sqlite,get_one_account_sqlite,Account,
+    name; "main".to_string(),
+    created_date; "2024-10-23".to_string(),
+    currency_type; "$".to_string()
+);
 
 macro_rules! get_one_test {
     ($x:ident,$y:ident,$z:expr) => {
@@ -117,6 +111,7 @@ get_one_test!(get_one_category, get_one_category_sqlite, 2);
 get_one_test!(get_one_budget, get_one_budget_sqlite, 1);
 get_one_test!(get_one_budget_category, get_one_budget_category_sqlite, 2);
 get_one_test!(get_one_budget_plan, get_one_budget_plan_sqlite, 2);
+get_one_test!(get_one_account,get_one_account_sqlite,1);
 
 macro_rules! update_test {
     ($test_name:ident,$sql_update_func_name:ident,$sql_get_func_name:ident,$type:ident,$($field:ident;$value:expr),*) => {
@@ -176,6 +171,12 @@ update_test!(update_budget_category,update_budget_category_sqlite,get_one_budget
     fixed;true,
     percentage_amount;"".to_string()
 );
+update_test!(update_account,update_account_sqlite,get_one_account_sqlite,Account,
+    id;1,
+    name; "main".to_string(),
+    created_date; "2024-10-23".to_string(),
+    currency_type; "$".to_string()
+);
 
 macro_rules! get_all {
     ($test_name:ident,$func_name:ident) => {
@@ -200,6 +201,7 @@ get_all!(get_all_transactions, get_transaction_sqlite);
 get_all!(get_all_budget, get_all_budget_sqlite);
 get_all!(get_all_budget_category, get_all_budget_categories_sqlite);
 get_all!(get_all_budget_plan, get_all_budget_plan_sqlite);
+get_all!(get_all_accounts,get_all_accounts_sqlite);
 
 macro_rules! remove_test {
     ($test_name:ident,$sql_remove_func_name:ident,$sql_get_func_name:ident,$type:ident,$($field:ident;$value:expr),*) => {
@@ -255,6 +257,12 @@ remove_test!(remove_budget_category,remove_budget_category_sqlite,get_one_budget
     flat_amount; "700".to_string(),
     fixed;true,
     percentage_amount;"".to_string()
+);
+remove_test!(remove_account,remove_account_sqlite,get_one_account_sqlite,Account,
+    id;2,
+    name; "main".to_string(),
+    created_date; "2024-10-23".to_string(),
+    currency_type; "$".to_string()
 );
 
 #[test]

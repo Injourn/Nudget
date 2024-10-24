@@ -70,7 +70,7 @@ VALUES (?1,?2,?3);";
 
 
 pub const UPDATE_ACCOUNT: &str =
-"UPDATE category
+"UPDATE account
 SET name = ?2,
        created_date = ?3,
        currency_type = ?4
@@ -86,7 +86,7 @@ FROM account";
 pub const GET_ONE_ACCOUNT: &str =
 "SELECT id,
        name,
-       create_date,
+       created_date,
        currency_type
 FROM account
 WHERE id = ?1;";

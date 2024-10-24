@@ -4,6 +4,13 @@ CREATE TABLE IF NOT EXISTS "category" (
 	"name"	varchar,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );
+CREATE TABLE "account" (
+	"id"	INTEGER NOT NULL,
+	"name"	TEXT NOT NULL,
+	"created_date"	TEXT NOT NULL,
+	"currency_type"	TEXT,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);
 CREATE TABLE IF NOT EXISTS "budget" (
 	"id"	INTEGER NOT NULL UNIQUE,
 	"start_date"	DATE,
@@ -58,6 +65,8 @@ INSERT INTO "category" ("id","name") VALUES (2,'Groceries'),
  (5,'Bills'),
  (6,'Gas'),
  (7,'Disposable Income');
+INSERT INTO "account" ("id","name","created_date","currency_type") VALUES (1,"initial","2024-10-15","USD"),
+(2,"secondary","2024-10-20","USD");
 INSERT INTO "budget" ("id","start_date","cycle","end_date") VALUES (1,'2024-06-15','MONTHLY','2024-07-14'),
 (2,'2025-06-15','MONTHLY','2025-07-14');
 INSERT INTO "budget_plan" ("id","cycle","start_date_of_month","start_date_of_week","active","name") VALUES (2,'MONTHLY',15,NULL,1,'Main Budget'),
