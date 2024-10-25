@@ -75,7 +75,8 @@ function TransactionTable(props:TransactionTableProps){
             category_id: 0,
             transaction_date: defaultValue,
             name: "",
-            recurring: false}  as TransactionRequestModel)
+            recurring: false,
+            credit: false}  as TransactionRequestModel)
         return undefined;
     }
 

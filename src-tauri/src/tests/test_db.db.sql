@@ -58,9 +58,10 @@ CREATE TABLE "transaction_item" (
 	"day_of_month"	INTEGER,
 	"day_of_week"	INTEGER,
 	"account_id"	INTEGER DEFAULT NULL,
-	FOREIGN KEY("account_id") REFERENCES "account"("id") ON DELETE SET NULL,
+	"credit"	NUMERIC NOT NULL DEFAULT 0,
+	FOREIGN KEY("category_id") REFERENCES "category"("id") ON DELETE SET NULL,
 	PRIMARY KEY("id" AUTOINCREMENT),
-	FOREIGN KEY("category_id") REFERENCES "category"("id") ON DELETE SET NULL
+	FOREIGN KEY("account_id") REFERENCES "account"("id") ON DELETE SET NULL
 );
 INSERT INTO "category" ("id","name") VALUES (2,'Groceries'),
  (3,'Rent'),

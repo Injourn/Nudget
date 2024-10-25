@@ -7,7 +7,9 @@ pub const GET_ALL_TRANSACTIONS: &str = "SELECT transaction_item.id,
        transaction_item.recurring,
        cycle,
        day_of_month,
-       day_of_week
+       day_of_week,
+       transaction_item.account_id,
+       credit
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id;";
 
@@ -20,14 +22,16 @@ pub const GET_ONE_TRANSACTION: &str = "SELECT transaction_item.id,
        transaction_item.recurring,
        cycle,
        day_of_month,
-       day_of_week
+       day_of_week,
+       account_id,
+       credit
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id
 WHERE transaction_item.id = ?1;";
 
 pub const ADD_TRANSACTION: &str =
-"INSERT INTO transaction_item (amount, category_id, transaction_date, name,recurring,cycle,day_of_month,day_of_week)
-VALUES (?1,?2,?3,?4,?5,?6,?7,?8);";
+"INSERT INTO transaction_item (amount, category_id, transaction_date, name,recurring,cycle,day_of_month,day_of_week,account_id,credit)
+VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10);";
 
 pub const UPDATE_TRANSACTION: &str = "UPDATE transaction_item
 SET amount = ?2,
@@ -37,7 +41,9 @@ SET amount = ?2,
     recurring = ?6,
     cycle = ?7,
     day_of_month = ?8,
-    day_of_week = ?9
+    day_of_week = ?9,
+    account_id = ?10,
+    credit = ?11
 WHERE transaction_item.id = ?1;";
 
 pub const DELETE_TRANSACTION: &str = "DELETE
@@ -281,7 +287,9 @@ pub const GET_ALL_TRANSACTIONS_IN_RANGE: &str = "SELECT transaction_item.id,
        transaction_item.recurring,
        cycle,
        day_of_month,
-       day_of_week
+       day_of_week,
+       account_id,
+       credit
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id
 WHERE 
