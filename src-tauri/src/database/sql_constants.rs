@@ -303,6 +303,23 @@ pub const GET_ONE_BUDGET_BY_DATE: &str = "SELECT id,
 FROM budget
 WHERE ?1 BETWEEN budget.start_date AND budget.end_date;";
 
+pub const GET_ACCOUNT_SUMMARY_IN_RANGE: &str = "SELECT
+	a.id as account_id,
+	a.name,
+	(SELECT sum(ti.amount) FROM transaction_item ti
+              WHERE ti.credit
+              AND (ti.recurring
+              OR ti.transaction_date BETWEEN ?2 AND ?3)) as credit_transactions,
+	(SELECT sum(ti.amount) FROM transaction_item ti
+              WHERE NOT ti.credit
+              AND (ti.recurring
+              OR ti.transaction_date BETWEEN ?2 AND ?3)) as debit_transactions
+
+	FROM account a
+	JOIN transaction_item ti ON ti.account_id = a.id
+	WHERE a.id = ?1 AND
+			  (ti.transaction_date BETWEEN ?2 AND ?3);";
+
 pub const SQL_BUILD: &str = "BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS \"budget_plan_category\" (
 	\"budget_category_id\"	bigint NOT NULL,

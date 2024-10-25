@@ -8,10 +8,10 @@ use rusqlite::Connection;
 
 use crate::{
     database::rusqlite_impl::{
-        add_account_sqlite, add_budget_category_sqlite, add_budget_plan_sqlite, add_budget_sqlite, add_category_sqlite, add_transaction_sqlite, get_all_accounts_sqlite, get_all_budget_categories_sqlite, get_all_budget_plan_sqlite, get_all_budget_sqlite, get_all_categories_sqlite, get_one_account_sqlite, get_one_budget_category_sqlite, get_one_budget_plan_sqlite, get_one_budget_sqlite, get_one_category_sqlite, get_one_transaction_sqlite, get_transaction_sqlite, get_transactions_in_range_sqlite, remove_account_sqlite, remove_budget_category_sqlite, remove_budget_plan_sqlite, remove_budget_sqlite, remove_category_sqlite, remove_transaction_sqlite, update_account_sqlite, update_budget_category_sqlite, update_budget_plan_sqlite, update_budget_sqlite, update_category_sqlite, update_transaction_sqlite
+        add_account_sqlite, add_budget_category_sqlite, add_budget_plan_sqlite, add_budget_sqlite, add_category_sqlite, add_transaction_sqlite, get_account_summary_in_range_sqlite, get_all_accounts_sqlite, get_all_budget_categories_sqlite, get_all_budget_plan_sqlite, get_all_budget_sqlite, get_all_categories_sqlite, get_one_account_sqlite, get_one_budget_category_sqlite, get_one_budget_plan_sqlite, get_one_budget_sqlite, get_one_category_sqlite, get_one_transaction_sqlite, get_transaction_sqlite, get_transactions_in_range_sqlite, remove_account_sqlite, remove_budget_category_sqlite, remove_budget_plan_sqlite, remove_budget_sqlite, remove_category_sqlite, remove_transaction_sqlite, update_account_sqlite, update_budget_category_sqlite, update_budget_plan_sqlite, update_budget_sqlite, update_category_sqlite, update_transaction_sqlite
     },
     models::{
-        account::Account, budget::Budget, budget_category::BudgetCategory, budget_plan::BudgetPlan, category::Category, cycle::Cycle, request::transaction_in_range_request_model::TransactionInRangeRequestModel, transaction::Transaction
+        account::Account, budget::Budget, budget_category::BudgetCategory, budget_plan::BudgetPlan, category::Category, cycle::Cycle, request::{account_summary_in_range_request::AccountSummaryInRangeRequest, transaction_in_range_request_model::TransactionInRangeRequestModel}, transaction::Transaction
     },
 };
 
@@ -303,6 +303,34 @@ fn get_transaction_in_range() {
                     "transaction date is '{transaction_date}' and range end is '{range_end}'"
                 );
             }
+        }
+        Err(error) => assert!(false, "Error during sql execution \n {error}"),
+    }
+}
+
+#[test]
+fn get_account_summary_in_range(){
+    initialize();
+    let conn_opt = CONN.lock().unwrap();
+    let conn = conn_opt.as_ref().unwrap();
+
+    let example_request =  AccountSummaryInRangeRequest {
+        account_id: 1,
+        start_date: "2024-09-19".to_string(),
+        end_date: "2024-09-26".to_string()
+    };
+
+    let response = get_account_summary_in_range_sqlite(conn, &example_request);
+
+    match response {
+        Ok(result) => {
+            let first_result_option = result.get(0);
+            assert!(first_result_option.is_some(), "Did not get a proper response for account summary response");
+            let first_result = first_result_option.unwrap();
+
+            assert!(first_result.account_id == 1);
+            assert!(first_result.debit_transactions == 1768.44, "Expected credit transactions to be 1768.44 but was actually {0}",first_result.debit_transactions);
+            assert!(first_result.credit_transactions == 6000.00, "Expected credit transactions to be 6000.00 but was actually {0}",first_result.credit_transactions);
         }
         Err(error) => assert!(false, "Error during sql execution \n {error}"),
     }

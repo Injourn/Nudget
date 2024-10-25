@@ -61,6 +61,7 @@ mod commands {
         pub(crate) mod add_account;
         pub(crate) mod remove_account;
         pub(crate) mod update_account;
+        pub(crate) mod get_account_summary_in_range;
     }
     pub(crate) mod create_file;
     pub(crate) mod get_active_budget_statistics;
@@ -79,12 +80,14 @@ mod models {
     pub(crate) mod transaction;
     pub mod request {
         pub(crate) mod transaction_in_range_request_model;
+        pub(crate) mod account_summary_in_range_request;
     }
     pub mod response {
         pub(crate) mod budget_category_response_model;
         pub(crate) mod budget_statistics_response_model;
         pub(crate) mod response;
         pub(crate) mod transaction_response_model;
+        pub(crate) mod account_summary_response;
     }
 }
 mod functions {
@@ -152,6 +155,7 @@ pub fn run() {
             crate::commands::account::add_account::add_account,
             crate::commands::account::remove_account::remove_account,
             crate::commands::account::update_account::update_account,
+            crate::commands::account::get_account_summary_in_range::get_account_summary_in_range,
             crate::commands::load_file::load_file,
             crate::commands::create_file::create_file])
         .run(tauri::generate_context!())

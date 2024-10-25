@@ -2,24 +2,13 @@ use rusqlite::{Connection, Params};
 use serde::Deserialize;
 
 use crate::models::{
-    budget::Budget,
-    budget_budget_category::BudgetBudgetCategory,
-    budget_category::BudgetCategory,
-    budget_plan::BudgetPlan,
-    budget_plan_category::BudgetPlanCategory,
-    category::Category,
-    request::transaction_in_range_request_model::TransactionInRangeRequestModel,
-    response::{
-        budget_category_response_model::BudgetCategoryResponse,
-        budget_statistics_response_model::BudgetStatisticsResponseModel,
-        transaction_response_model::TransactionResponseModel,
-    },
-    transaction::Transaction,
-    account::Account
+    account::Account, budget::Budget, budget_budget_category::BudgetBudgetCategory, budget_category::BudgetCategory, budget_plan::BudgetPlan, budget_plan_category::BudgetPlanCategory, category::Category, request::{account_summary_in_range_request::AccountSummaryInRangeRequest, transaction_in_range_request_model::TransactionInRangeRequestModel}, response::{
+        account_summary_response::AccountSummaryResponse, budget_category_response_model::BudgetCategoryResponse, budget_statistics_response_model::BudgetStatisticsResponseModel, transaction_response_model::TransactionResponseModel
+    }, transaction::Transaction
 };
 
 use super::sql_constants::{
-    ADD_TRANSACTION, DELETE_ACCOUNT, DELETE_BUDGET, DELETE_BUDGET_BUDGET_CATEGORY, DELETE_BUDGET_CATEGORY, DELETE_BUDGET_PLAN, DELETE_BUDGET_PLAN_CATEGORY, DELETE_CATEGORY, DELETE_TRANSACTION, GET_ACTIVE_BUDGET_PLAN, GET_ALL_ACCOUNTS, GET_ALL_BUDGET, GET_ALL_BUDGET_BUDGET_CATEGORIES, GET_ALL_BUDGET_CATEGORIES, GET_ALL_BUDGET_PLAN, GET_ALL_BUDGET_PLAN_CATEGORIES, GET_ALL_BUDGET_STATISTICS, GET_ALL_CATEGORIES, GET_ALL_DEFAULT_BUDGET_STATISTICS, GET_ALL_TRANSACTIONS, GET_ALL_TRANSACTIONS_IN_RANGE, GET_ONE_ACCOUNT, GET_ONE_BUDGET, GET_ONE_BUDGET_BY_DATE, GET_ONE_BUDGET_CATEGORY, GET_ONE_BUDGET_PLAN, GET_ONE_CATEGORY, GET_ONE_TRANSACTION, INSERT_ACCOUNT, INSERT_BUDGET, INSERT_BUDGET_BUDGET_CATEGORIES, INSERT_BUDGET_CATEGORY, INSERT_BUDGET_PLAN, INSERT_BUDGET_PLAN_CATEGORIES, INSERT_CATEGORY, UPDATE_ACCOUNT, UPDATE_BUDGET, UPDATE_BUDGET_CATEGORY, UPDATE_BUDGET_PLAN, UPDATE_CATEGORY, UPDATE_TRANSACTION
+    ADD_TRANSACTION, DELETE_ACCOUNT, DELETE_BUDGET, DELETE_BUDGET_BUDGET_CATEGORY, DELETE_BUDGET_CATEGORY, DELETE_BUDGET_PLAN, DELETE_BUDGET_PLAN_CATEGORY, DELETE_CATEGORY, DELETE_TRANSACTION, GET_ACCOUNT_SUMMARY_IN_RANGE, GET_ACTIVE_BUDGET_PLAN, GET_ALL_ACCOUNTS, GET_ALL_BUDGET, GET_ALL_BUDGET_BUDGET_CATEGORIES, GET_ALL_BUDGET_CATEGORIES, GET_ALL_BUDGET_PLAN, GET_ALL_BUDGET_PLAN_CATEGORIES, GET_ALL_BUDGET_STATISTICS, GET_ALL_CATEGORIES, GET_ALL_DEFAULT_BUDGET_STATISTICS, GET_ALL_TRANSACTIONS, GET_ALL_TRANSACTIONS_IN_RANGE, GET_ONE_ACCOUNT, GET_ONE_BUDGET, GET_ONE_BUDGET_BY_DATE, GET_ONE_BUDGET_CATEGORY, GET_ONE_BUDGET_PLAN, GET_ONE_CATEGORY, GET_ONE_TRANSACTION, INSERT_ACCOUNT, INSERT_BUDGET, INSERT_BUDGET_BUDGET_CATEGORIES, INSERT_BUDGET_CATEGORY, INSERT_BUDGET_PLAN, INSERT_BUDGET_PLAN_CATEGORIES, INSERT_CATEGORY, UPDATE_ACCOUNT, UPDATE_BUDGET, UPDATE_BUDGET_CATEGORY, UPDATE_BUDGET_PLAN, UPDATE_CATEGORY, UPDATE_TRANSACTION
 };
 
 pub(crate) fn get_transaction_sqlite(
@@ -156,6 +145,16 @@ pub(crate) fn get_all_accounts_sqlite(conn: &Connection) -> anyhow::Result<Vec<A
 pub(crate) fn get_one_account_sqlite(conn: &Connection, id: &str) -> anyhow::Result<Option<Account>> {
     let result = get_one_by_id::<Account>(conn, id, GET_ONE_ACCOUNT);
 
+    result
+}
+
+pub(crate) fn get_account_summary_in_range_sqlite(conn: &Connection, account_summary_request: &AccountSummaryInRangeRequest) -> anyhow::Result<Vec<AccountSummaryResponse>>{
+    let result = get_by_params(conn,
+        (&account_summary_request.account_id,
+            &account_summary_request.start_date,
+            &account_summary_request.end_date),
+        GET_ACCOUNT_SUMMARY_IN_RANGE);
+        
     result
 }
 
