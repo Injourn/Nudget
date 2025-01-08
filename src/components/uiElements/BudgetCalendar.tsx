@@ -71,25 +71,34 @@ function MonthlyCycle(props:any){
         "Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
     let months = ["January","February","March","April","May",
         "June","July","August","September","October","November","December"];
-    let selectedMonthNumeric = props.currentDate.getMonth()
+    let selectedMonthNumeric = props.currentDate.getMonth();
+    let defaultSelectedYear = props.currentDate.getFullYear();
     if(props.currentDate.getDate() < props.activeBudgetPlan.start_date_of_month){
-        selectedMonthNumeric = selectedMonthNumeric - 1 > 0 ? selectedMonthNumeric - 1 : 11;
+        let monthYear = getAdjacentMonthAndYear(selectedMonthNumeric,defaultSelectedYear,-1);
+        selectedMonthNumeric = monthYear[0];
+        defaultSelectedYear = monthYear[1];
     }
     let [selectedMonth,setSelectedMonth] = useState<string>(monthsAbbr[selectedMonthNumeric]);
-    let [selectedYear,setSelectedYear] = useState<number>(props.currentDate.getFullYear());;
+    let [selectedYear,setSelectedYear] = useState<number>(defaultSelectedYear);
     let exampleYearList = [2023,2024,2025];
     let index = monthsAbbr.indexOf(selectedMonth);
 
-    function setAdjacentMonth(direction:number){
-        index += direction;
-        if(index >=11){
-            index = 0;
-            setSelectedYear(selectedYear + 1);
-        } else if(index < 0) {
-            index = 11;
-            setSelectedYear(selectedYear - 1);
+    function getAdjacentMonthAndYear(month:number, year:number, direction:number){
+        month += direction;
+        console.log(month);
+        if(month >=11){
+            month = 0;
+            year += 1
+        } else if(month < 0) {
+            month = 11;
+            year -= 1;
         }
-        setSelectedMonth(monthsAbbr[index]);
+        return [month,year]
+    }
+    function modifyMonthStep(direction:number){
+        let monthYear = getAdjacentMonthAndYear(index,selectedYear,direction);
+        index = monthYear[0];
+        setSelectedYear(monthYear[1]);
     }
 
     props.setDateRange(selectedYear + "-" + (index + 1).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + "-"
@@ -100,7 +109,7 @@ function MonthlyCycle(props:any){
             <div className="row">
                 <div className="text-center">
                     <h2>
-                        <div className="border rounded-2 strong d-inline md-2 px-1" onClick={() => setAdjacentMonth(-1)}>&lt;</div>
+                        <div className="border rounded-2 strong d-inline md-2 px-1" onClick={() => modifyMonthStep(-1)}>&lt;</div>
                         <div className="btn-group">
                             <button className="dropdown-toggle" style={{boxShadow:"0 0px 0px rgba(0, 0, 0, 0)",padding:"0px 6px",border:"0px solid"}} type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 {months[index]} {selectedYear}
@@ -111,7 +120,7 @@ function MonthlyCycle(props:any){
                                 )}
                             </ul>
                         </div>
-                        <div className="border rounded-2 strong d-inline md-2 px-1" onClick={() => setAdjacentMonth(1)}>&gt;</div>
+                        <div className="border rounded-2 strong d-inline md-2 px-1" onClick={() => modifyMonthStep(1)}>&gt;</div>
                     </h2>
                 </div>
             </div>
