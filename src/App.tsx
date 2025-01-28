@@ -22,6 +22,7 @@ import BudgetView from "./components/views/BudgetView";
 import BudgetPlanAddEdit from "./components/forms/BudgetPlanAddEdit";
 import BudgetPlanTable from "./components/views/BudgetPlanTable";
 import BudgetPlanView from "./components/views/BudgetPlanView";
+import AccountList from "./components/views/AccountList";
 function App() {
   let [dbLoaded,setDbLoaded] = useState<Boolean>(false);
   ChartJS.register(
@@ -56,6 +57,7 @@ function App() {
                 <Route path="/budgetPlan/" element={<BudgetPlanTable/>}/>
                 <Route path="/budgetPlan/new" element={<BudgetPlanAddEdit/>}/>
                 <Route path="/budgetPlan/:budgetPlanId" element={<BudgetPlanView/>}/>
+                <Route path="/accounts" element={<AccountList/>}/>
               </Routes>
             </div>
           </div>

@@ -17,7 +17,7 @@ pub(crate) fn date_recurring_transactions(
                 NaiveDate::parse_from_str(start_date, "%Y-%m-%d").expect("failed to parse date");
             let n_end_date =
                 NaiveDate::parse_from_str(end_date, "%Y-%m-%d").expect("failed to parse date");
-            transaction.transaction_date = get_dates_between(
+            let date_vector = get_dates_between(
                 &n_start_date,
                 &n_end_date,
                 &transaction.cycle.as_ref().unwrap(),
@@ -25,9 +25,13 @@ pub(crate) fn date_recurring_transactions(
                     .day_of_month
                     .or(transaction.day_of_week)
                     .unwrap() as u32,
-            )[0]
-            .format("%Y-%m-%d")
-            .to_string();
+            );
+            if date_vector.len() > 0 {
+                transaction.transaction_date = date_vector[0]
+                .format("%Y-%m-%d")
+                .to_string();
+            } 
+            
         }
     }
 }

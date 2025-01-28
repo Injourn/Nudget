@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import TransactionTable from "./TransactionTable";
 import BudgetModel from "../../models/BudgetModel";
 import callTauri from "../../functions/CallTauri";
+import AccountView from "./AccountView";
 
 
 function BudgetView(props:any){
@@ -28,6 +29,7 @@ function BudgetView(props:any){
     return (
         <>
             <p>From: {startDate} - {endDate}</p>
+            <AccountView/>
             <BudgetStatisticsView entry={budget} startDate={startDate} endDate={endDate}/>
             {showTransactions && <TransactionTable startDate={startDate} endDate={endDate} />}
         </>

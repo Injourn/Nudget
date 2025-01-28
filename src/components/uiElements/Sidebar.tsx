@@ -31,6 +31,11 @@ return (
                         Budget Plans
                     </Link>
                 </li>
+                <li className="nav-item">
+                    <Link to="/accounts" className="nav-link text-truncate">
+                        Accounts
+                    </Link>
+                </li>
             </ul>
         </div>
     </div>
