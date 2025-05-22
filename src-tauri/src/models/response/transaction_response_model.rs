@@ -14,5 +14,5 @@ pub(crate) struct TransactionResponseModel {
     pub(crate) day_of_month: Option<u8>,
     pub(crate) day_of_week: Option<u8>,
     pub(crate) account_id: Option<u32>,
-    pub(crate) account_name: Option<String>
+    pub(crate) account_name: Option<String>,
 }

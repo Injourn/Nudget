@@ -1,5 +1,6 @@
 use std::{ops::Deref, sync::Mutex};
 
+use log::info;
 use rusqlite::Connection;
 use tauri::State;
 
@@ -16,10 +17,14 @@ pub(crate) fn get_all_budget(conn_state: State<'_, Mutex<Connection>>) -> Respon
         .expect("could not get db connection");
     let conn = conn.deref();
 
+    info!("Getting all budget objects");
     let result = get_all_budget_sqlite(conn);
 
     let response = match result {
-        Ok(result) => Response::success(result),
+        Ok(result) => {
+            info!("Successfully got all budgets.");
+            Response::success(result)
+        },
         Err(error) => Response::error(error),
     };
 

@@ -1,5 +1,6 @@
 use std::{ops::Deref, sync::Mutex};
 
+use log::info;
 use rusqlite::Connection;
 use tauri::State;
 
@@ -13,6 +14,7 @@ pub(crate) fn update_transaction(
     conn_state: State<'_, Mutex<Connection>>,
     transaction: Transaction,
 ) -> Response<()> {
+    info!("Updating a single transaction.");
     let conn = conn_state
         .inner()
         .lock()
@@ -21,7 +23,10 @@ pub(crate) fn update_transaction(
     let result = update_transaction_sqlite(conn, transaction);
 
     let response = match result {
-        Ok(_) => Response::success(()),
+        Ok(_) => {
+            info!("Successfully updated transaction");
+            Response::success(())
+        },
         Err(error) => Response::error(error),
     };
 

@@ -70,39 +70,31 @@ pub const DELETE_CATEGORY: &str = "DELETE
 FROM category
 WHERE id = ?1;";
 
-pub const INSERT_ACCOUNT: &str =
-"INSERT INTO account (name,created_date,currency_type)
+pub const INSERT_ACCOUNT: &str = "INSERT INTO account (name,created_date,currency_type)
 VALUES (?1,?2,?3);";
 
-
-pub const UPDATE_ACCOUNT: &str =
-"UPDATE account
+pub const UPDATE_ACCOUNT: &str = "UPDATE account
 SET name = ?2,
        created_date = ?3,
        currency_type = ?4
 WHERE id = ?1;";
 
-pub const GET_ALL_ACCOUNTS: &str =
-"SELECT id,
+pub const GET_ALL_ACCOUNTS: &str = "SELECT id,
        name,
        created_date,
        currency_type
 FROM account";
 
-pub const GET_ONE_ACCOUNT: &str =
-"SELECT id,
+pub const GET_ONE_ACCOUNT: &str = "SELECT id,
        name,
        created_date,
        currency_type
 FROM account
 WHERE id = ?1;";
 
-
-pub const DELETE_ACCOUNT: &str =
-"DELETE
+pub const DELETE_ACCOUNT: &str = "DELETE
 FROM account
 WHERE id = ?1;";
-
 
 pub const INSERT_BUDGET_CATEGORY: &str =
     "INSERT INTO budget_category (category_id, flat_amount, percentage_amount, fixed)

@@ -12,7 +12,7 @@ function AccountAddEdit(props:any){
     },[props.account]);
 
     function onSubmit(){
-        console.log(item);
+        console.debug(item);
         if(item.id){
             callTauri("update_account",{account: item});
         }

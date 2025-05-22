@@ -1,5 +1,6 @@
 use std::{ops::Deref, sync::Mutex};
 
+use log::info;
 use rusqlite::Connection;
 use tauri::State;
 
@@ -18,10 +19,14 @@ pub(crate) fn update_category(
         .lock()
         .expect("could not get db connection");
     let conn = conn.deref();
+    info!("Updating category");
     let result = update_category_sqlite(conn, category);
 
     let response = match result {
-        Ok(_) => Response::success(()),
+        Ok(_) => {
+            info!("Successfully updated category");
+            Response::success(())
+        },
         Err(error) => Response::error(error),
     };
 

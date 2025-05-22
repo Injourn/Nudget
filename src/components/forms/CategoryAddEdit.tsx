@@ -13,7 +13,7 @@ function CategoryAddEdit(props:any){
     },[props.category]);
 
     function onSubmit(){
-        console.log(item);
+        console.debug(item);
         if(item.id){
             callTauri("update_category",{category: item});
         }

@@ -81,7 +81,7 @@ function TransactionTable(props:TransactionTableProps){
     }
 
     function onTransactionSubmit() {
-        console.log("submitted");
+        console.debug("submitted transaction");
         forceUpdate();
     }
 

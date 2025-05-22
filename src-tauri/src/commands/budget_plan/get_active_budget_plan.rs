@@ -1,5 +1,6 @@
 use std::{ops::Deref, sync::Mutex};
 
+use log::info;
 use rusqlite::Connection;
 use tauri::State;
 
@@ -17,11 +18,15 @@ pub(crate) fn get_active_budget_plan(
         .lock()
         .expect("could not get db connection");
     let conn = conn.deref();
+    info!("Getting active budget plan");
 
     let result = get_active_budget_plan_sqlite(conn);
 
     let response = match result {
-        Ok(result) => Response::success(result),
+        Ok(result) => {
+            info!("Successfully got active budget plan.");
+            Response::success(result)
+        },
         Err(error) => Response::error(error),
     };
 

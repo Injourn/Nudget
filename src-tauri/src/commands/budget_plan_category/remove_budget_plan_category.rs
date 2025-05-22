@@ -1,5 +1,6 @@
 use std::{ops::Deref, sync::Mutex};
 
+use log::info;
 use rusqlite::Connection;
 use tauri::State;
 
@@ -18,10 +19,14 @@ pub(crate) fn remove_budget_plan_category(
         .lock()
         .expect("could not get db connection");
     let conn = conn.deref();
+    info!("Removing budget plan category by id");
     let result = remove_budget_plan_category_sqlite(conn, budget_plan_category);
 
     let response = match result {
-        Ok(result) => Response::success(result),
+        Ok(result) => {
+            info!("Successfully removed budget plan category by id");
+            Response::success(result)
+        },
         Err(error) => Response::error(error),
     };
 

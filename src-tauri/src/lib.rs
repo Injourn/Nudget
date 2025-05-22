@@ -56,12 +56,12 @@ mod commands {
         pub(crate) mod remove_budget_plan_category;
     }
     pub mod account {
+        pub(crate) mod add_account;
+        pub(crate) mod get_account_summary_in_range;
         pub(crate) mod get_all_account;
         pub(crate) mod get_one_account;
-        pub(crate) mod add_account;
         pub(crate) mod remove_account;
         pub(crate) mod update_account;
-        pub(crate) mod get_account_summary_in_range;
     }
     pub(crate) mod create_file;
     pub(crate) mod get_active_budget_statistics;
@@ -79,15 +79,15 @@ mod models {
     pub(crate) mod cycle;
     pub(crate) mod transaction;
     pub mod request {
-        pub(crate) mod transaction_in_range_request_model;
         pub(crate) mod account_summary_in_range_request;
+        pub(crate) mod transaction_in_range_request_model;
     }
     pub mod response {
+        pub(crate) mod account_summary_response;
         pub(crate) mod budget_category_response_model;
         pub(crate) mod budget_statistics_response_model;
         pub(crate) mod response;
         pub(crate) mod transaction_response_model;
-        pub(crate) mod account_summary_response;
     }
 }
 mod functions {
@@ -110,6 +110,7 @@ pub fn run() {
     let conn = Connection::open_in_memory().unwrap();
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_log::Builder::new().level(log::LevelFilter::Info).build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_shell::init())
         .manage(Mutex::new(conn))

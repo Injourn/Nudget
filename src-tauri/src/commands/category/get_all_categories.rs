@@ -1,5 +1,6 @@
 use std::{ops::Deref, sync::Mutex};
 
+use log::info;
 use rusqlite::Connection;
 use tauri::State;
 
@@ -17,11 +18,15 @@ pub(crate) fn get_all_categories(
         .lock()
         .expect("could not get db connection");
     let conn = conn.deref();
+    info!("Getting all categories");
 
     let result = get_all_categories_sqlite(conn);
 
     let response = match result {
-        Ok(result) => Response::success(result),
+        Ok(result) => {
+            info!("Successfully got all categories");    
+            Response::success(result)
+        },
         Err(error) => Response::error(error),
     };
 

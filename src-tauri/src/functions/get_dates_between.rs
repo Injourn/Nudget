@@ -1,4 +1,5 @@
 use chrono::{Datelike, Days, Months, NaiveDate, Weekday};
+use log::debug;
 
 use crate::models::cycle::Cycle;
 
@@ -20,9 +21,19 @@ pub fn get_dates_between_monthly(
     end_date: &NaiveDate,
     value: u32,
 ) -> Vec<NaiveDate> {
+    debug!(
+        "Getting dates of the days of the month between {} and {} of the {} day",
+        &start_date.to_string(),
+        &end_date.to_string(),
+        value.to_string()
+    );
     let mut curr_date = get_succeeding_day_of_month(start_date, value);
     let mut date_vec = Vec::new();
     while curr_date < *end_date {
+        debug!(
+            "Adding {} to the monthly date vector",
+            &curr_date.to_string()
+        );
         date_vec.push(curr_date.clone());
         curr_date = curr_date.checked_add_months(Months::new(1)).unwrap();
     }
@@ -34,9 +45,16 @@ pub fn get_dates_between_weekly(
     end_date: &NaiveDate,
     value: u32,
 ) -> Vec<NaiveDate> {
+    debug!(
+        "Getting dates of the days of the week between {} and {} on the {} indexed day of the week",
+        &start_date.to_string(),
+        &end_date.to_string(),
+        value.to_string()
+    );
     let mut curr_date = get_succeeding_day_of_week(start_date, value);
     let mut date_vec = Vec::new();
     while curr_date < *end_date {
+        debug!("Adding {} to weekly date vector", &curr_date.to_string());
         date_vec.push(curr_date.clone());
         curr_date = curr_date.checked_add_days(Days::new(7)).unwrap();
     }
@@ -44,6 +62,11 @@ pub fn get_dates_between_weekly(
 }
 
 pub fn get_succeeding_day_of_month(start_date: &NaiveDate, value: u32) -> NaiveDate {
+    debug!(
+        "Getting the first {} date of the month following {}",
+        &start_date.to_string(),
+        value.to_string()
+    );
     let day_of_month = start_date.day();
     let return_date: NaiveDate;
     if day_of_month > value {
@@ -60,6 +83,11 @@ pub fn get_succeeding_day_of_month(start_date: &NaiveDate, value: u32) -> NaiveD
 }
 
 pub fn get_succeeding_day_of_week(start_date: &NaiveDate, value: u32) -> NaiveDate {
+    debug!(
+        "Getting the first {} date of the week following {}",
+        &start_date.to_string(),
+        value.to_string()
+    );
     let dt = start_date.and_hms_opt(0, 0, 0).unwrap();
     let day_of_week = modify_weekday_values(&dt.weekday());
     let day_difference;

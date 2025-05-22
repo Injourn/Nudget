@@ -1,6 +1,7 @@
 use std::{cmp::Reverse, ops::Deref, sync::Mutex};
 
 use chrono::NaiveDate;
+use log::{debug, info};
 use rusqlite::Connection;
 use tauri::State;
 
@@ -19,6 +20,8 @@ pub(crate) fn get_transactions_in_range(
     conn_state: State<'_, Mutex<Connection>>,
     transaction_request: TransactionInRangeRequestModel,
 ) -> Response<Vec<TransactionResponseModel>> {
+    info!("Running Command: Gettings all transctions in a range.");
+    debug!("Range: {} to {}", &transaction_request.start_date, &transaction_request.end_date);
     let conn = conn_state
         .inner()
         .lock()
@@ -41,6 +44,8 @@ pub(crate) fn get_transactions_in_range(
                         .expect("failed to parse date"),
                 )
             });
+
+            info!("Successfully got all transactions in range");
             Response::success(result)
         }
         Err(error) => Response::error(error),

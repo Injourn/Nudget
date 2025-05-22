@@ -11,6 +11,7 @@
     "dialog:allow-open",
     "dialog:allow-save",
     "shell:default",
-    "dialog:default"
+    "dialog:default",
+    "log:default"
   ]
 }

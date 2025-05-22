@@ -18,7 +18,7 @@ function BudgetView(props:any){
         if (budgetId) {
             callTauri<BudgetModel>("get_one_budget",{id:budgetId}).then(budget => setBudget(budget));
         } else if (budgetDate){
-            console.log(budgetDate)
+            console.debug(budgetDate)
             callTauri<BudgetModel>("get_one_budget_by_date",{range:budgetDate}).then(budget =>setBudget(budget));
         }
     },[props]);

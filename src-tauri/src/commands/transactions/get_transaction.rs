@@ -1,5 +1,6 @@
 use std::{ops::Deref, sync::Mutex};
 
+use log::info;
 use rusqlite::Connection;
 use tauri::State;
 
@@ -12,6 +13,7 @@ use crate::{
 pub(crate) fn get_transaction(
     conn_state: State<'_, Mutex<Connection>>,
 ) -> Response<Vec<TransactionResponseModel>> {
+    info!("Getting all transactions.");
     let conn = conn_state
         .inner()
         .lock()
@@ -20,7 +22,10 @@ pub(crate) fn get_transaction(
     let result = get_transaction_sqlite(conn);
 
     let response = match result {
-        Ok(result) => Response::success(result),
+        Ok(result) => {
+            info!("Successfully got all transactions");
+            Response::success(result)
+        },
         Err(error) => Response::error(error),
     };
 

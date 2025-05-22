@@ -10,7 +10,7 @@ function BudgetCalendar(){
     let [activeBudgetPlan,setActiveBudgetPlan] = useState<BudgetPlanModel>({} as BudgetPlanModel);
     let [dateRange,setDateRange] = useState<string>(currentDate.getFullYear() + "-" + (currentDate.getMonth()).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}) + "-"
     + (activeBudgetPlan.start_date_of_month ?? currentDate.getDate()).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false}));
-    console.log(dateRange);
+    console.debug(dateRange);
     let [startDate,setStartDate] = useState<string>();
     let [endDate,setEndDate] = useState<string>();
     useEffect(() => {
@@ -85,7 +85,7 @@ function MonthlyCycle(props:any){
 
     function getAdjacentMonthAndYear(month:number, year:number, direction:number){
         month += direction;
-        console.log(month);
+        console.debug(month);
         if(month >=11){
             month = 0;
             year += 1

@@ -1,5 +1,6 @@
 use std::{ops::Deref, sync::Mutex};
 
+use log::info;
 use rusqlite::Connection;
 use tauri::State;
 
@@ -23,11 +24,15 @@ pub(crate) fn get_default_budget_statistics(
         .lock()
         .expect("could not get db connection");
     let conn = conn.deref();
+    info!("Getting default budget statistics");
 
     let result = get_default_budget_statistics_sqlite(conn, range);
 
     let response = match result {
-        Ok(result) => Response::success(result),
+        Ok(result) => {
+            info!("Successfully got all budget statistics");
+            Response::success(result)
+        },
         Err(error) => Response::error(error),
     };
 

@@ -1,5 +1,6 @@
 use std::{ops::Deref, sync::Mutex};
 
+use log::{debug, info};
 use rusqlite::Connection;
 use tauri::State;
 
@@ -18,11 +19,16 @@ pub(crate) fn get_one_budget_by_date(
         .lock()
         .expect("could not get db connection");
     let conn = conn.deref();
+    info!("Getting budget by the date");
+    debug!("Getting by date: {}", range);
 
     let result = get_one_budget_by_date_sqlite(conn, range);
 
     let response = match result {
-        Ok(result) => Response::success(result.first().cloned()),
+        Ok(result) => {
+            info!("Got Budget by date");
+            Response::success(result.first().cloned())
+        },
         Err(error) => Response::error(error),
     };
 

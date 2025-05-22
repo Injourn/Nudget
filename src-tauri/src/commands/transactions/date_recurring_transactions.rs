@@ -1,4 +1,5 @@
 use chrono::NaiveDate;
+use log::debug;
 
 use crate::{
     functions::get_dates_between::get_dates_between,
@@ -10,6 +11,11 @@ pub(crate) fn date_recurring_transactions(
     start_date: &str,
     end_date: &str,
 ) {
+    debug!(
+        "Gettings recurring transaction dates for recurring transaction from {} to {}",
+        &start_date.to_string(),
+        &end_date.to_string()
+    );
     let transaction_iter = transaction_vector.iter_mut();
     for transaction in transaction_iter {
         if transaction.recurring {
@@ -27,11 +33,8 @@ pub(crate) fn date_recurring_transactions(
                     .unwrap() as u32,
             );
             if date_vector.len() > 0 {
-                transaction.transaction_date = date_vector[0]
-                .format("%Y-%m-%d")
-                .to_string();
-            } 
-            
+                transaction.transaction_date = date_vector[0].format("%Y-%m-%d").to_string();
+            }
         }
     }
 }

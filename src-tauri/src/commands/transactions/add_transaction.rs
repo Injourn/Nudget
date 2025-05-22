@@ -1,5 +1,6 @@
 use std::{ops::Deref, sync::Mutex};
 
+use log::info;
 use rusqlite::Connection;
 use tauri::State;
 
@@ -13,6 +14,7 @@ pub(crate) fn add_transaction(
     conn_state: State<'_, Mutex<Connection>>,
     transaction: Transaction,
 ) -> Response<i64> {
+    info!("Adding transaction...");
     let conn = conn_state
         .inner()
         .lock()
@@ -21,7 +23,10 @@ pub(crate) fn add_transaction(
     let result = add_transaction_sqlite(conn, transaction);
 
     let response = match result {
-        Ok(result) => Response::success(result),
+        Ok(result) => {
+            info!("Successfully added transaction");
+            Response::success(result)
+        },
         Err(error) => Response::error(error),
     };
 

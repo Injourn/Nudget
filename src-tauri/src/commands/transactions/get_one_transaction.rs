@@ -1,5 +1,6 @@
 use std::{ops::Deref, sync::Mutex};
 
+use log::info;
 use rusqlite::Connection;
 use tauri::State;
 
@@ -13,6 +14,7 @@ pub(crate) fn get_one_transaction(
     conn_state: State<'_, Mutex<Connection>>,
     id: &str,
 ) -> Response<Option<TransactionResponseModel>> {
+    info!("Getting a single transaction.");
     let conn = conn_state
         .inner()
         .lock()
@@ -21,7 +23,10 @@ pub(crate) fn get_one_transaction(
     let result = get_one_transaction_sqlite(conn, id);
 
     let response = match result {
-        Ok(result) => Response::success(result),
+        Ok(result) => {
+            info!("Successfully got a single transaction");
+            Response::success(result)
+        },
         Err(error) => Response::error(error),
     };
 

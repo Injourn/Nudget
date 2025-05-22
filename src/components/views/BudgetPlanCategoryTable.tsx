@@ -47,7 +47,7 @@ function BudgetPlanCategoryTable(props:BudgetPlanCategoryTableProps){
     }
 
     function addBudgetPlanCategory(budgetCategoryId:number){
-        console.log(budgetCategoryId)
+        console.debug(budgetCategoryId)
         callTauri("add_budget_plan_category",{budgetCategoryId:budgetCategoryId,budgetPlanId:props.entry.id})
     }
 
