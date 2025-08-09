@@ -16,7 +16,7 @@ use crate::{
 pub(crate) fn get_account_summary_in_range(
     conn_state: State<'_, Mutex<Connection>>,
     account_request: AccountSummaryInRangeRequest,
-) -> Response<Vec<AccountSummaryResponse>> {
+) -> Response<Option<AccountSummaryResponse>> {
     let conn = conn_state
         .inner()
         .lock()

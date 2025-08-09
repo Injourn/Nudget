@@ -52,7 +52,8 @@ function TransactionTable(props:TransactionTableProps){
             category_id: model.category_id,
             transaction_date: model.transaction_date,
             name: model.name,
-            recurring: model.recurring}  as TransactionRequestModel
+            recurring: model.recurring,
+            credit: model.credit}  as TransactionRequestModel
     }
     function onRowClick(model: TransactionResponseModel){
         changeModalData(responseModelToRequestModel(model))

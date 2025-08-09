@@ -1,0 +1,1 @@
+select sum(amount) from transaction_item where transaction_item.account_id = ?;

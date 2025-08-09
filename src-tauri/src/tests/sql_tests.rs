@@ -345,7 +345,7 @@ fn get_account_summary_in_range() {
 
     match response {
         Ok(result) => {
-            let first_result_option = result.get(0);
+            let first_result_option = result;
             assert!(
                 first_result_option.is_some(),
                 "Did not get a proper response for account summary response"

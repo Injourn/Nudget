@@ -6,6 +6,7 @@ import GenericFormInput from "./generic/GenericFormInput";
 import GenericSelectInput from "./generic/GenericSelectInput";
 import callTauri from "../../functions/CallTauri";
 import Cycle from "../../models/Cycle";
+import AccountInput from "./AccountInput";
 
 
 function TransactionAddEdit(props: any){
@@ -90,6 +91,12 @@ function TransactionAddEdit(props: any){
             }
             <GenericFormInput onChange={(e) => setItem({...item, name: e.target.value})} id={"name"}
                 label={"Name"} item={item.name} type={"text"}/>
+            
+            <AccountInput item={item} setItem={setItem} ></AccountInput>
+            <GenericFormInput 
+             onChange={() =>{setItem({...item,credit: !item.credit})}}
+             id={"credit"} label={"Credit"} 
+             item={item.credit} type={"checkbox"} />
         </GenericForm>
     )
 }

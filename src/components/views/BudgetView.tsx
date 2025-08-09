@@ -25,11 +25,12 @@ function BudgetView(props:any){
     
     let startDate = budget?.start_date ?? props.startDate ?? budgetDate;
     let endDate = budget?.end_date ?? props.endDate ?? setAdjacentMonth(budgetDate);
+    let accountSummaryRequest = {account_id: 1, start_date: startDate, end_date: endDate} as AccountSummaryRequest;
 
     return (
         <>
             <p>From: {startDate} - {endDate}</p>
-            <AccountView/>
+            <AccountView summaryRequest={accountSummaryRequest}/>
             <BudgetStatisticsView entry={budget} startDate={startDate} endDate={endDate}/>
             {showTransactions && <TransactionTable startDate={startDate} endDate={endDate} />}
         </>

@@ -57,6 +57,7 @@ mod commands {
     }
     pub mod account {
         pub(crate) mod add_account;
+        pub(crate) mod get_account_net_value;
         pub(crate) mod get_account_summary_in_range;
         pub(crate) mod get_all_account;
         pub(crate) mod get_one_account;
@@ -95,6 +96,7 @@ mod functions {
 }
 
 mod database {
+    pub(crate) mod sql_file_loader;
     pub(crate) mod rusqlite_impl;
     pub mod sql_constants;
 }
@@ -152,6 +154,7 @@ pub fn run() {
             crate::commands::get_default_budget_statistics::get_default_budget_statistics,
             crate::commands::get_active_budget_statistics::get_active_budget_statistics,
             crate::commands::account::get_all_account::get_all_account,
+            crate::commands::account::get_account_net_value::get_account_net_value,
             crate::commands::account::get_one_account::get_one_account,
             crate::commands::account::add_account::add_account,
             crate::commands::account::remove_account::remove_account,

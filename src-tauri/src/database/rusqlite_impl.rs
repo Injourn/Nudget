@@ -193,8 +193,8 @@ pub(crate) fn get_one_account_sqlite(
 pub(crate) fn get_account_summary_in_range_sqlite(
     conn: &Connection,
     account_summary_request: &AccountSummaryInRangeRequest,
-) -> anyhow::Result<Vec<AccountSummaryResponse>> {
-    let result = get_by_params(
+) -> anyhow::Result<Option<AccountSummaryResponse>> {
+    let result = get_one_by_params(
         conn,
         (
             &account_summary_request.account_id,
@@ -572,7 +572,7 @@ fn get_one<T: for<'a> Deserialize<'a>>(
     Ok(transaction)
 }
 
-fn get_one_by_id<T: for<'a> Deserialize<'a>>(
+pub(crate)fn get_one_by_id<T: for<'a> Deserialize<'a>>(
     conn: &Connection,
     id: &str,
     command: &str,
@@ -644,6 +644,33 @@ fn get_by_params<P: Params, T: for<'a> Deserialize<'a>>(
     stmt.finalize().unwrap();
 
     Ok(transactions)
+}
+
+pub(crate) fn get_one_by_params<P: Params, T: for<'a> Deserialize<'a>>(
+    conn: &Connection,
+    params: P,
+    command: &str,
+) -> anyhow::Result<Option<T>> {
+    let prepared_stmt = conn.prepare(command);
+    if prepared_stmt.is_err() {
+        let error_msg = prepared_stmt.unwrap_err();
+        error!("failed to prepare statement: {}", error_msg);
+        return Err(error_msg.into());
+    }
+    let mut stmt = prepared_stmt.unwrap();
+    let mut rows = stmt.query_map(params, map_rows)?;
+
+    let mut transaction: Option<T> = None;
+    let row = rows.nth(0);
+    if row.is_some() {
+        let result = row.unwrap()?;
+        transaction = Some(result);
+    }
+    rows.last();
+
+    stmt.finalize().unwrap();
+
+    Ok(transaction)
 }
 
 fn map_rows<T: for<'a> Deserialize<'a>>(row: &rusqlite::Row) -> Result<T, rusqlite::Error> {
