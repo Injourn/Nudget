@@ -26,3 +26,5 @@ dist-ssr
 # Test databases
 my_db.*
 *.db
+
+target/*
