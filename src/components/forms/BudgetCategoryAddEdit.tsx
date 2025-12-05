@@ -29,7 +29,11 @@ function BudgetCategoryAddEdit(props:BudgetCategoryAddEditProps){
         event?.preventDefault();
         item.fixed = false;
         console.debug(item);
+        if(item.id > 0){
+        callTauri<number>("update_budget_category",{budgetCategory: item})
+        } else {
         callTauri<number>("add_budget_category",{budgetCategory: item}).then(newId => props.parentAdd(newId));
+        }
         props.onSubmit();
     }
 
