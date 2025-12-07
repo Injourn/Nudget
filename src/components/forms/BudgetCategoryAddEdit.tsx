@@ -2,9 +2,9 @@ import { MouseEventHandler, useEffect, useState } from "react";
 import BudgetCategoryModel from "../../models/BudgetCategoryModel";
 import CategoryModel from "../../models/CategoryModel";
 import callTauri from "../../functions/CallTauri";
-import GenericForm from "./generic/GenericForm";
-import GenericFormInput from "./generic/GenericFormInput";
-import GenericSelectInput from "./generic/GenericSelectInput";
+import GenericForm from "./common/GenericForm";
+import GenericFormInput from "./common/GenericFormInput";
+import SelectInput from "./common/SelectInput";
 
 interface BudgetCategoryAddEditProps{
     parentAdd(newId: number): any;
@@ -42,17 +42,26 @@ function BudgetCategoryAddEdit(props:BudgetCategoryAddEditProps){
         props.onSubmit();
         return undefined
     }
+
+    function onChange(e:any){
+        const value = e.target.value;
+        const object : BudgetCategoryModel = item;
+        const name = e.target.name as keyof typeof object;
+        object[name] = value;
+
+        setItem({...item,object});
+    }
     
     return(
         <GenericForm onSubmit={addBudgetCategory} onRemove={removeBudgetCategory} edit={true}>
-            <GenericFormInput onChange={(e) => setItem({...item,flat_amount: e.target.value})} id={"amount"}
-             label={"Amount"} item={item.flat_amount} type={"text"} numeric={true}/>
-            <GenericSelectInput onChange={(e) => setItem({...item,category_id: Number(e.target.value)})} id={"category"}
-             label={"Category"} item={item.category_id}>
+            <GenericFormInput onChange={onChange} id={"amount"}
+             label={"Amount"} name={"flat_amount"} item={item.flat_amount} type={"text"} numeric={true}/>
+            <SelectInput onChange={onChange} id={"category"}
+             label={"Category"} name="category_id" item={item.category_id}>
                 {categories.map((data) =>
                     <option value={data.id}>{data.name}</option>
                 )}
-            </GenericSelectInput>
+            </SelectInput>
         </GenericForm>
     )
 

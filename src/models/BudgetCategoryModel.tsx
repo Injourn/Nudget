@@ -1,6 +1,7 @@
 
 
 interface BudgetCategoryModel{
+    [key: string]: unknown;
     id:number,
     category_id: number,
     category_name?: string,

@@ -4,6 +4,7 @@ interface GenericFormInputProps{
     onChange: ChangeEventHandler<HTMLInputElement> | undefined;
     id: string;
     label: string;
+    name?: string;
     item: any;
     type: string;
     pattern?:string;
@@ -34,6 +35,7 @@ function GenericFormInput(props:GenericFormInputProps){
                  value={props.item} 
                  checked={props.item}
                  pattern={props.pattern}
+                 name={props.name}
                  onInput={onInput}
                  onChange={props.onChange}/>
             </div>

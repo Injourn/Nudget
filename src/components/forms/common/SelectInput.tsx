@@ -6,10 +6,11 @@ interface GenericSelectInputProps{
     label: string;
     item: any;
     children: ReactNode;
+    name?: string;
 }
 
 
-function GenericSelectInput(props:GenericSelectInputProps){
+function SelectInput(props:GenericSelectInputProps){
 
     return(
         <div className="row align-items-center mb-3">
@@ -19,7 +20,7 @@ function GenericSelectInput(props:GenericSelectInputProps){
                 </label>
             </div>
             <div className="col-auto">
-                <select name="category" id="category" className="form-select" value={props.item} onChange={props.onChange}>
+                <select name={props.name} id="category" className="form-select" value={props.item} onChange={props.onChange}>
                     <option value={0}>Select</option>
                     {props.children}
                 </select>
@@ -28,4 +29,4 @@ function GenericSelectInput(props:GenericSelectInputProps){
     )
 }
 
-export default GenericSelectInput;
+export default SelectInput;

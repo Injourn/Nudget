@@ -1,9 +1,9 @@
 import TransactionRequestModel from "../../models/TransactionRequestModel";
 import CategoryModel from "../../models/CategoryModel";
 import { useEffect, useState } from "react";
-import GenericForm from "./generic/GenericForm";
-import GenericFormInput from "./generic/GenericFormInput";
-import GenericSelectInput from "./generic/GenericSelectInput";
+import GenericForm from "./common/GenericForm";
+import GenericFormInput from "./common/GenericFormInput";
+import SelectInput from "./common/SelectInput";
 import callTauri from "../../functions/CallTauri";
 import Cycle from "../../models/Cycle";
 import AccountInput from "./AccountInput";
@@ -43,20 +43,20 @@ function TransactionAddEdit(props: any){
         <GenericForm modalName={props.modalName} onSubmit={addTransaction} edit={item.id > 0} onRemove={removeItem}>
             <GenericFormInput onChange={(e) => setItem({...item, amount: e.target.value})} id={"amount"}
                 label={"Amount"} item={item.amount} type={"text"} numeric={true}/>
-            <GenericSelectInput onChange={(e) => setItem({...item, category_id: Number(e.target.value)})} id={"category"}
+            <SelectInput onChange={(e) => setItem({...item, category_id: Number(e.target.value)})} id={"category"}
                 label={"Category"} item={item.category_id}>
 
                 {categories.map((data) =>
                     <option value={data.id}>{data.name}</option>
                 )}
-            </GenericSelectInput>
+            </SelectInput>
             <GenericFormInput 
              onChange={() =>{setItem({...item,recurring: !item.recurring})}}
              id={"recurring"} label={"Recurring"} 
              item={item.recurring} type={"checkbox"} />
             {item.recurring ?
                 <>
-                    <GenericSelectInput 
+                    <SelectInput 
                         onChange={(e) => {
                             let cycle = e.target.value as keyof typeof Cycle;
                             setItem({...item,cycle: Cycle[cycle]});
@@ -66,13 +66,13 @@ function TransactionAddEdit(props: any){
                         <option value={"MONTHLY"}>Monthly</option>
                         <option value={"WEEKLY"}>Weekly</option>
                         <option value={"BIWEEKLY"}>Biweekly</option>
-                    </GenericSelectInput>
+                    </SelectInput>
                     {showDayOfMonth ?
                     <GenericFormInput onChange={(e) => setItem({...item,day_of_month: Number(e.target.value)})}
                     id={"startDayOfCycle"} label={"Start Day of the Month"} item={item.day_of_month} type={"text"} numeric={true} />
                     
                     :
-                    <GenericSelectInput onChange={(e) => setItem({...item,day_of_week: Number(e.target.value)})}
+                    <SelectInput onChange={(e) => setItem({...item,day_of_week: Number(e.target.value)})}
                     id={"startDayOfWeek"} label={"Start Day of the Week"} item={item.day_of_week}> 
                         <option value={0}>Sunday</option>
                         <option value={1}>Monday</option>
@@ -82,7 +82,7 @@ function TransactionAddEdit(props: any){
                         <option value={5}>Friday</option>
                         <option value={6}>Saturday</option>
 
-                    </GenericSelectInput>
+                    </SelectInput>
                     }
                 </>
                 :

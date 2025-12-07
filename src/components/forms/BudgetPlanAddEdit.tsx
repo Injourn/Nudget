@@ -1,9 +1,9 @@
 import { useState } from "react";
-import GenericForm from "./generic/GenericForm";
-import GenericSelectInput from "./generic/GenericSelectInput";
+import GenericForm from "./common/GenericForm";
+import SelectInput from "./common/SelectInput";
 import BudgetPlanModel from "../../models/BudgetPlanModel";
 import Cycle from "../../models/Cycle";
-import GenericFormInput from "./generic/GenericFormInput";
+import GenericFormInput from "./common/GenericFormInput";
 import callTauri from "../../functions/CallTauri";
 import { useNavigate } from "react-router-dom";
 
@@ -46,21 +46,21 @@ function BudgetPlanAddEdit(props:BudgetPlanAddProps){
              label={"Name"} 
              item={item.name} 
              type={"text"} />
-            <GenericSelectInput 
+            <SelectInput 
              onChange={(e) => {setItem({...item,cycle: Cycle[e.target.value as keyof typeof Cycle]}); setShowDayOfMonth(item.cycle == Cycle.MONTHLY)}} 
              id={"cycle"} label={"Budget Cycle"} 
              item={item.cycle}>
                 <option value={"MONTHLY"}>Monthly</option>
                 <option value={"WEEKLY"}>Weekly</option>
                 <option value={"BIWEEKLY"}>Biweekly</option>
-            </GenericSelectInput>
+            </SelectInput>
 
             {showDayOfMonth ?
                 <GenericFormInput onChange={(e) => setItem({...item,start_date_of_month: Number(e.target.value)})}
                  id={"startDayOfCycle"} label={"Start Day of the Month"} item={item.start_date_of_month} type={"text"} />
                 
             :
-                <GenericSelectInput onChange={(e) => setItem({...item,start_date_of_week: Number(e.target.value)})}
+                <SelectInput onChange={(e) => setItem({...item,start_date_of_week: Number(e.target.value)})}
                  id={"startDayOfWeek"} label={"Start Day of the Week"} item={item.start_date_of_week}> 
                     <option value={0}>Sunday</option>
                     <option value={1}>Monday</option>
@@ -70,7 +70,7 @@ function BudgetPlanAddEdit(props:BudgetPlanAddProps){
                     <option value={5}>Friday</option>
                     <option value={6}>Saturday</option>
 
-                </GenericSelectInput>
+                </SelectInput>
             }
             <GenericFormInput 
              onChange={() =>{setItem({...item,active: !item.active})}}
