@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import callTauri from "../../functions/CallTauri";
-import BudgetPlanModel from "../../models/BudgetPlanModel";
-import Cycle from "../../models/Cycle";
-import BudgetView from "../views/BudgetView";
+import BudgetPlanModel from "../../models/entity/BudgetPlanModel";
+import Cycle from "../../models/entity/Cycle";
+import BudgetView from "../layout/BudgetView";
 
 
 function BudgetCalendar(){

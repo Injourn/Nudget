@@ -1,7 +1,4 @@
-import Navbar from "./components/uiElements/Navbar";
-import Sidebar from "./components/uiElements/Sidebar";
 import {Route, Routes} from 'react-router-dom'
-import Home from "./pages/Home"
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react";
@@ -15,14 +12,17 @@ import {
   Legend,
   ArcElement,
 } from 'chart.js';
-import LoadingPage from "./components/views/LoadingPage";
-import CategoryList from "./components/views/CategoryList";
-import BudgetTable from "./components/views/BudgetTable";
-import BudgetView from "./components/views/BudgetView";
-import BudgetPlanAddEdit from "./components/forms/BudgetPlanAddEdit";
-import BudgetPlanTable from "./components/views/BudgetPlanTable";
-import BudgetPlanView from "./components/views/BudgetPlanView";
-import AccountList from "./components/views/AccountList";
+import LoadingPage from "./web/layout/LoadingPage";
+import CategoryList from "./web/layout/CategoryList";
+import BudgetTable from "./web/layout/BudgetTable";
+import BudgetView from "./web/layout/BudgetView";
+import BudgetPlanAddEdit from "./web/forms/BudgetPlanAddEdit";
+import BudgetPlanTable from "./web/layout/BudgetPlanTable";
+import BudgetPlanView from "./web/layout/BudgetPlanView";
+import AccountList from "./web/layout/AccountList";
+import Navbar from './web/elements/Navbar';
+import Sidebar from './web/elements/Sidebar';
+import Home from './web/pages/Home';
 function App() {
   let [dbLoaded,setDbLoaded] = useState<Boolean>(false);
   ChartJS.register(

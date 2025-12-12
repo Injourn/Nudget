@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import CategoryModel from "../../models/CategoryModel";
 import callTauri from "../../functions/CallTauri";
-import DataList from "../uiElements/DataList";
-import Modal from "../uiElements/Modal";
+import DataList from "../elements/DataList";
+import Modal from "../elements/Modal";
 import CategoryAddEdit from "../forms/CategoryAddEdit";
+import CategoryModel from "../../models/entity/CategoryModel";
 
 function CategoryList(){
     const [modalData, setModalData] = useState<CategoryModel>({} as CategoryModel);

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import BudgetPlanModel from "../../models/BudgetPlanModel";
 import callTauri from "../../functions/CallTauri";
 import Cycle from "../../models/Cycle";
-import Table from "../uiElements/Table";
+import Table from "../elements/Table";
 import numberToDayOfWeek from "../../functions/DateModifcations";
 
 

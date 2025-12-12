@@ -1,22 +1,23 @@
 import { MouseEventHandler, useEffect, useState } from "react";
-import BudgetCategoryModel from "../../models/BudgetCategoryModel";
+import BudgetCategoryModel from "../../models/entity/BudgetCategoryModel";
 import callTauri from "../../functions/CallTauri";
-import Modal from "../uiElements/Modal";
+import Table from "../elements/Table";
+import Modal from "../elements/Modal";
 import BudgetCategoryAddEdit from "../forms/BudgetCategoryAddEdit";
-import Table from "../uiElements/Table";
-import BudgetPlanModel from "../../models/BudgetPlanModel";
+import BudgetModel from "../../models/entity/BudgetModel";
 
-interface BudgetPlanCategoryTableProps{
-    entry:BudgetPlanModel;
+interface BudgetCategoryTableProps{
+    entry:BudgetModel;
 }
 
-function BudgetPlanCategoryTable(props:BudgetPlanCategoryTableProps){
+
+function BudgetCategoryTable(props:BudgetCategoryTableProps){
     const [itemData,setItemData] = useState<BudgetCategoryModel[]>([]);
     const columns = ["Category","Amount"];
     const [modalData,setModalData] = useState<BudgetCategoryModel>(defaultModalData());
     useEffect(() =>{
-        callTauri<BudgetCategoryModel[]>("get_all_budget_plan_categories",{budgetPlan:props.entry}).then(model => setItemData(model))
-    },[props.entry,modalData]);
+        callTauri<BudgetCategoryModel[]>("get_all_budget_budget_categories",{budget:props.entry}).then(model => setItemData(model));
+    },[modalData,props.entry]);
 
     function tableRow(data:BudgetCategoryModel){
         return(
@@ -46,9 +47,9 @@ function BudgetPlanCategoryTable(props:BudgetPlanCategoryTableProps){
         return undefined;
     }
 
-    function addBudgetPlanCategory(budgetCategoryId:number){
+    function addBudgetBudgetCategory(budgetCategoryId:number){
         console.debug(budgetCategoryId)
-        callTauri("add_budget_plan_category",{budgetCategoryId:budgetCategoryId,budgetPlanId:props.entry.id})
+        callTauri("add_budget_budget_category",{budgetCategoryId:budgetCategoryId,budgetId:props.entry.id})
     }
 
     return(
@@ -65,10 +66,10 @@ function BudgetPlanCategoryTable(props:BudgetPlanCategoryTableProps){
              >
             </Table>
             <Modal name={"budgetCategoryModal"} title={"Budget Category"}>
-                <BudgetCategoryAddEdit entry={modalData} parentAdd={addBudgetPlanCategory} onSubmit={function () {} }/>
+                <BudgetCategoryAddEdit entry={modalData} parentAdd={addBudgetBudgetCategory} onSubmit={() => {}}/>
             </Modal>
         </>
     )
 }
 
-export default BudgetPlanCategoryTable;
+export default BudgetCategoryTable;

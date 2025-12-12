@@ -1,11 +1,11 @@
 import { useState } from "react";
 import GenericForm from "./common/GenericForm";
 import SelectInput from "./common/SelectInput";
-import BudgetPlanModel from "../../models/BudgetPlanModel";
-import Cycle from "../../models/Cycle";
 import GenericFormInput from "./common/GenericFormInput";
 import callTauri from "../../functions/CallTauri";
 import { useNavigate } from "react-router-dom";
+import BudgetPlanModel from "../../models/entity/BudgetPlanModel";
+import Cycle from "../../models/entity/Cycle";
 
 interface BudgetPlanAddProps{
     entry?:BudgetPlanModel;

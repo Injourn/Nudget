@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ProgressBar from "../uiElements/ProgressBar";
+import ProgressBar from "../elements/ProgressBar";
 import callTauri from "../../functions/CallTauri";
 
 interface AccountViewProps{

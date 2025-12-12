@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import BudgetStatisticsView from "./BudgetStatisticsView";
 import { useParams } from "react-router-dom";
-import TransactionTable from "./TransactionTable";
-import BudgetModel from "../../models/BudgetModel";
 import callTauri from "../../functions/CallTauri";
 import AccountView from "./AccountView";
+import BudgetModel from "../../models/entity/BudgetModel";
+import TransactionTable from "./TransactionTable";
 
 
 function BudgetView(props:any){

@@ -1,8 +1,8 @@
 import {useEffect, useState } from "react";
-import DataList from "../uiElements/DataList";
+import DataList from "../elements/DataList";
 import callTauri from "../../functions/CallTauri";
 import AccountAddEdit from "../forms/AccountAddEdit";
-import Modal from "../uiElements/Modal";
+import Modal from "../elements/Modal";
 
 
 function AccountList(){
