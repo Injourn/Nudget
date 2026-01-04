@@ -2,7 +2,7 @@
 
 function forwardConsole(
   fnName: 'log' | 'debug' | 'info' | 'warn' | 'error',
-  logger: (message: string) => Promise<void>
+  logger: (message: any) => Promise<void>
 ) {
   const original = console[fnName];
   console[fnName] = (message) => {

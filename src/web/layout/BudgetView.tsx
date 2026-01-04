@@ -12,8 +12,11 @@ function BudgetView(props:any){
     let budgetId = params.budgetId ?? props.budgetId;
     let showTransactions = props.showTransactions ?? true;
     let budgetDate = props.budgetDateRange;
-
+    
     const [budget,setBudget] = useState<BudgetModel>({} as BudgetModel);
+    let startDate = budget?.start_date ?? props.startDate ?? budgetDate;
+    let endDate = budget?.end_date ?? props.endDate ?? setAdjacentMonth(budgetDate);
+    let accountSummaryRequest = {account_id: 1, start_date: startDate, end_date: endDate} as AccountSummaryRequest;
     useEffect(() => {
         if (budgetId) {
             callTauri<BudgetModel>("get_one_budget",{id:budgetId}).then(budget => setBudget(budget));
@@ -23,9 +26,6 @@ function BudgetView(props:any){
         }
     },[props]);
     
-    let startDate = budget?.start_date ?? props.startDate ?? budgetDate;
-    let endDate = budget?.end_date ?? props.endDate ?? setAdjacentMonth(budgetDate);
-    let accountSummaryRequest = {account_id: 1, start_date: startDate, end_date: endDate} as AccountSummaryRequest;
 
     return (
         <>

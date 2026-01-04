@@ -1,5 +1,5 @@
 import callTauri from "../../functions/CallTauri";
-import CategoryModel from "../../models/CategoryModel";
+import CategoryModel from "../../models/entity/CategoryModel";
 import "./Category.css"
 
 function Category(props: any){

@@ -1,11 +1,11 @@
 import { ReactNode, useEffect, useState } from "react";
 import {Pie } from "react-chartjs-2";
-import BudgetModel from "../../models/BudgetModel";
 import BudgetStatisticsResponseModel from "../../models/response/BudgetStatisticsResponseModel";
 import callTauri from "../../functions/CallTauri";
 import ProgressBar from "../elements/ProgressBar";
 import BorderedWindow from "../elements/BorderedWindow";
 import Table from "../elements/Table";
+import BudgetModel from "../../models/entity/BudgetModel";
 
 
 interface BudgetStatisticsViewProps{
