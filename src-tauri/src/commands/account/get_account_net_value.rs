@@ -5,7 +5,7 @@ use rusqlite::Connection;
 use tauri::{State};
 
 use crate::{database::{rusqlite_impl::get_one_by_id, sql_file_loader::load_sql_file}, models::response::response::Response};
-const SQL_FILE_PATH: &str = "src/sql/get_account_net_value.sql";
+const SQL_FILE_PATH: &str = "get_account_net_value.sql";
 
 
 #[tauri::command]
