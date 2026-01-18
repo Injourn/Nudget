@@ -93,6 +93,7 @@ mod models {
 }
 mod functions {
     pub(crate) mod get_dates_between;
+    pub(crate) mod insert_recurring_transactions;
 }
 
 mod database {

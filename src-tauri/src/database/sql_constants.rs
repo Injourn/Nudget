@@ -281,7 +281,8 @@ pub const GET_ALL_TRANSACTIONS_IN_RANGE: &str = "SELECT transaction_item.id,
        day_of_month,
        day_of_week,
        account_id,
-       credit
+       credit,
+       recurring_transaction_id
 FROM transaction_item
 JOIN category c ON c.id = transaction_item.category_id
 WHERE 

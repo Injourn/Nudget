@@ -89,7 +89,8 @@ credit; false,
 cycle; None,
 day_of_month; None,
 day_of_week; None,
-account_id; None);
+account_id; None,
+recurring_transaction_id; None);
 create_test!(create_budget,add_budget_sqlite,get_one_budget_sqlite,Budget,
 start_date;"2024-05-15".to_string(),
 end_date;"2024-06-15".to_string(),
@@ -176,7 +177,8 @@ update_test!(update_transaction,update_transaction_sqlite,get_one_transaction_sq
     cycle; None,
     day_of_month; None,
     day_of_week; None,
-    account_id; None);
+    account_id; None,
+    recurring_transaction_id; None);
 update_test!(update_budget,update_budget_sqlite,get_one_budget_sqlite,Budget,
     id;1,
     start_date;"2024-05-15".to_string(),
@@ -265,7 +267,8 @@ remove_test!(remove_transaction,remove_transaction_sqlite,get_one_transaction_sq
     cycle; None,
     day_of_month; None,
     day_of_week; None,
-    account_id; None);
+    account_id; None,
+    recurring_transaction_id; None);
 remove_test!(remove_budget,remove_budget_sqlite,get_one_budget_sqlite,Budget,
     id;2,
     start_date;"2024-05-15".to_string(),
