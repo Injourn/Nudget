@@ -1,6 +1,7 @@
 use log::error;
 use rusqlite::{Connection, Params};
 use serde::Deserialize;
+use uuid::Uuid;
 
 use crate::{database::sql_file_loader::{load_sql_file}, models::{
     account::Account,
@@ -57,6 +58,10 @@ pub(crate) fn add_transaction_sqlite(
     conn: &Connection,
     transaction: Transaction,
 ) -> anyhow::Result<i64> {
+    let mut recurring_transaction_id = transaction.recurring_transaction_id;
+    if recurring_transaction_id == None && transaction.recurring {
+        recurring_transaction_id = Option::Some(Uuid::new_v4().to_string());
+    }
     let result = insert_or_update_item(
         conn,
         (
@@ -70,7 +75,7 @@ pub(crate) fn add_transaction_sqlite(
             &transaction.day_of_week,
             &transaction.account_id,
             &transaction.credit,
-            &transaction.recurring_transaction_id,
+            &recurring_transaction_id,
         ),
         ADD_TRANSACTION,
     );
