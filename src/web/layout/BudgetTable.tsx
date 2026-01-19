@@ -1,8 +1,8 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import callTauri from "../../functions/CallTauri";
-import BudgetModel from "../../models/BudgetModel";
 import Table from "../elements/Table";
+import BudgetModel from "../../models/entity/BudgetModel";
 
 function BudgetTable(){
     const [tableData,setTableData] = useState<BudgetModel[]>([]);

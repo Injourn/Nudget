@@ -4,7 +4,7 @@ import callTauri from "../../functions/CallTauri";
 import Modal from "../elements/Modal";
 import BudgetCategoryAddEdit from "../forms/BudgetCategoryAddEdit";
 import Table from "../elements/Table";
-import BudgetPlanModel from "../../models/BudgetPlanModel";
+import BudgetPlanModel from "../../models/entity/BudgetPlanModel";
 
 interface BudgetPlanCategoryTableProps{
     entry:BudgetPlanModel;

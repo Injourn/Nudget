@@ -1,4 +1,4 @@
-import Cycle from "./Cycle";
+import Cycle from "../entity/Cycle";
 
 interface TransactionRequestModel {
     id: number;
