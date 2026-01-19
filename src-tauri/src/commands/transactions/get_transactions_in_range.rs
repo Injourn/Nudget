@@ -32,12 +32,13 @@ pub(crate) fn get_transactions_in_range(
 
     let response = match result {
         Ok(mut result) => {
-            let result_mut = result.as_mut();
-            date_recurring_transactions(
-                result_mut,
-                &transaction_request.start_date,
-                &transaction_request.end_date,
-            );
+            // TODO: replace with upcoming recurring transaction
+            // let result_mut = result.as_mut();
+            // date_recurring_transactions(
+            //     result_mut,
+            //     &transaction_request.start_date,
+            //     &transaction_request.end_date,
+            // );
             result.sort_by_key(|a| {
                 Reverse(
                     NaiveDate::parse_from_str(&a.transaction_date, "%Y-%m-%d")

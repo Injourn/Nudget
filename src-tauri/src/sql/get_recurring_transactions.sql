@@ -1,0 +1,1 @@
+select * from transaction_item where recurring = true

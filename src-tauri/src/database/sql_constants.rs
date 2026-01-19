@@ -30,8 +30,8 @@ JOIN category c ON c.id = transaction_item.category_id
 WHERE transaction_item.id = ?1;";
 
 pub const ADD_TRANSACTION: &str =
-"INSERT INTO transaction_item (amount, category_id, transaction_date, name,recurring,cycle,day_of_month,day_of_week,account_id,credit)
-VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10);";
+"INSERT INTO transaction_item (amount, category_id, transaction_date, name,recurring,cycle,day_of_month,day_of_week,account_id,credit,recurring_transaction_id)
+VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11);";
 
 pub const UPDATE_TRANSACTION: &str = "UPDATE transaction_item
 SET amount = ?2,
@@ -232,7 +232,7 @@ pub const GET_ALL_BUDGET_STATISTICS: &str = "SELECT
           WHERE 
           ti.category_id = c.id
           AND (ti.transaction_date BETWEEN b.start_date AND b.end_date
-          OR ti.recurring)
+          AND NOT ti.recurring)
       ) as category_spent
       FROM budget_budget_category bbc
       JOIN budget b
@@ -250,7 +250,7 @@ pub const GET_ALL_DEFAULT_BUDGET_STATISTICS: &str = "SELECT
               WHERE 
               ti.category_id = c.id
               AND (ti.transaction_date BETWEEN ?1 AND ?2
-              OR ti.recurring)
+              AND NOT ti.recurring)
           ) as category_spent
           FROM budget_plan_category bpc
           JOIN budget_plan bp

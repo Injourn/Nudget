@@ -2,7 +2,7 @@ use log::error;
 use rusqlite::{Connection, Params};
 use serde::Deserialize;
 
-use crate::models::{
+use crate::{database::sql_file_loader::{load_sql_file}, models::{
     account::Account,
     budget::Budget,
     budget_budget_category::BudgetBudgetCategory,
@@ -21,7 +21,7 @@ use crate::models::{
         transaction_response_model::TransactionResponseModel,
     },
     transaction::Transaction,
-};
+}};
 
 use super::sql_constants::{
     ADD_TRANSACTION, DELETE_ACCOUNT, DELETE_BUDGET, DELETE_BUDGET_BUDGET_CATEGORY,
@@ -70,6 +70,7 @@ pub(crate) fn add_transaction_sqlite(
             &transaction.day_of_week,
             &transaction.account_id,
             &transaction.credit,
+            &transaction.recurring_transaction_id,
         ),
         ADD_TRANSACTION,
     );
@@ -504,6 +505,31 @@ pub(crate) fn get_transactions_in_range_sqlite(
 
     result
 }
+
+pub(crate) fn get_recurring_transactions_sqlite(
+    conn: &Connection,
+    handle: &tauri::AppHandle
+) -> anyhow::Result<Vec<Transaction>> {
+    let command = load_sql_file(handle,"get_recurring_transactions.sql");
+    let result = get_all(conn,command.expect("Error file does not exist").as_str());
+    result
+}
+
+pub(crate) fn get_most_recent_recurring_transaction(
+    conn: &Connection,
+    handle: &tauri::AppHandle,
+    recurring_transaction_id: &str
+) -> anyhow::Result<Option<Transaction>> {
+    let command = load_sql_file(handle, "get_most_recent_recurring_transaction.sql");
+    let result = 
+        get_one_by_params(
+            conn,
+            [recurring_transaction_id],
+            command.expect("Error file does not exist").as_str()
+        );
+    result
+}
+
 
 //Sqlite functions
 

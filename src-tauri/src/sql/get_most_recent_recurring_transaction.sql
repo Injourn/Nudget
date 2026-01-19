@@ -1,0 +1,1 @@
+select * from transaction_item where recurring_transaction_id = ?1 ORDER BY transaction_date DESC LIMIT 1

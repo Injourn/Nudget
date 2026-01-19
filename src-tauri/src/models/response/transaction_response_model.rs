@@ -1,6 +1,6 @@
 use crate::models::cycle::Cycle;
 
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize,Clone)]
 pub(crate) struct TransactionResponseModel {
     pub(crate) id: u32,
     pub(crate) recurring_transaction_id: Option<String>,

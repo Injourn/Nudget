@@ -21,7 +21,7 @@ pub(crate) fn get_account_net_value(
     let conn = conn.deref();
     info!("Getting account value");
 
-    let result = get_result(conn,id, handle);
+    let result = get_result(conn,id, &handle);
 
     let response = match result {
         Ok(result) => {
@@ -38,7 +38,7 @@ pub(crate) fn get_account_net_value(
 fn get_result(
     conn: &Connection,
     id: &str,
-    handle: tauri::AppHandle
+    handle: &tauri::AppHandle
 ) -> anyhow::Result<Option<f64>> {
     let contents = load_sql_file(handle, SQL_FILE_PATH)?;
     get_one_by_id(conn,id, &contents)
